@@ -14,6 +14,11 @@
   },
   "homepage": "https://github.com/LisShamenko/microservice-architecture-practice#readme",
   "scripts": {
+    "fp-1": "cd ./mongo-graphql-mongoose    && npm run format && cd ..",
+    "fp-2": "cd ./mongo-rest-mongoose       && npm run format && cd ..",
+    "fp-3": "cd ./postgres-graphql-typeorm  && npm run format && cd ..",
+    "fp-4": "cd ./postgres-rest-sequelize   && npm run format && cd ..",
+    "format": "npm run fp-1 && npm run fp-2 && npm run fp-3 && npm run fp-4",
     "test": "echo \"Error: no test specified\" && exit 1"
   }
 }
