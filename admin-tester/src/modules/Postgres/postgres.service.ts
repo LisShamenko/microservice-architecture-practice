@@ -1,39 +1,40 @@
 import { Injectable } from '@nestjs/common';
-import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
-import { DataSource, Repository, TreeLevelColumn } from 'typeorm';
+import { InjectDataSource } from '@nestjs/typeorm';
+import { DataSource } from 'typeorm';
 //
-import { PlayerProperty } from './entity/PlayerProperty';
-import { Requirement } from './entity/Requirement';
-import { Skill } from './entity/Skill';
+import { ActivityPoint } from './entity/ActivityPoint';
+import { Enemy } from './entity/Enemy';
+import { Game } from './entity/Game';
+import { GamePlayer } from './entity/GamePlayer';
 import { Inventory } from './entity/Inventory';
+import { InventoryProduct } from './entity/InventoryProduct';
+import { LevelEffect } from './entity/LevelEffect';
 import { LevelTemplate } from './entity/LevelTemplate';
 import { LevelTemplateSkill } from './entity/LevelTemplateSkill';
+import { Map } from './entity/Map';
+import { MapPoint } from './entity/MapPoint';
 import { Player } from './entity/Player';
-import { Enemy } from './entity/Enemy';
-import { LevelEffect } from './entity/LevelEffect';
+import { PlayerProperty } from './entity/PlayerProperty';
 import { PlayerSkill } from './entity/PlayerSkill';
 import { Product } from './entity/Product';
-import { ProductSkill } from './entity/ProductSkill';
-import { ProductWeapon } from './entity/ProductWeapon';
 import { ProductCloth } from './entity/ProductCloth';
 import { ProductShell } from './entity/ProductShell';
-import { WeaponShell } from './entity/WeaponShell';
-import { InventoryProduct } from './entity/InventoryProduct';
-import { Map } from './entity/Map';
-import { ActivityPoint } from './entity/ActivityPoint';
-import { MapPoint } from './entity/MapPoint';
+import { ProductSkill } from './entity/ProductSkill';
+import { ProductWeapon } from './entity/ProductWeapon';
+import { Requirement } from './entity/Requirement';
+import { Skill } from './entity/Skill';
 import { SpawnScript } from './entity/SpawnScript';
 import { SpawnScriptEnemy } from './entity/SpawnScriptEnemy';
-import { Game } from './entity/Game';
-import { GameEnemy } from './entity/GameEnemy';
-import { GamePlayer } from './entity/GamePlayer';
+import { WeaponShell } from './entity/WeaponShell';
 
 //
 @Injectable()
 export class PostgresService {
     constructor(
         @InjectDataSource('postgres_db') private dataSource: DataSource,
-    ) {
+    ) { }
+
+    async getTest() {
 
         ((async function (dataSource: DataSource) {
 
@@ -155,7 +156,6 @@ export class PostgresService {
                     inventory: true,
                     playerProperty: true,
                     levelTemplate: true,
-                    games: true,
                     scripts: true,
                 }
             }).then((items) => {
@@ -163,7 +163,6 @@ export class PostgresService {
                 console.log('--- Enemy -> Inventory --- ', items[0].inventory);
                 console.log('--- Enemy -> PlayerProperty --- ', items[0].playerProperty);
                 console.log('--- Enemy -> LevelTemplate --- ', items[0].levelTemplate);
-                console.log('--- Enemy -> Game --- ', items[0].games);
                 console.log('--- Enemy -> SpawnScriptEnemy --- ', items[0].scripts);
             });
 
@@ -293,24 +292,18 @@ export class PostgresService {
 
             // ActivityPoint
             await dataSource.getRepository(ActivityPoint).find({
-                relations: {
-                    maps: true,
-                }
             }).then((items) => {
                 console.log('--- ActivityPoint --- ', items[0]);
-                console.log('--- ActivityPoint -> MapPoint --- ', items[0].maps);
             });
 
             // MapPoint
             await dataSource.getRepository(MapPoint).find({
                 relations: {
                     map: { points: true },
-                    point: { maps: true },
                 }
             }).then((items) => {
                 console.log('--- MapPoint --- ', items[0]);
                 console.log('--- MapPoint -> Map --- ', items[0].map.points);
-                console.log('--- MapPoint -> ActivityPoint --- ', items[0].point.maps);
             });
 
             // SpawnScript
@@ -342,27 +335,13 @@ export class PostgresService {
                 relations: {
                     map: true,
                     spawnScript: true,
-                    enemies: true,
                     players: true,
                 }
             }).then((items) => {
                 console.log('--- Game --- ', items[0]);
                 console.log('--- Game -> Map --- ', items[0].map);
                 console.log('--- Game -> SpawnScript --- ', items[0].spawnScript);
-                console.log('--- Game -> GameEnemy --- ', items[0].enemies);
                 console.log('--- Game -> GamePlayer --- ', items[0].players);
-            });
-
-            // GameEnemy
-            await dataSource.getRepository(GameEnemy).find({
-                relations: {
-                    game: { enemies: true },
-                    enemy: { games: true },
-                }
-            }).then((items) => {
-                console.log('--- GameEnemy --- ', items[0]);
-                console.log('--- GameEnemy -> Game --- ', items[0].game.enemies);
-                console.log('--- GameEnemy -> Enemy --- ', items[0].enemy.games);
             });
 
             // GamePlayer

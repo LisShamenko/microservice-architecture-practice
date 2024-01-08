@@ -1,4 +1,5 @@
 
 export enum EnemyTypes {
-    'test',
+    None = '',
+    Test = 'test',
 }

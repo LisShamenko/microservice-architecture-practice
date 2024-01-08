@@ -87,6 +87,8 @@
     npm i @adminjs/express
     npm install dotenv --save
     npm i @s3pweb/keycloak-admin-client-cjs
+    npm i lodash
+    npm i @types/lodash
     ```
 
 - Запуск.
@@ -255,3 +257,9 @@
 
     - Скрипты для создания, удаления, заполнения базы данных `postgres`.
     - Классы сущностей.
+
+### Task 10
+
+- `Admin / Tester`
+
+    - `REST API`

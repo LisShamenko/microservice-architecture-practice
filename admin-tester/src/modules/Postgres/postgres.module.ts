@@ -5,31 +5,33 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 //
-import { PlayerProperty } from './entity/PlayerProperty';
-import { Requirement } from './entity/Requirement';
-import { Skill } from './entity/Skill';
+import { ActivityPoint } from './entity/ActivityPoint';
+import { ActivitySpawn } from './entity/ActivitySpawn';
+import { ActivityTeleport } from './entity/ActivityTeleport';
+import { Enemy } from './entity/Enemy';
+import { EnemySkill } from './entity/EnemySkill';
+import { Game } from './entity/Game';
+import { GamePlayer } from './entity/GamePlayer';
 import { Inventory } from './entity/Inventory';
+import { InventoryProduct } from './entity/InventoryProduct';
+import { LevelEffect } from './entity/LevelEffect';
 import { LevelTemplate } from './entity/LevelTemplate';
 import { LevelTemplateSkill } from './entity/LevelTemplateSkill';
+import { Map } from './entity/Map';
+import { MapPoint } from './entity/MapPoint';
 import { Player } from './entity/Player';
-import { Enemy } from './entity/Enemy';
-import { LevelEffect } from './entity/LevelEffect';
+import { PlayerProperty } from './entity/PlayerProperty';
 import { PlayerSkill } from './entity/PlayerSkill';
 import { Product } from './entity/Product';
-import { ProductSkill } from './entity/ProductSkill';
-import { ProductWeapon } from './entity/ProductWeapon';
 import { ProductCloth } from './entity/ProductCloth';
 import { ProductShell } from './entity/ProductShell';
-import { WeaponShell } from './entity/WeaponShell';
-import { InventoryProduct } from './entity/InventoryProduct';
-import { Map } from './entity/Map';
-import { ActivityPoint } from './entity/ActivityPoint';
-import { MapPoint } from './entity/MapPoint';
+import { ProductSkill } from './entity/ProductSkill';
+import { ProductWeapon } from './entity/ProductWeapon';
+import { Requirement } from './entity/Requirement';
+import { Skill } from './entity/Skill';
 import { SpawnScript } from './entity/SpawnScript';
 import { SpawnScriptEnemy } from './entity/SpawnScriptEnemy';
-import { Game } from './entity/Game';
-import { GameEnemy } from './entity/GameEnemy';
-import { GamePlayer } from './entity/GamePlayer';
+import { WeaponShell } from './entity/WeaponShell';
 // 
 import { PostgresService } from './postgres.service';
 
@@ -55,7 +57,8 @@ export class PostgresModule {
             LevelTemplateSkill, Player, Enemy, LevelEffect, PlayerSkill,
             Product, ProductSkill, ProductWeapon, ProductCloth, ProductShell,
             WeaponShell, InventoryProduct, Map, ActivityPoint, MapPoint,
-            SpawnScript, SpawnScriptEnemy, Game, GameEnemy, GamePlayer,
+            SpawnScript, SpawnScriptEnemy, Game, GamePlayer, ActivitySpawn,
+            ActivityTeleport, EnemySkill,
         ];
 
         //

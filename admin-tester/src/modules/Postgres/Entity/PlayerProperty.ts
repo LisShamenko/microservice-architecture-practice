@@ -14,7 +14,7 @@ export class PlayerProperty extends BaseEntity {
     @NullColumn() endurance: number;
     @NullColumn() intelligence: number;
     @NullColumn() agility: number;
-    @NullColumn({ name: 'fire_weapons' }) fireWeapons: number;
+    @NullColumn() fire_weapons: number;
     @NullColumn() melee_weapons: number;
     @NullColumn() throwing: number;
     @NullColumn() doctor: number;
@@ -34,4 +34,13 @@ export class PlayerProperty extends BaseEntity {
 
     @OneToOne(() => Player, (player) => player.playerProperty)
     public player: Player;
+
+    // 
+    public static attributes: string[] = [
+        'strength', 'endurance', 'intelligence', 'agility'
+    ];
+    public static parameters: string[] = [
+        'fire_weapons', 'melee_weapons', 'throwing', 'doctor',
+        'sneak', 'steal', 'traps', 'science', 'repair', 'barter'
+    ];
 }

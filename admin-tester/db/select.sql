@@ -24,8 +24,10 @@ JOIN player_properties pp ON lt.properties_id = pp.id;
 -- select enemy
 
 SELECT
+    e.nickname AS "enemy name",
     e.enemy_type AS "enemy type",
     lt.title AS "enemy title",
+    lt.coins AS "coins",
     pp.strength AS "strength",
     pp.endurance AS "endurance",
     pp.intelligence AS "intelligence",
@@ -70,13 +72,22 @@ JOIN requirements r ON prd.requirement_id = r.id;
 
 -- select activity points
 
-SELECT 
-    mp.title AS "point title",
-    ap.point_type AS "point type"
+SELECT m.title AS "map title", mp.position AS "point position"
 FROM games g 
 JOIN maps m ON g.map_id = m.id
-JOIN map_points mp ON mp.map_id = m.id
-JOIN activity_point ap ON mp.point_id = ap.id;
+JOIN map_points mp ON mp.map_id = m.id;
+
+SELECT m.title AS "map title", ap.point_type AS "point type", at.*
+FROM games g 
+JOIN maps m ON g.map_id = m.id
+JOIN activity_points ap ON ap.map_id = m.id
+JOIN activity_teleports at ON at.activity_id = ap.id;
+
+SELECT m.title AS "map title", ap.point_type AS "point type", a_s.*
+FROM games g 
+JOIN maps m ON g.map_id = m.id
+JOIN activity_points ap ON ap.map_id = m.id
+JOIN activity_spawns a_s ON a_s.activity_id = ap.id;
 
 -- select spawn scripts
 
@@ -104,10 +115,4 @@ JOIN players p ON gp.player_id = p.id;
 
 -- select enemies in game 
 
-SELECT 
-    e.enemy_type AS "enemy type",
-    lt.title AS "enemy title"
-FROM games g
-JOIN game_enemies ge ON ge.game_id = g.id
-JOIN enemies e ON ge.enemy_id = e.id
-JOIN level_templates lt ON lt.id = e.level_template_id;
+

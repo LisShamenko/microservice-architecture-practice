@@ -10,15 +10,18 @@ import * as AdminJSMongoose from '@adminjs/mongoose';
 import { CatModel } from '../Mongo/Entity/Cat';
 //
 import { ActivityPoint } from '../Postgres/entity/ActivityPoint';
+import { ActivitySpawn } from '../Postgres/entity/ActivitySpawn';
+import { ActivityTeleport } from '../Postgres/entity/ActivityTeleport';
 import { Enemy } from '../Postgres/entity/Enemy';
+import { EnemySkill } from '../Postgres/entity/EnemySkill';
 import { Game } from '../Postgres/entity/Game';
-import { GameEnemy } from '../Postgres/entity/GameEnemy';
 import { GamePlayer } from '../Postgres/entity/GamePlayer';
 import { Inventory } from '../Postgres/entity/Inventory';
 import { InventoryProduct } from '../Postgres/entity/InventoryProduct';
 import { LevelEffect } from '../Postgres/entity/LevelEffect';
 import { LevelTemplate } from '../Postgres/entity/LevelTemplate';
 import { LevelTemplateSkill } from '../Postgres/entity/LevelTemplateSkill';
+import { Map } from '../Postgres/entity/Map';
 import { MapPoint } from '../Postgres/entity/MapPoint';
 import { Player } from '../Postgres/entity/Player';
 import { PlayerProperty } from '../Postgres/entity/PlayerProperty';
@@ -35,7 +38,7 @@ import { SpawnScriptEnemy } from '../Postgres/entity/SpawnScriptEnemy';
 import { WeaponShell } from '../Postgres/entity/WeaponShell';
 
 //
-export interface AdminOptions {}
+export interface AdminOptions { }
 
 //
 @Module({})
@@ -62,11 +65,12 @@ export class AdminJSModule {
         const adminJsOptions = {
             rootPath: '/admin',
             resources: [
-                PlayerProperty, Requirement, Skill, Inventory, LevelTemplate,
-                LevelTemplateSkill, Player, Enemy, LevelEffect, PlayerSkill,
-                Product, ProductSkill, ProductWeapon, ProductCloth, ProductShell,
-                WeaponShell, InventoryProduct, Map, ActivityPoint, MapPoint,
-                SpawnScript, SpawnScriptEnemy, Game, GameEnemy, GamePlayer,
+                ActivityPoint, ActivitySpawn, ActivityTeleport, Enemy, EnemySkill,
+                Game, GamePlayer, Inventory, InventoryProduct, LevelEffect,
+                LevelTemplate, LevelTemplateSkill, Map, MapPoint, Player,
+                PlayerProperty, PlayerSkill, Product, ProductCloth, ProductShell,
+                ProductSkill, ProductWeapon, Requirement, Skill, SpawnScript,
+                SpawnScriptEnemy, WeaponShell,
                 {
                     resource: CatModel,
                     options: {

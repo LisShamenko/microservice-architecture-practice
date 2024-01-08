@@ -1,7 +1,7 @@
 
 export enum ActivityPointTypes {
-    'increment',
-    'decrement',
-    'teleport',
-    'none',
+    spawn = 'spawn',
+    teleport = 'teleport',
+    supply = 'supply',
+    none = 'none',
 }

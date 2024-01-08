@@ -9,9 +9,11 @@ DO $$
 BEGIN
 IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'activity_point_types') THEN
 
-    CREATE TYPE activity_point_types AS ENUM ('increment', 'decrement', 'teleport', 'none');
+    CREATE TYPE activity_point_types AS ENUM ('spawn', 'teleport', 'supply', 'none');
     CREATE TYPE enemy_types AS ENUM ('test');
     CREATE TYPE sorts AS ENUM ('none', 'weapons_asc', 'weapons_desc', 'shells_asc', 'shells_desc', 'clothes_asc', 'clothes_desc');
+    CREATE TYPE property_columns AS ENUM ('none', 'strength', 'endurance', 'intelligence', 'agility', 'fire_weapons', 'melee_weapons', 'throwing', 'doctor', 'sneak', 'steal', 'traps', 'science', 'repair', 'barter');
+    CREATE TYPE product_types AS ENUM ('none', 'weapon', 'shell', 'cloth');
 
 end if;
 end $$;
@@ -41,6 +43,11 @@ CREATE TABLE IF NOT EXISTS player_properties (
     repair integer,
     barter integer,
     PRIMARY KEY (id)
+
+    -- CONSTRAINT "" FOREIGN KEY (id) REFERENCES enemies (properties_id) ON DELETE CASCADE 
+    -- CONSTRAINT "" FOREIGN KEY (id) REFERENCES level_templates (properties_id) ON DELETE CASCADE
+    -- CONSTRAINT "" FOREIGN KEY (id) REFERENCES players (properties_id) ON DELETE CASCADE
+
 );
 
 -- requirements
@@ -101,6 +108,9 @@ CREATE TABLE IF NOT EXISTS level_templates (
     title text,
     properties_id integer NOT NULL,
     inventory_id integer NOT NULL,
+    coins integer NOT NULL DEFAULT 0,
+    -- add_inventory_id integer,
+    -- add_properies integer,
     PRIMARY KEY (id),
 
     CONSTRAINT "fkey_lt---inventory_id---inventory" 
@@ -123,11 +133,13 @@ CREATE TABLE IF NOT EXISTS level_template_skills (
 
     CONSTRAINT "fkey_lts---level_template_id---level_templates" 
         FOREIGN KEY (level_template_id)
-        REFERENCES level_templates (id),
+        REFERENCES level_templates (id)
+        ON DELETE CASCADE,
 
     CONSTRAINT "fkey_lts---skill_id---skills" 
         FOREIGN KEY (skill_id)
         REFERENCES skills (id)
+        ON DELETE CASCADE
 );
 CREATE INDEX IF NOT EXISTS "fki_fkey_lts---level_template_id---level_templates" ON level_template_skills USING btree (level_template_id ASC NULLS LAST);
 CREATE INDEX IF NOT EXISTS "fki_fkey_lts---skill_id---skills" ON level_template_skills USING btree (skill_id ASC NULLS LAST);
@@ -167,6 +179,7 @@ CREATE INDEX IF NOT EXISTS "fki_fkey_p---properties_id---player_properties" ON p
 
 CREATE TABLE IF NOT EXISTS enemies (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
+    nickname text NOT NULL,
     inventory_id integer NOT NULL,
     properties_id integer NOT NULL,
     level_template_id integer NOT NULL,
@@ -189,13 +202,35 @@ CREATE INDEX IF NOT EXISTS "fki_fkey_e---inventory_id---inventory" ON enemies US
 CREATE INDEX IF NOT EXISTS "fki_fkey_e---level_template_id---level_templates" ON enemies USING btree (level_template_id ASC NULLS LAST);
 CREATE INDEX IF NOT EXISTS "fki_fkey_e---properties_id---player_properties" ON enemies USING btree (properties_id ASC NULLS LAST);
 
+-- enemy_skills
+
+CREATE TABLE enemy_skills
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
+    enemy_id integer NOT NULL,
+    skill_id integer NOT NULL,
+    PRIMARY KEY (id),
+
+    CONSTRAINT "fkey_es---enemy_id---enemies" 
+        FOREIGN KEY (enemy_id)
+        REFERENCES enemies (id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT "fkey_es---skill_id---skills" 
+        FOREIGN KEY (skill_id)
+        REFERENCES skills (id)
+        ON DELETE CASCADE
+);
+CREATE INDEX "fki_fkey_es---enemy_id---enemies" ON enemy_skills USING btree (enemy_id ASC NULLS LAST);
+CREATE INDEX "fki_fkey_es---skill_id---skills" ON enemy_skills USING btree (skill_id ASC NULLS LAST);
+
 -- level_effects -> players
 
 CREATE TABLE IF NOT EXISTS level_effects (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
     count_matches integer,
     is_equipment boolean,
-    property_column text,
+    property_column property_columns NOT NULL DEFAULT 'none'::property_columns,
     delta_value integer,
     player_id integer,
     PRIMARY KEY (id),
@@ -203,6 +238,7 @@ CREATE TABLE IF NOT EXISTS level_effects (
     CONSTRAINT "fkey_le---player_id---players" 
         FOREIGN KEY (player_id)
         REFERENCES players (id)
+        ON DELETE CASCADE
 );
 CREATE INDEX IF NOT EXISTS "fki_fkey_le---player_id---players" ON level_effects USING btree (player_id ASC NULLS LAST);
 
@@ -215,11 +251,13 @@ CREATE TABLE IF NOT EXISTS player_skills (
 
     CONSTRAINT "fkey_ps---player_id---players" 
         FOREIGN KEY (player_id)
-        REFERENCES players (id),
+        REFERENCES players (id)
+        ON DELETE CASCADE,
 
     CONSTRAINT "fkey_ps---skill_id---skills" 
         FOREIGN KEY (skill_id)
         REFERENCES skills (id)
+        ON DELETE CASCADE
 );
 CREATE INDEX IF NOT EXISTS "fki_fkey---skill_id---skills" ON player_skills USING btree (skill_id ASC NULLS LAST);
 CREATE INDEX IF NOT EXISTS "fki_requirements_id_for_skill_fkey" ON player_skills USING btree (player_id ASC NULLS LAST);
@@ -238,6 +276,7 @@ CREATE TABLE IF NOT EXISTS products (
     price integer NOT NULL,
     max_in_slot integer DEFAULT 1,
     requirement_id integer,
+    product_type product_types NOT NULL DEFAULT 'none'::product_types,
     PRIMARY KEY (id),
 
     CONSTRAINT "fkey_p---requirement_id---requirements" 
@@ -255,11 +294,13 @@ CREATE TABLE IF NOT EXISTS product_skills (
 
     CONSTRAINT "fkey_product_skills---product_id---products" 
         FOREIGN KEY (product_id)
-        REFERENCES products (id),
+        REFERENCES products (id)
+        ON DELETE CASCADE,
 
     CONSTRAINT "fkey_ps---skill_id---skills" 
         FOREIGN KEY (skill_id)
         REFERENCES skills (id)
+        ON DELETE CASCADE
 );
 CREATE INDEX IF NOT EXISTS "fki_fkey_ps---product_id---products" ON product_skills USING btree (product_id ASC NULLS LAST);
 CREATE INDEX IF NOT EXISTS "fki_fkey_ps---skill_id---skills" ON product_skills USING btree (skill_id ASC NULLS LAST);
@@ -274,6 +315,7 @@ CREATE TABLE IF NOT EXISTS product_weapons (
     CONSTRAINT "fkey_pw---product_id---products" 
         FOREIGN KEY (product_id)
         REFERENCES products (id)
+        ON DELETE CASCADE
 );
 CREATE INDEX IF NOT EXISTS "fki_fkey_pw---product_id---products" ON product_weapons USING btree (product_id ASC NULLS LAST);
 
@@ -287,6 +329,7 @@ CREATE TABLE IF NOT EXISTS product_clothes (
     CONSTRAINT "fkey_pc---product_id---products" 
         FOREIGN KEY (product_id)
         REFERENCES products (id)
+        ON DELETE CASCADE
 );
 CREATE INDEX IF NOT EXISTS "fki_fkey_pc---product_id---products" ON product_clothes USING btree (product_id ASC NULLS LAST);
 
@@ -300,6 +343,7 @@ CREATE TABLE IF NOT EXISTS product_shells (
     CONSTRAINT "fkey_product_shells---product_id---products" 
         FOREIGN KEY (product_id)
         REFERENCES products (id)
+        ON DELETE CASCADE
 );
 CREATE INDEX IF NOT EXISTS "fki_fkey_product_shells---product_id---products" ON product_shells USING btree (product_id ASC NULLS LAST);
 
@@ -312,11 +356,13 @@ CREATE TABLE IF NOT EXISTS weapon_shells (
 
     CONSTRAINT "fkey_ws---shell_id---product_shells" 
         FOREIGN KEY (shell_id)
-        REFERENCES product_shells (id),
+        REFERENCES product_shells (id)
+        ON DELETE CASCADE,
 
     CONSTRAINT "fkey_ws---weapon_id---product_weapons" 
         FOREIGN KEY (weapon_id)
         REFERENCES product_weapons (id)
+        ON DELETE CASCADE
 );
 CREATE INDEX IF NOT EXISTS "fki_shell_id_fkey" ON weapon_shells USING btree (shell_id ASC NULLS LAST);
 CREATE INDEX IF NOT EXISTS "fki_weapon_id" ON weapon_shells USING btree (weapon_id ASC NULLS LAST);
@@ -337,11 +383,13 @@ CREATE TABLE IF NOT EXISTS inventory_products (
 
     CONSTRAINT "fkey_ip---inventory_id---inventory" 
         FOREIGN KEY (inventory_id)
-        REFERENCES inventory (id),
+        REFERENCES inventory (id)
+        ON DELETE CASCADE,
 
     CONSTRAINT "fkey_ip---product_id---products" 
         FOREIGN KEY (product_id)
         REFERENCES products (id)
+        ON DELETE CASCADE
 );
 CREATE INDEX IF NOT EXISTS "fki_fkey_ip---inventory_id---inventory" ON inventory_products USING btree (inventory_id ASC NULLS LAST);
 CREATE INDEX IF NOT EXISTS "fki_fkey_ip---product_id---products" ON inventory_products USING btree (product_id ASC NULLS LAST);
@@ -357,37 +405,89 @@ CREATE INDEX IF NOT EXISTS "fki_fkey_ip---product_id---products" ON inventory_pr
 CREATE TABLE IF NOT EXISTS maps (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
     scene_id integer,
+    title text,
     PRIMARY KEY (id)
 );
 
--- activity_point
-
-CREATE TABLE IF NOT EXISTS activity_point (
-    id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
-    point_type activity_point_types NOT NULL DEFAULT 'none'::activity_point_types,
-    PRIMARY KEY (id)
-);
-
--- map_points -> maps, activity_point
+-- map_points -> maps, activity_points
 
 CREATE TABLE IF NOT EXISTS map_points (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
-    point_id integer NOT NULL,
     map_id integer NOT NULL,
-    title text,
     "position" real[] NOT NULL,
     PRIMARY KEY (id),
 
     CONSTRAINT "fkey_mp---map_id---maps" 
         FOREIGN KEY (map_id)
-        REFERENCES maps (id),
-
-    CONSTRAINT "fkey_mp---point_id---activity_point" 
-        FOREIGN KEY (point_id)
-        REFERENCES activity_point (id)
+        REFERENCES maps (id)
+        ON DELETE CASCADE
 );
 CREATE INDEX IF NOT EXISTS "fki_fkey_mp---map_id---maps" ON map_points USING btree (map_id ASC NULLS LAST);
-CREATE INDEX IF NOT EXISTS "fki_fkey_mp---point_id---activity_point" ON map_points USING btree (point_id ASC NULLS LAST);
+
+-- activity_points -> map_points
+
+CREATE TABLE IF NOT EXISTS activity_points (
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
+    point_type activity_point_types NOT NULL DEFAULT 'none'::activity_point_types,
+    map_id integer NOT NULL,
+    point_id integer NOT NULL,
+    PRIMARY KEY (id),
+
+    CONSTRAINT "fkey_ap---map_id---maps" 
+        FOREIGN KEY (map_id)
+        REFERENCES maps (id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT "fkey_ap---point_id---map_points"
+        FOREIGN KEY (point_id)
+        REFERENCES map_points (id)
+);
+
+CREATE INDEX IF NOT EXISTS "fki_fkey_ap---map_id---maps" ON activity_points USING btree (map_id ASC NULLS LAST);
+CREATE INDEX IF NOT EXISTS "fki_fkey_ap---point_id---map_points" ON activity_points USING btree (point_id ASC NULLS LAST);
+
+-- activity_spawns -> activity_points
+
+CREATE TABLE IF NOT EXISTS activity_spawns
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
+    is_player boolean NOT NULL,
+    is_enemy boolean NOT NULL,
+    activity_id integer NOT NULL,
+    PRIMARY KEY (id),
+
+    CONSTRAINT "fkey_as---activity_id---activity_points" 
+        FOREIGN KEY (activity_id)
+        REFERENCES activity_points (id) MATCH SIMPLE
+);
+
+CREATE INDEX "fki_fkey_as---activity_id---activity_points" ON activity_spawns USING btree (activity_id ASC NULLS LAST);
+
+-- activity_teleports -> activity_points
+
+CREATE TABLE activity_teleports
+(
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
+    activity_id integer NOT NULL,
+    next_activity_id integer,
+    prev_activity_id integer,
+    PRIMARY KEY (id),
+
+    CONSTRAINT "fkey_at---activity_id---activity_points" 
+        FOREIGN KEY (activity_id)
+        REFERENCES activity_points (id) MATCH SIMPLE,
+
+    CONSTRAINT "fkey_at---next_activity_id---activity_points" 
+        FOREIGN KEY (next_activity_id)
+        REFERENCES activity_points (id) MATCH SIMPLE,
+
+    CONSTRAINT "fkey_at---prev_activity_id---activity_points" 
+        FOREIGN KEY (prev_activity_id)
+        REFERENCES activity_points (id) MATCH SIMPLE
+);
+CREATE INDEX "fki_fkey_at---activity_id---activity_points" ON activity_teleports USING btree (activity_id ASC NULLS LAST);
+CREATE INDEX "fki_fkey_at---next_activity_id---activity_points" ON activity_teleports USING btree (next_activity_id ASC NULLS LAST);
+CREATE INDEX "fki_fkey_at---prev_activity_id---activity_points" ON activity_teleports USING btree (prev_activity_id ASC NULLS LAST);
 
 -- spawn_scripts
 
@@ -408,11 +508,13 @@ CREATE TABLE IF NOT EXISTS spawn_script_enemies (
 
     CONSTRAINT "fkey_sse---enemy_id---enemies" 
         FOREIGN KEY (enemy_id)
-        REFERENCES enemies (id),
+        REFERENCES enemies (id)
+        ON DELETE CASCADE,
 
     CONSTRAINT "fkey_sse---script_id---spawn_scripts" 
         FOREIGN KEY (script_id)
         REFERENCES spawn_scripts (id)
+        ON DELETE CASCADE
 );
 CREATE INDEX IF NOT EXISTS "fki_enemy_id_fkey" ON spawn_script_enemies USING btree (enemy_id ASC NULLS LAST);
 CREATE INDEX IF NOT EXISTS "fki_script_id_fkey" ON spawn_script_enemies USING btree (script_id ASC NULLS LAST);
@@ -422,7 +524,8 @@ CREATE INDEX IF NOT EXISTS "fki_script_id_fkey" ON spawn_script_enemies USING bt
 CREATE TABLE IF NOT EXISTS games (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
     map_id integer NOT NULL,
-    spawn_script_id integer,
+    spawn_script_id integer NOT NULL,
+    owner_player_id integer NOT NULL,
     PRIMARY KEY (id),
 
     CONSTRAINT "fkey_g---map_id---maps" 
@@ -436,24 +539,6 @@ CREATE TABLE IF NOT EXISTS games (
 CREATE INDEX IF NOT EXISTS "fki_fkey_g---map_id---maps" ON games USING btree (map_id ASC NULLS LAST);
 CREATE INDEX IF NOT EXISTS "fki_fkey_g---spawn_script_id---spawn_scripts" ON games USING btree (spawn_script_id ASC NULLS LAST);
 
--- game_enemies -> enemies, games
-
-CREATE TABLE IF NOT EXISTS game_enemies (
-    id integer NOT NULL GENERATED ALWAYS AS IDENTITY,
-    game_id integer NOT NULL,
-    enemy_id integer NOT NULL,
-
-    CONSTRAINT "fkey_ge---enemy_id---enemies" 
-        FOREIGN KEY (enemy_id)
-        REFERENCES enemies (id),
-
-    CONSTRAINT "fkey_ge---game_id---games" 
-        FOREIGN KEY (game_id)
-        REFERENCES games (id)
-);
-CREATE INDEX IF NOT EXISTS "fki_fkey_ge---enemy_id---enemies" ON game_enemies USING btree (enemy_id ASC NULLS LAST);
-CREATE INDEX IF NOT EXISTS "fki_fkey_ge---game_id---games" ON game_enemies USING btree (game_id ASC NULLS LAST);
-
 -- game_players -> players, games
 
 CREATE TABLE IF NOT EXISTS game_players (
@@ -463,11 +548,13 @@ CREATE TABLE IF NOT EXISTS game_players (
 
     CONSTRAINT "fkey_gp---game_id---games" 
         FOREIGN KEY (game_id)
-        REFERENCES games (id),
+        REFERENCES games (id)
+        ON DELETE CASCADE,
 
     CONSTRAINT "fkey_gp---player_id---players" 
         FOREIGN KEY (player_id)
         REFERENCES players (id)
+        ON DELETE CASCADE
 );
 CREATE INDEX IF NOT EXISTS "fki_fkey_gp---game_id---games" ON game_players USING btree (game_id ASC NULLS LAST);
 CREATE INDEX IF NOT EXISTS "fki_fkey_gp---player_id---players" ON game_players USING btree (player_id ASC NULLS LAST);

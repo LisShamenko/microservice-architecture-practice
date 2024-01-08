@@ -2,6 +2,7 @@ import { BaseEntity, Column, Entity, OneToMany, OneToOne } from 'typeorm';
 import { JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 //
 import { NullColumn } from '../decorators/NullColumn';
+import { ProductTypes } from '../enums/ProductTypes';
 import { InventoryProduct } from './InventoryProduct';
 import { ProductCloth } from './ProductCloth';
 import { ProductShell } from './ProductShell';
@@ -17,6 +18,12 @@ export class Product extends BaseEntity {
     @Column() public price: number;
     @NullColumn({ default: 1 }) public max_in_slot: number;
     @NullColumn() requirement_id: number;
+    @Column({
+        type: 'enum',
+        enum: ProductTypes,
+        default: ProductTypes.none,
+    })
+    public product_type: ProductTypes;
 
     //
     @ManyToOne(() => Requirement, (requirement) => requirement.products)

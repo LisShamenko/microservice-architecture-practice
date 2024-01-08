@@ -1,11 +1,14 @@
-import { BaseEntity, Column, Entity, OneToMany } from 'typeorm';
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne } from 'typeorm';
 import { PrimaryGeneratedColumn } from 'typeorm';
 //
 import { ActivityPointTypes } from '../enums/ActivityPointTypes';
+import { Map } from './Map';
 import { MapPoint } from './MapPoint';
+import { ActivitySpawn } from './ActivitySpawn';
+import { ActivityTeleport } from './ActivityTeleport';
 
 //
-@Entity('activity_point')
+@Entity('activity_points')
 export class ActivityPoint extends BaseEntity {
     @PrimaryGeneratedColumn() id: number;
     @Column({
@@ -15,8 +18,21 @@ export class ActivityPoint extends BaseEntity {
         default: ActivityPointTypes.none,
     })
     pointType: ActivityPointTypes;
+    @Column() map_id: number;
+    @Column() point_id: number;
 
     //
-    @OneToMany(() => MapPoint, (mapPoint) => mapPoint.point)
-    public maps: MapPoint[];
+    @ManyToOne(() => Map, (map) => map.activityPoints)
+    @JoinColumn({ name: 'map_id', referencedColumnName: 'id' })
+    public map: Map;
+
+    @OneToOne(() => MapPoint, (mapPoint) => mapPoint.activityPoint)
+    @JoinColumn({ name: 'point_id', referencedColumnName: 'id' })
+    public mapPoint: MapPoint;
+
+    @OneToOne(() => ActivitySpawn, (spawn) => spawn.point)
+    public spawn: ActivitySpawn;
+
+    @OneToOne(() => ActivityTeleport, (teleport) => teleport.point)
+    public teleport: ActivityTeleport;
 }

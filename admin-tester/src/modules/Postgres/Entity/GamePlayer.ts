@@ -12,7 +12,7 @@ export class GamePlayer extends BaseEntity {
     @Column() player_id: number;
 
     // 
-    @ManyToOne(() => Game, (game) => game.players)
+    @ManyToOne(() => Game, (game) => game.players, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'game_id', referencedColumnName: 'id' })
     public game: Game;
 

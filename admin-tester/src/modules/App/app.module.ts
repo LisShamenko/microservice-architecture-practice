@@ -15,6 +15,7 @@ import { PostgresModule } from '../Postgres/postgres.module';
 import { MongoModule } from '../Mongo/mongo.module';
 import { AdminJSModule } from '../AdminJS/adminjs.module';
 import { KeycloakModule } from '../Keycloak/keycloak.module';
+import { RestModule } from 'src/rest/rest.module';
 
 //
 export interface AppModuleOptions {
@@ -47,6 +48,8 @@ export class AppModule implements NestModule {
         const importKeycloakModule = await KeycloakModule.forRootAsync(
             options.keycloak,
         );
+
+        const importRestModule = await RestModule.forRootAsync();
 
         return {
             global: true,
@@ -93,6 +96,8 @@ export class AppModule implements NestModule {
                     ],
                     exitOnError: false,
                 }),
+                // rest
+                importRestModule,
             ],
             controllers: [AppController],
             providers: [AppService],

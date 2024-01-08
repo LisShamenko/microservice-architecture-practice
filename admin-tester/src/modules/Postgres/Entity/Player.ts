@@ -1,5 +1,6 @@
 import { BaseEntity, Column, Entity, OneToMany, OneToOne } from 'typeorm';
 import { JoinColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { Game } from './Game';
 //
 import { GamePlayer } from './GamePlayer';
 import { Inventory } from './Inventory';
@@ -44,4 +45,7 @@ export class Player extends BaseEntity {
 
     @OneToMany(() => PlayerSkill, (playerSkill) => playerSkill.player)
     public skills: PlayerSkill[];
+
+    @OneToOne(() => Game, (game) => game.ownerPlayer)
+    public game: Game;
 }

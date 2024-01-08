@@ -5,12 +5,6 @@ DROP TABLE IF EXISTS game_players;
 --      DROP INDEX "fki_fkey_gp---game_id---games";
 --      DROP INDEX "fki_fkey_gp---player_id---players";
 
--- game_enemies
-
-DROP TABLE IF EXISTS game_enemies;
---      DROP INDEX "fki_fkey_ge---enemy_id---enemies";
---      DROP INDEX "fki_fkey_ge---game_id---games";
-
 -- games
 
 DROP TABLE IF EXISTS games;
@@ -27,15 +21,28 @@ DROP TABLE IF EXISTS spawn_script_enemies;
 
 DROP TABLE IF EXISTS spawn_scripts;
 
+-- activity_spawns
+
+DROP TABLE IF EXISTS activity_spawns;
+--      DROP INDEX "fki_fkey_as---activity_id---activity_points";
+
+-- activity_teleports
+
+DROP TABLE IF EXISTS activity_teleports;
+--      DROP INDEX "fki_fkey_at---activity_id---activity_points";
+--      DROP INDEX "fki_fkey_self---next_activity_id---id";
+--      DROP INDEX "fki_fkey_self---prev_activity_id---id";
+
+-- activity_points
+
+DROP TABLE IF EXISTS activity_points;
+--      DROP INDEX "fki_fkey_ap---map_id---maps";
+--      DROP INDEX "fki_fkey_ap---point_id---map_points";
+
 -- map_points
 
 DROP TABLE IF EXISTS map_points;
 --      DROP INDEX "fki_fkey_mp---map_id---maps";
---      DROP INDEX "fki_fkey_mp---point_id---activity_point";
-
--- activity_point
-
-DROP TABLE IF EXISTS activity_point;
 
 -- maps
 
@@ -90,6 +97,12 @@ DROP TABLE IF EXISTS player_skills;
 DROP TABLE IF EXISTS level_effects;
 --      DROP INDEX "fki_fkey_le---player_id---players";
 
+-- enemy_skills
+
+DROP TABLE IF EXISTS enemy_skills;
+--      DROP INDEX "fki_fkey_es---enemy_id---enemies";
+--      DROP INDEX "fki_fkey_es---skill_id---skills";
+
 -- enemies
 
 DROP TABLE IF EXISTS enemies;
@@ -139,3 +152,5 @@ DROP TABLE IF EXISTS player_properties;
 DROP TYPE IF EXISTS activity_point_types;
 DROP TYPE IF EXISTS enemy_types;
 DROP TYPE IF EXISTS sorts;
+DROP TYPE IF EXISTS property_columns;
+DROP TYPE IF EXISTS product_types;

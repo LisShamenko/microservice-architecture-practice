@@ -13,6 +13,7 @@ import { PlayerProperty } from './PlayerProperty';
 export class LevelTemplate extends BaseEntity {
     @PrimaryGeneratedColumn() id: number;
     @NullColumn() title: string;
+    @Column() coins: number;
     @Column() properties_id: number;
     @Column() inventory_id: number;
 

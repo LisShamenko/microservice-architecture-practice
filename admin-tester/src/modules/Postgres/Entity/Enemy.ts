@@ -2,7 +2,7 @@ import { BaseEntity, Column, Entity, OneToMany, OneToOne } from 'typeorm';
 import { JoinColumn, PrimaryGeneratedColumn } from 'typeorm';
 //
 import { EnemyTypes } from '../enums/EnemyTypes';
-import { GameEnemy } from './GameEnemy';
+import { EnemySkill } from './EnemySkill';
 import { Inventory } from './Inventory';
 import { LevelTemplate } from './LevelTemplate';
 import { PlayerProperty } from './PlayerProperty';
@@ -13,12 +13,12 @@ import { SpawnScriptEnemy } from './SpawnScriptEnemy';
 export class Enemy extends BaseEntity {
     @PrimaryGeneratedColumn() id: number;
     @Column({
-        name: 'enemy_type',
         type: 'enum',
         enum: EnemyTypes,
-        default: EnemyTypes.test,
+        default: EnemyTypes.Test,
     })
-    enemyType: EnemyTypes;
+    enemy_type: EnemyTypes;
+    @Column() nickname: string;
     @Column() inventory_id: number;
     @Column() properties_id: number;
     @Column() level_template_id: number;
@@ -37,9 +37,9 @@ export class Enemy extends BaseEntity {
     public levelTemplate: LevelTemplate;
 
     //
-    @OneToMany(() => GameEnemy, (gameEnemy) => gameEnemy.enemy)
-    public games: GameEnemy[];
-
     @OneToMany(() => SpawnScriptEnemy, (sse) => sse.enemy)
     public scripts: SpawnScriptEnemy[];
+
+    @OneToMany(() => EnemySkill, (enemySkill) => enemySkill.enemy)
+    public skills: EnemySkill[];
 }

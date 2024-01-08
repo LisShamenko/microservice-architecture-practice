@@ -2,6 +2,7 @@ import { BaseEntity, Column, Entity, OneToMany } from 'typeorm';
 import { JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 //
 import { NullColumn } from '../decorators/NullColumn';
+import { EnemySkill } from './EnemySkill';
 import { LevelTemplateSkill } from './LevelTemplateSkill';
 import { PlayerSkill } from './PlayerSkill';
 import { ProductSkill } from './ProductSkill';
@@ -33,6 +34,9 @@ export class Skill extends BaseEntity {
 
     @OneToMany(() => PlayerSkill, (playerSkill) => playerSkill.skill)
     public players: PlayerSkill[];
+
+    @OneToMany(() => EnemySkill, (enemySkill) => enemySkill.skill)
+    public enemies: EnemySkill[];
 
     @OneToMany(() => LevelTemplateSkill, (lts) => lts.skill)
     public levelTemplates: LevelTemplateSkill[];

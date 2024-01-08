@@ -18,7 +18,7 @@ export class Inventory extends BaseEntity {
         enum: Sorting,
         default: Sorting.none,
     })
-    sorting: Sorting;
+    public sorting: Sorting;
 
     //
     @OneToOne(() => Enemy, (enemy) => enemy.inventory)
