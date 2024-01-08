@@ -1,0 +1,19 @@
+{
+  "name": "microservice-architecture-practice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LisShamenko/microservice-architecture-practice/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LisShamenko/microservice-architecture-practice.git"
+  },
+  "homepage": "https://github.com/LisShamenko/microservice-architecture-practice#readme",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
