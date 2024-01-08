@@ -5,9 +5,32 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 //
-import { Photo } from './Entity/Photo';
-import { User } from './Entity/User';
-import { UserSubscriber } from './Entity/UserSubscriber';
+import { PlayerProperty } from './entity/PlayerProperty';
+import { Requirement } from './entity/Requirement';
+import { Skill } from './entity/Skill';
+import { Inventory } from './entity/Inventory';
+import { LevelTemplate } from './entity/LevelTemplate';
+import { LevelTemplateSkill } from './entity/LevelTemplateSkill';
+import { Player } from './entity/Player';
+import { Enemy } from './entity/Enemy';
+import { LevelEffect } from './entity/LevelEffect';
+import { PlayerSkill } from './entity/PlayerSkill';
+import { Product } from './entity/Product';
+import { ProductSkill } from './entity/ProductSkill';
+import { ProductWeapon } from './entity/ProductWeapon';
+import { ProductCloth } from './entity/ProductCloth';
+import { ProductShell } from './entity/ProductShell';
+import { WeaponShell } from './entity/WeaponShell';
+import { InventoryProduct } from './entity/InventoryProduct';
+import { Map } from './entity/Map';
+import { ActivityPoint } from './entity/ActivityPoint';
+import { MapPoint } from './entity/MapPoint';
+import { SpawnScript } from './entity/SpawnScript';
+import { SpawnScriptEnemy } from './entity/SpawnScriptEnemy';
+import { Game } from './entity/Game';
+import { GameEnemy } from './entity/GameEnemy';
+import { GamePlayer } from './entity/GamePlayer';
+// 
 import { PostgresService } from './postgres.service';
 
 //
@@ -26,11 +49,17 @@ export class PostgresModule {
     static async forRootAsync(
         options: PostgresModuleOptions,
     ): Promise<DynamicModule> {
+
+        const entities = [
+            PlayerProperty, Requirement, Skill, Inventory, LevelTemplate,
+            LevelTemplateSkill, Player, Enemy, LevelEffect, PlayerSkill,
+            Product, ProductSkill, ProductWeapon, ProductCloth, ProductShell,
+            WeaponShell, InventoryProduct, Map, ActivityPoint, MapPoint,
+            SpawnScript, SpawnScriptEnemy, Game, GameEnemy, GamePlayer,
+        ];
+
         //
-        const importModels = TypeOrmModule.forFeature(
-            [User, Photo],
-            'postgres_db',
-        );
+        const importModels = TypeOrmModule.forFeature(entities, 'postgres_db');
 
         //
         const importRoot = await TypeOrmModule.forRootAsync({
@@ -44,7 +73,7 @@ export class PostgresModule {
                     username: configService.get<string>('PG_USERNAME'),
                     password: configService.get<string>('PG_PASSWORD'),
                     database: configService.get<string>('PG_DATABASE'),
-                    entities: [User, Photo],
+                    entities: entities,
                     autoLoadEntities: true,
                 } as TypeOrmModuleAsyncOptions;
             },
@@ -66,7 +95,7 @@ export class PostgresModule {
                 importModels,
                 importRoot,
             ],
-            providers: [PostgresService, UserSubscriber],
+            providers: [PostgresService],
             exports: [PostgresService],
         };
     }

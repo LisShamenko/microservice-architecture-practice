@@ -65,6 +65,7 @@
     npm install @types/three --save-dev
     npm install @react-three/drei --save-dev
     npm install r3f-perf --save-dev
+    npm install leva --save-dev
     ```
 
 ## `Admin / Tester`
@@ -247,3 +248,10 @@
 
     - `AdminJS` понизить до версии 6.
     - Для `Keycloak` установить `@s3pweb/keycloak-admin-client-cjs`.
+
+### Task 9
+
+- `Admin / Tester`
+
+    - Скрипты для создания, удаления, заполнения базы данных `postgres`.
+    - Классы сущностей.
