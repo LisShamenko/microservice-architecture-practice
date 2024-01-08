@@ -1,0 +1,48 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+directive @upper on FIELD_DEFINITION
+
+"""photos"""
+type PhotoModel {
+  id: Int!
+  user: UserModel!
+}
+
+"""users"""
+type UserModel {
+  id: Int!
+  firstname: String!
+  lastname: String!
+  isActive: Boolean!
+  photos: [PhotoModel!]!
+}
+
+type Query {
+  getUser(id: Int!): UserModel!
+  getUsers(skip: Int! = 0, take: Int! = 25): [UserModel!]!
+  getPhoto(id: Int!): PhotoModel!
+  getPhotos(skip: Int! = 0, take: Int! = 25): [PhotoModel!]!
+}
+
+type Mutation {
+  addUser(newUserData: NewUserInput!): UserModel!
+  removeUser(id: Int!): Boolean!
+  addPhoto(newPhotoData: NewPhotoInput!): PhotoModel!
+  removePhoto(id: Int!): Boolean!
+}
+
+input NewUserInput {
+  firstname: String!
+  lastname: String!
+}
+
+input NewPhotoInput {
+  userId: Int!
+}
+
+type Subscription {
+  userAdded: UserModel!
+  photoAdded: PhotoModel!
+}

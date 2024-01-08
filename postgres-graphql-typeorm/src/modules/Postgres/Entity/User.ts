@@ -1,12 +1,5 @@
-import {
-    BaseEntity,
-    Column,
-    Entity,
-    JoinColumn,
-    ManyToOne,
-    OneToMany,
-    PrimaryGeneratedColumn,
-} from 'typeorm';
+import { BaseEntity, Column, Entity, OneToMany } from 'typeorm';
+import { PrimaryGeneratedColumn } from 'typeorm';
 //
 import { Photo } from './Photo';
 
@@ -24,20 +17,3 @@ export class User extends BaseEntity {
     @OneToMany((type) => Photo, (photo) => photo.user)
     photos: Photo[];
 }
-
-//      export const UserSchema = new EntitySchema<User>({
-//          name: 'testers',
-//          target: User,
-//          columns: {
-//              id: { type: Number, primary: true, generated: true },
-//              firstname: { type: String },
-//              lastname: { type: String },
-//              isActive: { type: Boolean, default: true },
-//          },
-//          relations: {
-//              photos: {
-//                  type: 'one-to-many',
-//                  target: 'Photo',
-//              },
-//          },
-//      });

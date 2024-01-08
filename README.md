@@ -35,6 +35,11 @@
     npm i -D @types/js-yaml
     npm i winston-transport
     npm install --save nest-winston winston
+    npm i @nestjs/graphql @nestjs/apollo graphql apollo-server-express
+    npm i --save class-validator class-transformer
+    npm i graphql-ws
+    npm i graphql-subscriptions
+    npm i graphql-query-complexity
     ```
 
 ## `Postgres REST API Sequelize`
@@ -118,3 +123,13 @@
 
     - `Postgres REST API Sequelize` \
         Логирование через провайдер `WINSTON_MODULE_NEST_PROVIDER`.
+
+### Task 4 
+
+- `Postgres GraphQL TypeORM` \
+    Подключить `GraphQL`.
+
+    ```
+    curl -L -X POST "http://localhost:3000/graphql/" -H 'Content-Type: application/json' 
+        --data-raw '{"query":"{ getUser(id: 1) { id firstname lastname isActive photos {id} }}"}'
+    ```

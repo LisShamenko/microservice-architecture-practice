@@ -16,7 +16,7 @@ export class PostgresService {
     ) {
         this.usersRepository
             .find()
-            .then((users) => console.log('USERS === ', users));
+            .then((users) => console.log('PostgresService.USERS === ', users));
     }
 
     async getTest() {
