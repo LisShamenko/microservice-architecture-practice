@@ -2,6 +2,7 @@ import { DynamicModule, Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 //
+import { getConfigs } from 'src/getConfigs';
 import { Photo } from './Entity/Photo';
 import { User } from './Entity/User';
 import { UserSubscriber } from './Entity/UserSubscriber';
@@ -27,13 +28,14 @@ export class PostgresModule {
             imports: [],
             name: 'postgres_db',
             useFactory: async () => {
+                const configs = getConfigs();
                 return {
                     type: 'postgres',
-                    host: 'localhost',
-                    port: 5432,
-                    username: 'postgres',
-                    password: 'postgres',
-                    database: 'test_1',
+                    host: configs.postgres.host,
+                    port: configs.postgres.port,
+                    username: configs.postgres.username,
+                    password: configs.postgres.password,
+                    database: configs.postgres.database,
                     entities: [User, Photo],
                     autoLoadEntities: true,
                 } as TypeOrmModuleAsyncOptions;

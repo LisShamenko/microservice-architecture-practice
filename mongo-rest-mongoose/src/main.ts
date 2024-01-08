@@ -1,4 +1,6 @@
 import { NestFactory } from '@nestjs/core';
+import { ConfigService } from '@nestjs/config';
+import { INestApplication } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 //
 import { AppModule } from './modules/App/app.module';
@@ -6,6 +8,11 @@ import { AppModule } from './modules/App/app.module';
 async function bootstrap() {
     const module = await AppModule.forRootAsync();
     const app = await NestFactory.create<NestExpressApplication>(module);
-    await app.listen(3000, () => console.log(`http://localhost:3000`));
+
+    const nestApp: INestApplication = app;
+    const configService = nestApp.get(ConfigService);
+    const port = configService.get('PORT');
+
+    await app.listen(port, () => console.log(`http://localhost:${port}`));
 }
 bootstrap();

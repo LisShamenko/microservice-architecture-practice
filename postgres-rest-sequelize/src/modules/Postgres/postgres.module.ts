@@ -1,7 +1,9 @@
 import { DynamicModule, Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { SequelizeModuleAsyncOptions } from '@nestjs/sequelize';
 //
+import dbConfig from './../../../configs/db.config';
 import { Photo } from './Entity/Photo';
 import { User } from './Entity/User';
 import { PostgresService } from './postgres.service';
@@ -21,16 +23,16 @@ export class PostgresModule {
 
         //
         const importRoot = await SequelizeModule.forRootAsync({
-            imports: [],
-            //
-            useFactory: async (): Promise<SequelizeModuleAsyncOptions> => {
+            imports: [ConfigModule],
+            //: Promise<SequelizeModuleAsyncOptions>
+            useFactory: async (configService: ConfigService) => {
                 return {
                     dialect: 'postgres',
-                    host: 'localhost',
-                    port: 5432,
-                    username: 'postgres',
-                    password: 'postgres',
-                    database: 'test_1',
+                    host: configService.get<string>('database.host'),
+                    port: configService.get<string>('database.port'),
+                    username: configService.get<string>('database.username'),
+                    password: configService.get<string>('database.password'),
+                    database: configService.get<string>('database.database'),
                     autoLoadModels: true,
                     synchronize: true,
                     define: {
@@ -38,13 +40,20 @@ export class PostgresModule {
                     },
                 } as SequelizeModuleAsyncOptions;
             },
-            inject: [],
+            inject: [ConfigService],
         });
 
         return {
             global: true,
             module: PostgresModule,
-            imports: [importModels, importRoot],
+            imports: [
+                ConfigModule.forRoot({
+                    load: [dbConfig],
+                    isGlobal: true,
+                }),
+                importModels,
+                importRoot,
+            ],
             providers: [PostgresService],
             exports: [PostgresService],
         };

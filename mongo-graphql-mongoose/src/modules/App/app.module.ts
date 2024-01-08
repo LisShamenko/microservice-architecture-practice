@@ -1,5 +1,6 @@
 import { DynamicModule, MiddlewareConsumer } from '@nestjs/common';
 import { Module, NestModule } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 //
 import { MongoModule } from '../Mongo/mongo.module';
 import { AppController } from './app.controller';
@@ -19,7 +20,13 @@ export class AppModule implements NestModule {
         return {
             global: true,
             module: AppModule,
-            imports: [importMongoModule],
+            imports: [
+                importMongoModule,
+                ConfigModule.forRoot({
+                    envFilePath: '.env',
+                    isGlobal: true,
+                }),
+            ],
             controllers: [AppController],
             providers: [AppService],
             exports: [],

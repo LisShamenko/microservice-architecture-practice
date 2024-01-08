@@ -1,4 +1,5 @@
 import { DynamicModule, Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule, MongooseModuleOptions } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 //
@@ -36,11 +37,13 @@ export class MongoModule {
 
         //
         const importRoot = await MongooseModule.forRootAsync({
-            imports: [],
+            imports: [ConfigModule],
             connectionName: 'catsDb',
             //      schema: CatSchema,
-            useFactory: async (): Promise<MongooseModuleOptions> => {
-                const uri = 'mongodb://localhost:27017/test';
+            useFactory: async (
+                configService: ConfigService,
+            ): Promise<MongooseModuleOptions> => {
+                const uri = configService.get<string>('MONGO_URI');
                 return {
                     uri: uri,
                     dbName: 'test',
@@ -51,13 +54,20 @@ export class MongoModule {
                     },
                 };
             },
-            inject: [],
+            inject: [ConfigService],
         });
 
         return {
             global: true,
             module: MongoModule,
-            imports: [importModels, importRoot],
+            imports: [
+                ConfigModule.forRoot({
+                    envFilePath: '.env',
+                    isGlobal: true,
+                }),
+                importModels,
+                importRoot,
+            ],
             providers: [MongoService],
             exports: [MongoService],
         };

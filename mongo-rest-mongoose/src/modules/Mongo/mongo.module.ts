@@ -1,7 +1,9 @@
-import { DynamicModule, Module } from '@nestjs/common';
+import { DynamicModule, Inject, Module } from '@nestjs/common';
+import { ConfigModule, ConfigType, ConfigService } from '@nestjs/config';
 import { MongooseModule, MongooseModuleOptions } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 //
+import dbConfig from './../../../configs/db.config';
 import { Cat, CatSchema } from './Entity/Cat';
 import { MongoService } from './mongo.service';
 
@@ -11,7 +13,11 @@ export interface MongoModuleOptions {}
 //
 @Module({})
 export class MongoModule {
-    constructor() {}
+    constructor(
+        @Inject(dbConfig.KEY) private config: ConfigType<typeof dbConfig>,
+    ) {
+        console.log('config === ', config);
+    }
 
     //
     static async forRootAsync(
@@ -36,11 +42,13 @@ export class MongoModule {
 
         //
         const importRoot = await MongooseModule.forRootAsync({
-            imports: [],
+            imports: [ConfigModule],
             connectionName: 'catsDb',
             //      schema: CatSchema,
-            useFactory: async (): Promise<MongooseModuleOptions> => {
-                const uri = 'mongodb://localhost:27017/test';
+            useFactory: async (
+                configService: ConfigService,
+            ): Promise<MongooseModuleOptions> => {
+                const uri = configService.get<string>('database.MONGO_URI');
                 return {
                     uri: uri,
                     dbName: 'test',
@@ -51,13 +59,20 @@ export class MongoModule {
                     },
                 };
             },
-            inject: [],
+            inject: [ConfigService],
         });
 
         return {
             global: true,
             module: MongoModule,
-            imports: [importModels, importRoot],
+            imports: [
+                ConfigModule.forRoot({
+                    load: [dbConfig],
+                    isGlobal: true,
+                }),
+                importModels,
+                importRoot,
+            ],
             providers: [MongoService],
             exports: [MongoService],
         };
