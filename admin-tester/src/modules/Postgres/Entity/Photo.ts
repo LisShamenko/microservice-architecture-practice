@@ -3,7 +3,7 @@ import { JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 //
 import { User } from './User';
 
-// 
+//
 @Entity('photos')
 export class Photo extends BaseEntity {
     @PrimaryGeneratedColumn()

@@ -85,6 +85,7 @@
     npm i @adminjs/mongoose
     npm i @adminjs/express
     npm install dotenv --save
+    npm i @s3pweb/keycloak-admin-client-cjs
     ```
 
 - Запуск.
@@ -114,6 +115,11 @@
         PG_DATABASE=test_1
         AJS_EMAIL=a
         AJS_PASSWORD=a
+        ADMIN_USERNAME=admin
+        ADMIN_PASSWORD=admin
+        ADMIN_GRANT_TYPE=password
+        ADMIN_CLIENT_ID=admin-cli
+        ADMIN_TOTP=123456
         ```
     - `configs/keycloak.env`
         ```
@@ -121,11 +127,6 @@
         KEY_REALM=citizen-network
         KEY_CLIENT_ID=nest-app
         KEY_SECRET=4rf4Xn0ZWAdr4vyIlmcv4W1b17Ew5n88
-        ADMIN_USERNAME=admin
-        ADMIN_PASSWORD=admin
-        ADMIN_GRANT_TYPE=password
-        ADMIN_CLIENT_ID=admin-cli
-        ADMIN_TOTP=123456
         ```
 
 ## Run
@@ -238,3 +239,11 @@
     - `mongo/mongoose`
     - `AdminJS`
     - `Keycloak`
+
+### Task 8
+
+- `Admin / Tester` \
+    Перенести `AdminJS` и `Keycloak` на `CommonJS`.
+
+    - `AdminJS` понизить до версии 6.
+    - Для `Keycloak` установить `@s3pweb/keycloak-admin-client-cjs`.

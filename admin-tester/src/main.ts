@@ -18,13 +18,6 @@ async function bootstrap() {
             clientId: process.env.KEY_CLIENT_ID,
             secret: process.env.KEY_SECRET,
         },
-        keycloakAdmin: {
-            username: process.env.ADMIN_USERNAME,
-            password: process.env.ADMIN_PASSWORD,
-            grantType: process.env.ADMIN_GRANT_TYPE,
-            clientId: process.env.ADMIN_CLIENT_ID,
-            totp: process.env.ADMIN_TOTP,
-        },
     };
 
     const module = await AppModule.forRootAsync(options);

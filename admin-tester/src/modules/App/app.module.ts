@@ -6,9 +6,6 @@ import * as winston from 'winston';
 import 'winston-daily-rotate-file';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
-import { APP_GUARD } from '@nestjs/core';
-import { KeycloakConnectModule } from 'nest-keycloak-connect';
-import { ResourceGuard, RoleGuard, AuthGuard } from 'nest-keycloak-connect';
 //
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -16,9 +13,8 @@ import { AppService } from './app.service';
 import { logFormat } from './../../services/logFormat';
 import { PostgresModule } from '../Postgres/postgres.module';
 import { MongoModule } from '../Mongo/mongo.module';
-import { KeycloakAdminModule } from '../Keycloak/keycloak.admin.module';
-import { KeycloakAdminModuleOptions } from '../Keycloak/keycloak.admin.module';
 import { AdminJSModule } from '../AdminJS/adminjs.module';
+import { KeycloakModule } from '../Keycloak/keycloak.module';
 
 //
 export interface AppModuleOptions {
@@ -28,7 +24,6 @@ export interface AppModuleOptions {
         clientId: string;
         secret: string;
     };
-    keycloakAdmin: KeycloakAdminModuleOptions;
 }
 
 //
@@ -49,6 +44,9 @@ export class AppModule implements NestModule {
         const importPostgresModule = await PostgresModule.forRootAsync({});
         const importMongoModule = await MongoModule.forRootAsync({});
         const importAdminJSModule = await AdminJSModule.forRootAsync({});
+        const importKeycloakModule = await KeycloakModule.forRootAsync(
+            options.keycloak,
+        );
 
         return {
             global: true,
@@ -65,13 +63,7 @@ export class AppModule implements NestModule {
                 // AdminJS
                 importAdminJSModule,
                 // keycloak
-                KeycloakConnectModule.register({
-                    authServerUrl: options.keycloak.authServerUrl,
-                    realm: options.keycloak.realm,
-                    clientId: options.keycloak.clientId,
-                    secret: options.keycloak.secret,
-                }),
-                KeycloakAdminModule.forRootAsync(options.keycloakAdmin),
+                importKeycloakModule,
                 // logger
                 WinstonModule.forRoot({
                     level: 'debug',
@@ -103,13 +95,7 @@ export class AppModule implements NestModule {
                 }),
             ],
             controllers: [AppController],
-            providers: [
-                AppService,
-                // keycloak
-                { provide: APP_GUARD, useClass: AuthGuard },
-                { provide: APP_GUARD, useClass: ResourceGuard },
-                { provide: APP_GUARD, useClass: RoleGuard },
-            ],
+            providers: [AppService],
             exports: [],
         };
     }

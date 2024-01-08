@@ -4,7 +4,7 @@ import { InjectDataSource } from '@nestjs/typeorm';
 //
 import { User } from './User';
 
-// 
+//
 @EventSubscriber()
 export class UserSubscriber implements EntitySubscriberInterface<User> {
     constructor(

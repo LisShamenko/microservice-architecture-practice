@@ -5,7 +5,7 @@ import { DataSource, Repository } from 'typeorm';
 import { Photo } from './Entity/Photo';
 import { User } from './Entity/User';
 
-// 
+//
 @Injectable()
 export class PostgresService {
     constructor(

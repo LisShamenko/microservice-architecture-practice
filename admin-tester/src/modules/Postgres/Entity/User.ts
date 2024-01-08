@@ -3,7 +3,7 @@ import { PrimaryGeneratedColumn } from 'typeorm';
 //
 import { Photo } from './Photo';
 
-// 
+//
 @Entity('users')
 export class User extends BaseEntity {
     @PrimaryGeneratedColumn()

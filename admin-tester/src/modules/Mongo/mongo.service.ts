@@ -5,7 +5,7 @@ import { Collection, Connection, Model } from 'mongoose';
 import { CreateCatDto } from './Dto/CreateCatDto';
 import { Cat, CatDocument } from './Entity/Cat';
 
-// 
+//
 @Injectable()
 export class MongoService {
     constructor(
@@ -40,7 +40,9 @@ export class MongoService {
 
         const res: Collection = this.connection.collections['cats'];
         const cursor = res.find();
-        cursor.toArray().then((res) => console.log('--- getTest --- 4 --- res = ', res));
+        cursor
+            .toArray()
+            .then((res) => console.log('--- getTest --- 4 --- res = ', res));
 
         return 'OK';
     }
