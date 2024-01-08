@@ -19,6 +19,7 @@
     "fp-3": "cd ./postgres-graphql-typeorm  && npm run format && cd ..",
     "fp-4": "cd ./postgres-rest-sequelize   && npm run format && cd ..",
     "format": "npm run fp-1 && npm run fp-2 && npm run fp-3 && npm run fp-4",
+    "three-react": "cd ./three-react && npm start",
     "test": "echo \"Error: no test specified\" && exit 1"
   }
 }

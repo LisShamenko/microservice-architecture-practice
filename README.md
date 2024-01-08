@@ -54,6 +54,19 @@
     npm install --save nest-winston winston
     ```
 
+## `Client ThreeJS`
+
+- Установка.
+
+    ```
+    npx create-react-app three-react --template typescript
+    npm install --save-dev --save-exact prettier
+    npm install three @react-three/fiber
+    npm install @types/three --save-dev
+    npm install @react-three/drei --save-dev
+    npm install r3f-perf --save-dev
+    ```
+
 ## Run
 
 - Запуск проектов `NestJS`.
@@ -152,3 +165,7 @@
     - `D_08` - Функции.
     - `D_09` - Процедуры.
     - `D_10` - Составные типы.
+
+### Task 6
+
+- Добавить проект клиента `Three.js`.
