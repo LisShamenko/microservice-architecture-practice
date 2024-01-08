@@ -67,6 +67,67 @@
     npm install r3f-perf --save-dev
     ```
 
+## `Admin / Tester`
+
+- Установка.
+
+    ```
+    nest new admin-tester
+    npm i @nestjs/mongoose mongoose mongoose-autopopulate
+    npm install --save @nestjs/typeorm typeorm pg
+    npm i --save @nestjs/config
+    npm install --save nest-winston winston
+    npm i winston-daily-rotate-file
+    npm install nest-keycloak-connect keycloak-connect --save
+    npm i @keycloak/keycloak-admin-client
+    npm i @adminjs/nestjs adminjs
+    npm i @adminjs/typeorm
+    npm i @adminjs/mongoose
+    npm i @adminjs/express
+    npm install dotenv --save
+    ```
+
+- Запуск.
+
+    - `keyclock`
+        ```
+        $ kc.bat start-dev
+        http://localhost:8080/admin/master/console
+        ```
+    - `adminjs`
+        ```
+        http://localhost:${port}/admin
+        AJS_EMAIL
+        AJS_PASSWORD
+        ```
+
+- Тестовая конфигурация.
+
+    - `configs/.env`
+        ```
+        PORT=3001
+        MONGO_URI=mongodb://localhost:27017/test
+        PG_HOST=localhost
+        PG_PORT=5432
+        PG_USERNAME=postgres
+        PG_PASSWORD=postgres
+        PG_DATABASE=test_1
+        AJS_EMAIL=a
+        AJS_PASSWORD=a
+        ```
+    - `configs/keycloak.env`
+        ```
+        KEY_URL=http://localhost:8080
+        KEY_REALM=citizen-network
+        KEY_CLIENT_ID=nest-app
+        KEY_SECRET=4rf4Xn0ZWAdr4vyIlmcv4W1b17Ew5n88
+        ADMIN_USERNAME=admin
+        ADMIN_PASSWORD=admin
+        ADMIN_GRANT_TYPE=password
+        ADMIN_CLIENT_ID=admin-cli
+        ADMIN_TOTP=123456
+        ```
+
 ## Run
 
 - Запуск проектов `NestJS`.
@@ -169,3 +230,11 @@
 ### Task 6
 
 - Добавить проект клиента `Three.js`.
+
+### Task 7
+
+- Добавить проект администратора `Admin / Tester`.
+    - `postgres/typeorm`
+    - `mongo/mongoose`
+    - `AdminJS`
+    - `Keycloak`
