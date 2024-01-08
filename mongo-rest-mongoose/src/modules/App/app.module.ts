@@ -1,5 +1,5 @@
 import { DynamicModule, MiddlewareConsumer } from '@nestjs/common';
-import { Module, NestModule } from '@nestjs/common';
+import { Logger, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 //
 import dbConfig from './../../../configs/db.config';
@@ -29,7 +29,7 @@ export class AppModule implements NestModule {
                 }),
             ],
             controllers: [AppController],
-            providers: [AppService],
+            providers: [AppService, Logger],
             exports: [],
         };
     }

@@ -1,4 +1,5 @@
 import { DynamicModule, Inject, Module } from '@nestjs/common';
+import { Logger, LoggerService } from '@nestjs/common';
 import { ConfigModule, ConfigType, ConfigService } from '@nestjs/config';
 import { MongooseModule, MongooseModuleOptions } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
@@ -15,8 +16,10 @@ export interface MongoModuleOptions {}
 export class MongoModule {
     constructor(
         @Inject(dbConfig.KEY) private config: ConfigType<typeof dbConfig>,
+        @Inject(Logger) private readonly logger: LoggerService,
     ) {
-        console.log('config === ', config);
+        this.logger.warn('MongoModule: LOADED');
+        this.logger.verbose('config === ', this.config);
     }
 
     //
@@ -73,7 +76,7 @@ export class MongoModule {
                 importModels,
                 importRoot,
             ],
-            providers: [MongoService],
+            providers: [MongoService, Logger],
             exports: [MongoService],
         };
     }

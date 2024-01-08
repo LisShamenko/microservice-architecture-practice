@@ -1,7 +1,9 @@
-import { DynamicModule, Module } from '@nestjs/common';
+import { DynamicModule, Inject, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule, MongooseModuleOptions } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
+import { Logger } from 'winston';
 //
 import { Cat, CatSchema } from './Entity/Cat';
 import { MongoService } from './mongo.service';
@@ -12,7 +14,11 @@ export interface MongoModuleOptions {}
 //
 @Module({})
 export class MongoModule {
-    constructor() {}
+    constructor(
+        @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
+    ) {
+        this.logger.debug('MongoModule: LOADED');
+    }
 
     //
     static async forRootAsync(

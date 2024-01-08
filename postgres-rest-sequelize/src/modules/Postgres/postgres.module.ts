@@ -1,7 +1,9 @@
 import { DynamicModule, Module } from '@nestjs/common';
+import { Inject, LoggerService } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { SequelizeModuleAsyncOptions } from '@nestjs/sequelize';
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 //
 import dbConfig from './../../../configs/db.config';
 import { Photo } from './Entity/Photo';
@@ -14,7 +16,12 @@ export interface PostgresModuleOptions {}
 //
 @Module({})
 export class PostgresModule {
-    constructor() {}
+    constructor(
+        @Inject(WINSTON_MODULE_NEST_PROVIDER)
+        private readonly logger: LoggerService,
+    ) {
+        this.logger.debug('PostgresModule: LOADED');
+    }
 
     static async forRootAsync(
         options: PostgresModuleOptions,

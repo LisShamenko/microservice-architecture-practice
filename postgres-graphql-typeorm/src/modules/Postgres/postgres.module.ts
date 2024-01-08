@@ -1,6 +1,7 @@
-import { DynamicModule, Module } from '@nestjs/common';
+import { DynamicModule, Inject, Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
+import { Logger } from 'winston';
 //
 import { getConfigs } from 'src/getConfigs';
 import { Photo } from './Entity/Photo';
@@ -8,11 +9,16 @@ import { User } from './Entity/User';
 import { UserSubscriber } from './Entity/UserSubscriber';
 import { PostgresService } from './postgres.service';
 
-export interface PostgresModuleOptions {}
+//
+export interface PostgresModuleOptions {
+    logger: Logger;
+}
 
 @Module({})
 export class PostgresModule {
-    constructor() {}
+    constructor(@Inject('LOGGER') private readonly logger: Logger) {
+        this.logger.log('info', { message: 'PostgresModule: LOADED' });
+    }
 
     //
     static async forRootAsync(
@@ -51,7 +57,11 @@ export class PostgresModule {
             global: true,
             module: PostgresModule,
             imports: [importModels, importRoot],
-            providers: [PostgresService, UserSubscriber],
+            providers: [
+                PostgresService,
+                UserSubscriber,
+                { provide: 'LOGGER', useValue: options.logger },
+            ],
             exports: [PostgresService],
         };
     }

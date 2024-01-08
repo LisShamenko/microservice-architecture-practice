@@ -10,6 +10,8 @@ async function bootstrap() {
     const module = await AppModule.forRootAsync();
     const app = await NestFactory.create<NestExpressApplication>(module);
 
+    app.useLogger(app.get('custom-log'));
+
     const nestApp: INestApplication = app;
     const configService = nestApp.get(ConfigService);
     const port = configService.get('PORT');
