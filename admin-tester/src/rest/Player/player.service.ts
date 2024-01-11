@@ -5,9 +5,9 @@ import { DataSource } from 'typeorm';
 // 
 import { InsertPlayerDto } from './dto/InsertPlayerDto';
 import { UpdatePlayerDto } from './dto/UpdatePlayerDto';
-import { Inventory } from 'src/modules/Postgres/entity/Inventory';
-import { Player } from 'src/modules/Postgres/entity/Player';
-import { LevelEffect } from 'src/modules/Postgres/entity/LevelEffect';
+import { Inventory } from '../../modules/Postgres/entity/Inventory';
+import { Player } from '../../modules/Postgres/entity/Player';
+import { LevelEffect } from '../../modules/Postgres/entity/LevelEffect';
 import { TemplateHelper } from '../services/TemplateHelper';
 import { ProductHelper } from '../services/ProductHelper';
 import { PropertyHelper } from '../services/PropertyHelper';

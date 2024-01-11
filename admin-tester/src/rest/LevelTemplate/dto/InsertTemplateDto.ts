@@ -1,5 +1,5 @@
-import { InsertPropertiesDto } from "src/rest/dto/InsertPropertiesDto";
-import { ProductItemDto } from "src/rest/dto/ProductItemDto";
+import { InsertPropertiesDto } from "../../../rest/dto/InsertPropertiesDto";
+import { ProductItemDto } from "../../../rest/dto/ProductItemDto";
 
 // 
 export class InsertTemplateDto {

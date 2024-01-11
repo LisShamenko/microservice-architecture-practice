@@ -1,6 +1,6 @@
-import { FillProductsDto } from "src/rest/dto/FillProductsDto";
-import { FillSkillsDto } from "src/rest/dto/FillSkillsDto";
-import { InsertPropertiesDto } from "src/rest/dto/InsertPropertiesDto";
+import { FillProductsDto } from "../../../rest/dto/FillProductsDto";
+import { FillSkillsDto } from "../../../rest/dto/FillSkillsDto";
+import { InsertPropertiesDto } from "../../../rest/dto/InsertPropertiesDto";
 
 // 
 export class UpdateTemplateDto {

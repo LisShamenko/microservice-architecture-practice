@@ -3,11 +3,11 @@ import { Injectable } from "@nestjs/common";
 import { DataSource, In } from "typeorm";
 // 
 import { FillSkillsDto } from "../dto/FillSkillsDto";
-import { EnemySkill } from "src/modules/Postgres/entity/EnemySkill";
-import { Skill } from "src/modules/Postgres/entity/Skill";
-import { LevelTemplateSkill } from "src/modules/Postgres/entity/LevelTemplateSkill";
-import { PlayerSkill } from "src/modules/Postgres/entity/PlayerSkill";
-import { ProductSkill } from "src/modules/Postgres/entity/ProductSkill";
+import { EnemySkill } from "../../modules/Postgres/entity/EnemySkill";
+import { Skill } from "../../modules/Postgres/entity/Skill";
+import { LevelTemplateSkill } from "../../modules/Postgres/entity/LevelTemplateSkill";
+import { PlayerSkill } from "../../modules/Postgres/entity/PlayerSkill";
+import { ProductSkill } from "../../modules/Postgres/entity/ProductSkill";
 
 // 
 interface ISkillId {

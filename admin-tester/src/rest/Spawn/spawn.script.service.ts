@@ -4,9 +4,9 @@ import { DataSource, In } from 'typeorm';
 //
 import { InsertSpawnDto } from './dto/InsertSpawnDto';
 import { UpdateSpawnDto } from './dto/UpdateSpawnDto';
-import { SpawnScript } from 'src/modules/Postgres/entity/SpawnScript';
-import { Enemy } from 'src/modules/Postgres/entity/Enemy';
-import { SpawnScriptEnemy } from 'src/modules/Postgres/entity/SpawnScriptEnemy';
+import { SpawnScript } from '../../modules/Postgres/entity/SpawnScript';
+import { Enemy } from '../../modules/Postgres/entity/Enemy';
+import { SpawnScriptEnemy } from '../../modules/Postgres/entity/SpawnScriptEnemy';
 import { ErrorHelper } from '../services/ErrorHelper';
 
 //

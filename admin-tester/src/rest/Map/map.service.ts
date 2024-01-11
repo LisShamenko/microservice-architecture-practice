@@ -5,11 +5,11 @@ import { DataSource } from 'typeorm';
 import { InsertMapDto } from './dto/InsertMapDto';
 import { UpdateMapDto } from './dto/UpdateMapDto';
 import { Map } from './../../modules/Postgres/entity/Map';
-import { ActivityPoint } from 'src/modules/Postgres/entity/ActivityPoint';
-import { ActivityPointTypes } from 'src/modules/Postgres/entity/enums';
-import { MapPoint } from 'src/modules/Postgres/entity/MapPoint';
-import { ActivitySpawn } from 'src/modules/Postgres/entity/ActivitySpawn';
-import { ActivityTeleport } from 'src/modules/Postgres/entity/ActivityTeleport';
+import { ActivityPoint } from '../../modules/Postgres/entity/ActivityPoint';
+import { ActivityPointTypes } from '../../modules/Postgres/enums/ActivityPointTypes';
+import { MapPoint } from '../../modules/Postgres/entity/MapPoint';
+import { ActivitySpawn } from '../../modules/Postgres/entity/ActivitySpawn';
+import { ActivityTeleport } from '../../modules/Postgres/entity/ActivityTeleport';
 import { ErrorHelper } from '../services/ErrorHelper';
 
 //

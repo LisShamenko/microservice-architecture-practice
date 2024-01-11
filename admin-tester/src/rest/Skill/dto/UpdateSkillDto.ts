@@ -1,4 +1,4 @@
-import { RequirementDto } from "src/rest/dto/RequirementDto";
+import { RequirementDto } from "../../../rest/dto/RequirementDto";
 
 // 
 export class UpdateSkillDto {

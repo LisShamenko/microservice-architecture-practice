@@ -3,11 +3,11 @@ import { Injectable } from "@nestjs/common";
 import { DataSource } from "typeorm";
 import { assign, omit } from "lodash";
 // 
-import { InventoryProduct } from "src/modules/Postgres/entity/InventoryProduct";
-import { LevelTemplate } from "src/modules/Postgres/entity/LevelTemplate";
-import { PlayerProperty } from "src/modules/Postgres/entity/PlayerProperty";
-import { PlayerSkill } from "src/modules/Postgres/entity/PlayerSkill";
-import { EnemySkill } from "src/modules/Postgres/entity/EnemySkill";
+import { InventoryProduct } from "../../modules/Postgres/entity/InventoryProduct";
+import { LevelTemplate } from "../../modules/Postgres/entity/LevelTemplate";
+import { PlayerProperty } from "../../modules/Postgres/entity/PlayerProperty";
+import { PlayerSkill } from "../../modules/Postgres/entity/PlayerSkill";
+import { EnemySkill } from "../../modules/Postgres/entity/EnemySkill";
 import { ErrorHelper } from "./ErrorHelper";
 
 

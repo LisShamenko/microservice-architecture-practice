@@ -5,8 +5,8 @@ import { DataSource } from 'typeorm';
 //
 import { InsertSkillDto } from './dto/InsertSkillDto';
 import { UpdateSkillDto } from './dto/UpdateSkillDto';
-import { Skill } from 'src/modules/Postgres/entity/Skill';
-import { Requirement } from 'src/modules/Postgres/entity/Requirement';
+import { Skill } from '../../modules/Postgres/entity/Skill';
+import { Requirement } from '../../modules/Postgres/entity/Requirement';
 import { ErrorHelper } from '../services/ErrorHelper';
 
 //

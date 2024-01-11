@@ -89,6 +89,8 @@
     npm i @s3pweb/keycloak-admin-client-cjs
     npm i lodash
     npm i @types/lodash
+    npm i typeorm-extension
+    npm install ts-node --save-dev
     ```
 
 - Запуск.
@@ -263,3 +265,9 @@
 - `Admin / Tester`
 
     - `REST API`
+
+### Task 11
+
+- `Admin / Tester`
+
+    - Тесты `e2e`.

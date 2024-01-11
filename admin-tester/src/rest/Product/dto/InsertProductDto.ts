@@ -1,5 +1,5 @@
-import { ProductTypes } from "src/modules/Postgres/entity/enums";
-import { RequirementDto } from "src/rest/dto/RequirementDto";
+import { ProductTypes } from "../../../modules/Postgres/enums/ProductTypes";
+import { RequirementDto } from "../../../rest/dto/RequirementDto";
 
 // 
 export class InsertProductDto {

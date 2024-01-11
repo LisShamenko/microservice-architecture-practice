@@ -5,23 +5,46 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import * as dotenv from 'dotenv';
 //
 import { AppModule } from './modules/App/app.module';
+import { AdminJSModule } from './modules/AdminJS/adminjs.module';
+import { KeycloakModule } from './modules/Keycloak/keycloak.module';
+import { MongoModule } from './modules/Mongo/mongo.module';
+import { PostgresModule } from './modules/Postgres/postgres.module';
+import { LoggerModule } from './modules/Logger/logger.module';
+import { RestModule } from './rest/rest.module';
+import entities from './modules/Postgres/entity/entities';
 
 //
 dotenv.config({ path: 'configs/keycloak.env' });
 
 //
 async function bootstrap() {
-    const options = {
-        keycloak: {
-            authServerUrl: process.env.KEY_URL,
-            realm: process.env.KEY_REALM,
-            clientId: process.env.KEY_CLIENT_ID,
-            secret: process.env.KEY_SECRET,
-        },
-    };
 
-    const module = await AppModule.forRootAsync(options);
-    const app = await NestFactory.create<NestExpressApplication>(module);
+    const importPostgresModule = await PostgresModule.forRootAsync({
+        entities: entities,
+    });
+    const importMongoModule = await MongoModule.forRootAsync({});
+    const importAdminJSModule = await AdminJSModule.forRootAsync({});
+    const importKeycloakModule = await KeycloakModule.forRootAsync({
+        authServerUrl: process.env.KEY_URL,
+        realm: process.env.KEY_REALM,
+        clientId: process.env.KEY_CLIENT_ID,
+        secret: process.env.KEY_SECRET,
+    });
+    const importRestModule = await RestModule.forRootAsync();
+    const importLogger = LoggerModule.forRoot();
+
+    const appModule = await AppModule.forRootAsync({
+        imports: [
+            importPostgresModule,
+            importMongoModule,
+            importAdminJSModule,
+            importKeycloakModule,
+            importRestModule,
+            importLogger,
+        ]
+    });
+
+    const app = await NestFactory.create<NestExpressApplication>(appModule);
 
     const nestApp: INestApplication = app;
     const configService = nestApp.get(ConfigService);
@@ -30,6 +53,7 @@ async function bootstrap() {
     await nestApp.listen(port, () => {
         console.log(`http://localhost:${port}`);
         console.log(`http://localhost:${port}/admin`);
+        console.log(`http://localhost:${port}/keycloak`);
     });
 }
 bootstrap();

@@ -6,6 +6,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { KeycloakConnectModule } from 'nest-keycloak-connect';
 import { ResourceGuard, RoleGuard, AuthGuard } from 'nest-keycloak-connect';
 //
+import { KeycloakController } from './keycloak.controller';
 import { KeycloakService } from './keycloak.service';
 
 //
@@ -60,6 +61,7 @@ export class KeycloakModule {
                     secret: options.secret,
                 }),
             ],
+            controllers: [KeycloakController],
             providers: [
                 KeycloakService,
                 // keycloak

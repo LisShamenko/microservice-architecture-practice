@@ -5,10 +5,10 @@ import { assign, omit } from 'lodash';
 //
 import { InsertEnemyDto } from './dto/InsertEnemyDto';
 import { UpdateEnemyDto } from './dto/UpdateEnemyDto';
-import { Enemy } from 'src/modules/Postgres/entity/Enemy';
-import { Inventory } from 'src/modules/Postgres/entity/Inventory';
-import { InventoryProduct } from 'src/modules/Postgres/entity/InventoryProduct';
-import { EnemySkill } from 'src/modules/Postgres/entity/EnemySkill';
+import { Enemy } from '../../modules/Postgres/entity/Enemy';
+import { Inventory } from '../../modules/Postgres/entity/Inventory';
+import { InventoryProduct } from '../../modules/Postgres/entity/InventoryProduct';
+import { EnemySkill } from '../../modules/Postgres/entity/EnemySkill';
 import { ProductHelper } from '../services/ProductHelper';
 import { PropertyHelper } from '../services/PropertyHelper';
 import { SkillHelper } from '../services/SkillHelper';

@@ -12,10 +12,7 @@ export class MongoService {
         @InjectConnection('catsDb') private connection: Connection,
         @InjectModel(Cat.name, 'catsDb') private catModel: Model<CatDocument>,
     ) {
-        this.catModel
-            .find()
-            .exec()
-            .then((res) => console.log('--- ', res));
+        //this.catModel.find().exec().then((res) => console.log('--- ', res));
     }
 
     async create(createCatDto: CreateCatDto): Promise<Cat> {

@@ -1,28 +1,13 @@
 
-
-
 -- ########## types ##########
 
-
-
-DO $$
-BEGIN
-IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'activity_point_types') THEN
-
-    CREATE TYPE activity_point_types AS ENUM ('spawn', 'teleport', 'supply', 'none');
-    CREATE TYPE enemy_types AS ENUM ('test');
-    CREATE TYPE sorts AS ENUM ('none', 'weapons_asc', 'weapons_desc', 'shells_asc', 'shells_desc', 'clothes_asc', 'clothes_desc');
-    CREATE TYPE property_columns AS ENUM ('none', 'strength', 'endurance', 'intelligence', 'agility', 'fire_weapons', 'melee_weapons', 'throwing', 'doctor', 'sneak', 'steal', 'traps', 'science', 'repair', 'barter');
-    CREATE TYPE product_types AS ENUM ('none', 'weapon', 'shell', 'cloth');
-
-end if;
-end $$;
-
-
+CREATE TYPE activity_point_types AS ENUM ('spawn', 'teleport', 'supply', 'none');
+CREATE TYPE enemy_types AS ENUM ('test');
+CREATE TYPE sorts AS ENUM ('none', 'weapons_asc', 'weapons_desc', 'shells_asc', 'shells_desc', 'clothes_asc', 'clothes_desc');
+CREATE TYPE property_columns AS ENUM ('none', 'strength', 'endurance', 'intelligence', 'agility', 'fire_weapons', 'melee_weapons', 'throwing', 'doctor', 'sneak', 'steal', 'traps', 'science', 'repair', 'barter');
+CREATE TYPE product_types AS ENUM ('none', 'weapon', 'shell', 'cloth');
 
 -- ########## player ########## -> products
-
-
 
 -- player_properties
 
@@ -43,12 +28,11 @@ CREATE TABLE IF NOT EXISTS player_properties (
     repair integer,
     barter integer,
     PRIMARY KEY (id)
-
-    -- CONSTRAINT "" FOREIGN KEY (id) REFERENCES enemies (properties_id) ON DELETE CASCADE 
-    -- CONSTRAINT "" FOREIGN KEY (id) REFERENCES level_templates (properties_id) ON DELETE CASCADE
-    -- CONSTRAINT "" FOREIGN KEY (id) REFERENCES players (properties_id) ON DELETE CASCADE
-
 );
+
+-- CONSTRAINT "" FOREIGN KEY (id) REFERENCES enemies (properties_id) ON DELETE CASCADE 
+-- CONSTRAINT "" FOREIGN KEY (id) REFERENCES level_templates (properties_id) ON DELETE CASCADE
+-- CONSTRAINT "" FOREIGN KEY (id) REFERENCES players (properties_id) ON DELETE CASCADE
 
 -- requirements
 
@@ -109,8 +93,6 @@ CREATE TABLE IF NOT EXISTS level_templates (
     properties_id integer NOT NULL,
     inventory_id integer NOT NULL,
     coins integer NOT NULL DEFAULT 0,
-    -- add_inventory_id integer,
-    -- add_properies integer,
     PRIMARY KEY (id),
 
     CONSTRAINT "fkey_lt---inventory_id---inventory" 
@@ -262,11 +244,7 @@ CREATE TABLE IF NOT EXISTS player_skills (
 CREATE INDEX IF NOT EXISTS "fki_fkey---skill_id---skills" ON player_skills USING btree (skill_id ASC NULLS LAST);
 CREATE INDEX IF NOT EXISTS "fki_requirements_id_for_skill_fkey" ON player_skills USING btree (player_id ASC NULLS LAST);
 
-
-
 -- ########## products ########## -> requirements, skills
-
-
 
 -- products -> requirements
 
@@ -367,11 +345,7 @@ CREATE TABLE IF NOT EXISTS weapon_shells (
 CREATE INDEX IF NOT EXISTS "fki_shell_id_fkey" ON weapon_shells USING btree (shell_id ASC NULLS LAST);
 CREATE INDEX IF NOT EXISTS "fki_weapon_id" ON weapon_shells USING btree (weapon_id ASC NULLS LAST);
 
-
-
 -- ########## player ##########
-
-
 
 -- inventory_products -> inventory, products
 
@@ -394,11 +368,7 @@ CREATE TABLE IF NOT EXISTS inventory_products (
 CREATE INDEX IF NOT EXISTS "fki_fkey_ip---inventory_id---inventory" ON inventory_products USING btree (inventory_id ASC NULLS LAST);
 CREATE INDEX IF NOT EXISTS "fki_fkey_ip---product_id---products" ON inventory_products USING btree (product_id ASC NULLS LAST);
 
-
-
 -- ########## games ##########
-
-
 
 -- maps
 
@@ -458,7 +428,8 @@ CREATE TABLE IF NOT EXISTS activity_spawns
 
     CONSTRAINT "fkey_as---activity_id---activity_points" 
         FOREIGN KEY (activity_id)
-        REFERENCES activity_points (id) MATCH SIMPLE
+        REFERENCES activity_points (id)
+        ON DELETE CASCADE
 );
 
 CREATE INDEX "fki_fkey_as---activity_id---activity_points" ON activity_spawns USING btree (activity_id ASC NULLS LAST);
@@ -475,15 +446,16 @@ CREATE TABLE activity_teleports
 
     CONSTRAINT "fkey_at---activity_id---activity_points" 
         FOREIGN KEY (activity_id)
-        REFERENCES activity_points (id) MATCH SIMPLE,
+        REFERENCES activity_points (id)
+        ON DELETE CASCADE,
 
     CONSTRAINT "fkey_at---next_activity_id---activity_points" 
         FOREIGN KEY (next_activity_id)
-        REFERENCES activity_points (id) MATCH SIMPLE,
+        REFERENCES activity_points (id),
 
     CONSTRAINT "fkey_at---prev_activity_id---activity_points" 
         FOREIGN KEY (prev_activity_id)
-        REFERENCES activity_points (id) MATCH SIMPLE
+        REFERENCES activity_points (id)
 );
 CREATE INDEX "fki_fkey_at---activity_id---activity_points" ON activity_teleports USING btree (activity_id ASC NULLS LAST);
 CREATE INDEX "fki_fkey_at---next_activity_id---activity_points" ON activity_teleports USING btree (next_activity_id ASC NULLS LAST);

@@ -34,6 +34,10 @@ export class PostgresService {
         @InjectDataSource('postgres_db') private dataSource: DataSource,
     ) { }
 
+    async restoreDatabase() {
+
+    }
+
     async getTest() {
 
         ((async function (dataSource: DataSource) {

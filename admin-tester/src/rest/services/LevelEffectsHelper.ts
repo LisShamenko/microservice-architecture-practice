@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 // 
 import { LevelEffectDto } from "../dto/LevelEffectDto";
-import { LevelEffect } from "src/modules/Postgres/entity/LevelEffect";
+import { LevelEffect } from "../../modules/Postgres/entity/LevelEffect";
 
 // 
 @Injectable()

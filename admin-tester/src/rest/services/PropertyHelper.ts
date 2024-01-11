@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { clamp } from "lodash";
 // 
 import { InsertPropertiesDto } from "../dto/InsertPropertiesDto";
-import { PlayerProperty } from "src/modules/Postgres/entity/PlayerProperty";
+import { PlayerProperty } from "../../modules/Postgres/entity/PlayerProperty";
 
 // 
 @Injectable()

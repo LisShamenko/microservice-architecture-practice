@@ -1,4 +1,4 @@
-import { SpawnWaveDto } from "src/rest/dto/SpawnWaveDto";
+import { SpawnWaveDto } from "../../../rest/dto/SpawnWaveDto";
 
 // 
 export class InsertSpawnDto {

@@ -1,4 +1,4 @@
-import { ProductItemDto } from "src/rest/dto/ProductItemDto";
+import { ProductItemDto } from "../../rest/dto/ProductItemDto";
 
 // 
 export class FillProductsDto {

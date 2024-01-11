@@ -1,4 +1,4 @@
-import { ActivityPointTypes } from "src/modules/Postgres/entity/enums";
+import { ActivityPointTypes } from "../../modules/Postgres/enums/ActivityPointTypes";
 import { Vector3Dto } from "./Vector3Dto";
 
 // 

@@ -1,4 +1,4 @@
-import { PropertyColumns } from "src/modules/Postgres/entity/enums";
+import { PropertyColumns } from "../../modules/Postgres/enums/PropertyColumns";
 
 // 
 export class LevelEffectDto {

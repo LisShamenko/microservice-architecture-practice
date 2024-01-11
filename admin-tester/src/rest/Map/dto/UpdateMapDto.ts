@@ -1,4 +1,4 @@
-import { PointItemDto } from "src/rest/dto/PointItemDto";
+import { PointItemDto } from "../../../rest/dto/PointItemDto";
 
 // 
 export class UpdateMapDto {

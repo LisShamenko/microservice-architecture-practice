@@ -5,11 +5,11 @@ import { DataSource } from 'typeorm';
 //
 import { InsertTemplateDto } from './dto/InsertTemplateDto';
 import { UpdateTemplateDto } from './dto/UpdateTemplateDto';
-import { LevelTemplate } from 'src/modules/Postgres/entity/LevelTemplate';
-import { PlayerProperty } from 'src/modules/Postgres/entity/PlayerProperty';
-import { Inventory } from 'src/modules/Postgres/entity/Inventory';
-import { InventoryProduct } from 'src/modules/Postgres/entity/InventoryProduct';
-import { LevelTemplateSkill } from 'src/modules/Postgres/entity/LevelTemplateSkill';
+import { LevelTemplate } from '../../modules/Postgres/entity/LevelTemplate';
+import { PlayerProperty } from '../../modules/Postgres/entity/PlayerProperty';
+import { Inventory } from '../../modules/Postgres/entity/Inventory';
+import { InventoryProduct } from '../../modules/Postgres/entity/InventoryProduct';
+import { LevelTemplateSkill } from '../../modules/Postgres/entity/LevelTemplateSkill';
 import { ProductHelper } from '../services/ProductHelper';
 import { PropertyHelper } from '../services/PropertyHelper';
 import { SkillHelper } from '../services/SkillHelper';

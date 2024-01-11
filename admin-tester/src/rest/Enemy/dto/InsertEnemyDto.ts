@@ -1,7 +1,7 @@
-import { EnemyTypes } from "src/modules/Postgres/entity/enums";
-import { InsertPropertiesDto } from "src/rest/dto/InsertPropertiesDto";
+import { EnemyTypes } from "../../../modules/Postgres/enums/EnemyTypes";
+import { InsertPropertiesDto } from "../../../rest/dto/InsertPropertiesDto";
 import { FillProductsDto } from "../../dto/FillProductsDto";
-import { FillSkillsDto } from "src/rest/dto/FillSkillsDto";
+import { FillSkillsDto } from "../../../rest/dto/FillSkillsDto";
 
 // 
 export class InsertEnemyDto {

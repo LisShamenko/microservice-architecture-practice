@@ -5,12 +5,12 @@ import { clamp } from "lodash";
 // 
 import { ProductItemDto } from "../dto/ProductItemDto";
 import { FillProductsDto } from "../dto/FillProductsDto";
-import { InventoryProduct } from "src/modules/Postgres/entity/InventoryProduct";
-import { Product } from "src/modules/Postgres/entity/Product";
-import { ProductTypes } from "src/modules/Postgres/entity/enums";
-import { ProductCloth } from "src/modules/Postgres/entity/ProductCloth";
-import { ProductShell } from "src/modules/Postgres/entity/ProductShell";
-import { ProductWeapon } from "src/modules/Postgres/entity/ProductWeapon";
+import { InventoryProduct } from "../../modules/Postgres/entity/InventoryProduct";
+import { Product } from "../../modules/Postgres/entity/Product";
+import { ProductTypes } from "../../modules/Postgres/enums/ProductTypes";
+import { ProductCloth } from "../../modules/Postgres/entity/ProductCloth";
+import { ProductShell } from "../../modules/Postgres/entity/ProductShell";
+import { ProductWeapon } from "../../modules/Postgres/entity/ProductWeapon";
 
 // 
 export interface IProductUpdates {

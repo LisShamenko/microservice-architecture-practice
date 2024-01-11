@@ -4,11 +4,11 @@ import { DataSource } from 'typeorm';
 //
 import { InsertGameDto } from './dto/InsertGameDto';
 import { UpdateGameDto } from './dto/UpdateGameDto';
-import { Game } from 'src/modules/Postgres/entity/Game';
-import { SpawnScript } from 'src/modules/Postgres/entity/SpawnScript';
-import { GamePlayer } from 'src/modules/Postgres/entity/GamePlayer';
-import { Map } from 'src/modules/Postgres/entity/Map';
-import { Player } from 'src/modules/Postgres/entity/Player';
+import { Game } from '../../modules/Postgres/entity/Game';
+import { SpawnScript } from '../../modules/Postgres/entity/SpawnScript';
+import { GamePlayer } from '../../modules/Postgres/entity/GamePlayer';
+import { Map } from '../../modules/Postgres/entity/Map';
+import { Player } from '../../modules/Postgres/entity/Player';
 import { ErrorHelper } from '../services/ErrorHelper';
 
 //
@@ -135,6 +135,7 @@ export class GameService {
                     map_id: true,
                     spawn_script_id: true,
                     players: {
+                        id: true,
                         game_id: true,
                         player_id: true,
                         player: {

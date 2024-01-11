@@ -1,4 +1,4 @@
-import { Vector3Dto } from "src/rest/dto/Vector3Dto";
+import { Vector3Dto } from "../../../rest/dto/Vector3Dto";
 
 // 
 export class InsertMapDto {
