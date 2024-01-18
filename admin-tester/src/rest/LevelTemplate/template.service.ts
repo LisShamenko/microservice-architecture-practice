@@ -86,12 +86,12 @@ export class TemplateService {
     }
 
     // 
-    async updateTemplate(temlate_id: number, udto: UpdateTemplateDto) {
+    async updateTemplate(template_id: number, udto: UpdateTemplateDto) {
 
         const levelTemplate = await this.dataSource.getRepository(LevelTemplate)
             .findOne({
                 where: {
-                    id: temlate_id,
+                    id: template_id,
                 },
                 relations: {
                     playerProperty: true,
@@ -103,7 +103,7 @@ export class TemplateService {
                     skills: true,
                 },
             });
-        this.errorHelper.foundError(levelTemplate, 'temlate_id');
+        this.errorHelper.foundError(levelTemplate, 'template_id');
 
         // 
         const properties = levelTemplate.playerProperty;
@@ -119,7 +119,7 @@ export class TemplateService {
         // 
         const addProducts = tmpProducts.filter(p => p.count_in_all_slots > 0);
         const removeProducts = tmpProducts.filter(p => (
-            p.id && p.count_in_all_slots <= 0
+            (p.id >= 0) && p.count_in_all_slots <= 0
         ));
         const addSkills = tmpSkills;
 
@@ -172,10 +172,10 @@ export class TemplateService {
     }
 
     // 
-    async deleteTemplate(temlate_id: number) {
+    async deleteTemplate(template_id: number) {
         try {
             const result = await this.dataSource.getRepository(LevelTemplate)
-                .delete({ id: temlate_id });
+                .delete({ id: template_id });
             return { rows: result.affected };
         }
         catch (err) {
@@ -184,22 +184,23 @@ export class TemplateService {
     }
 
     // 
-    async getOneTemplate(temlate_id: number) {
-        const template = await this.dataSource.getRepository(LevelTemplate).findOne({
-            where: {
-                id: temlate_id,
-            },
-            relations: {
-                playerProperty: true,
-                inventory: {
-                    products: {
-                        product: true,
-                    },
+    async getOneTemplate(template_id: number) {
+        const template = await this.dataSource.getRepository(LevelTemplate)
+            .findOne({
+                where: {
+                    id: template_id,
                 },
-                skills: true,
-            },
-        });
-        this.errorHelper.foundError(template, 'temlate_id');
+                relations: {
+                    playerProperty: true,
+                    inventory: {
+                        products: {
+                            product: true,
+                        },
+                    },
+                    skills: true,
+                },
+            });
+        this.errorHelper.foundError(template, 'template_id');
 
         return {
             id: template.id,
@@ -222,7 +223,9 @@ export class TemplateService {
 
     // 
     async getAllTemplates() {
-        const templates = await this.dataSource.getRepository(LevelTemplate).find();
+        const templates = await this.dataSource.getRepository(LevelTemplate)
+            .find();
+
         return {
             templates: (!templates) ? [] : templates.map(template => ({
                 id: template.id,

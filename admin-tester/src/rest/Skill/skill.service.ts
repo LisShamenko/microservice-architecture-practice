@@ -124,7 +124,9 @@ export class SkillService {
 
     // 
     async getAllSkills() {
-        const skills = await this.dataSource.getRepository(Skill).find();
+        const skills = await this.dataSource.getRepository(Skill)
+            .find();
+
         return {
             skills: (!skills) ? [] : skills.map(skill => ({
                 id: skill.id,

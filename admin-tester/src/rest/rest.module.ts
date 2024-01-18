@@ -26,6 +26,7 @@ import { ProductHelper } from './services/ProductHelper';
 import { PropertyHelper } from './services/PropertyHelper';
 import { SkillHelper } from './services/SkillHelper';
 import { TemplateHelper } from './services/TemplateHelper';
+import { MapHelper } from './services/MapHelper';
 
 //
 @Module({})
@@ -51,6 +52,7 @@ export class RestModule implements NestModule {
             providers: [
                 ErrorHelper, LevelEffectsHelper, ProductHelper,
                 PropertyHelper, SkillHelper, TemplateHelper,
+                MapHelper,
                 EnemyService, GameService, TemplateService,
                 MapService, PlayerService, ProductService,
                 SpawnScriptService, SkillService

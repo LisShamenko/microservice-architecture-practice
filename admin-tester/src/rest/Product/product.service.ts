@@ -72,13 +72,14 @@ export class ProductService {
     // 
     async updateProduct(product_id: number, udto: UpdateProductDto) {
 
-        const product = await this.dataSource.getRepository(Product).findOne({
-            where: { id: product_id },
-            relations: {
-                requirement: true,
-                skills: true,
-            },
-        });
+        const product = await this.dataSource.getRepository(Product)
+            .findOne({
+                where: { id: product_id },
+                relations: {
+                    requirement: true,
+                    skills: true,
+                },
+            });
         this.errorHelper.foundError(product, 'product_id');
 
         //
@@ -94,6 +95,7 @@ export class ProductService {
 
         // 
         const updates = this.productHelper.getTypeUpdates(product, udto.type);
+        product.product_type = udto.type;
 
         // 
         const queryRunner = this.dataSource.createQueryRunner();
@@ -173,7 +175,9 @@ export class ProductService {
 
     // 
     async getAllProducts() {
-        const products = await this.dataSource.getRepository(Product).find();
+        const products = await this.dataSource.getRepository(Product)
+            .find();
+            
         return {
             products: (!products) ? [] : products.map(product => ({
                 id: product.id,

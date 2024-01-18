@@ -109,21 +109,22 @@ export class PlayerService {
     // 
     async updatePlayer(player_id: number, udto: UpdatePlayerDto) {
 
-        const player = await this.dataSource.getRepository(Player).findOne({
-            where: {
-                id: player_id,
-            },
-            relations: {
-                playerProperty: true,
-                inventory: {
-                    products: {
-                        product: true,
-                    }
+        const player = await this.dataSource.getRepository(Player)
+            .findOne({
+                where: {
+                    id: player_id,
                 },
-                skills: true,
-                effects: true,
-            },
-        });
+                relations: {
+                    playerProperty: true,
+                    inventory: {
+                        products: {
+                            product: true,
+                        }
+                    },
+                    skills: true,
+                    effects: true,
+                },
+            });
         this.errorHelper.foundError(player, 'player_id');
 
         // 
@@ -139,7 +140,7 @@ export class PlayerService {
         //
         const addProducts = tmpProducts.filter(p => p.count_in_all_slots > 0);
         const removeProducts = tmpProducts.filter(p => (
-            p.id && p.count_in_all_slots <= 0
+            (p.id >= 0) && p.count_in_all_slots <= 0
         ));
         const addSkills = tmpSkills;
 
@@ -225,22 +226,23 @@ export class PlayerService {
 
     // 
     async getOnePlayer(player_id: number) {
-        const player = await this.dataSource.getRepository(Player).findOne({
-            where: {
-                id: player_id,
-            },
-            relations: {
-                inventory: {
-                    products: {
-                        product: true,
-                    },
+        const player = await this.dataSource.getRepository(Player)
+            .findOne({
+                where: {
+                    id: player_id,
                 },
-                playerProperty: true,
-                levelTemplate: true,
-                skills: true,
-                effects: true,
-            },
-        });
+                relations: {
+                    inventory: {
+                        products: {
+                            product: true,
+                        },
+                    },
+                    playerProperty: true,
+                    levelTemplate: true,
+                    skills: true,
+                    effects: true,
+                },
+            });
         this.errorHelper.foundError(player, 'player_id');
 
         return {
@@ -273,7 +275,9 @@ export class PlayerService {
 
     // 
     async getAllPlayers() {
-        const players = await this.dataSource.getRepository(Player).find();
+        const players = await this.dataSource.getRepository(Player)
+            .find();
+
         return {
             players: (!players) ? [] : players.map(player => ({
                 id: player.id,

@@ -271,3 +271,9 @@
 - `Admin / Tester`
 
     - Тесты `e2e`.
+
+### Task 12
+
+- `Admin / Tester`
+
+    - Модульные тесты.

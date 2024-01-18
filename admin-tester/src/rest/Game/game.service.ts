@@ -97,7 +97,7 @@ export class GameService {
             const result = await this.dataSource.getRepository(GamePlayer)
                 .insert(gamePlayer);
 
-            return { insert_player: result.identifiers }
+            return { insert_player: result.identifiers[0] }
         }
         else {
             if (ind < 0) return '1';
@@ -105,10 +105,11 @@ export class GameService {
                 this.errorHelper.logicalError('the owner cannot leave the game');
             }
 
-            const result = await this.dataSource.getRepository(GamePlayer).delete({
-                game_id: game_id,
-                player_id: udto.player_id,
-            })
+            const result = await this.dataSource.getRepository(GamePlayer)
+                .delete({
+                    game_id: game_id,
+                    player_id: udto.player_id,
+                })
             return { delete_player: result.affected };
         }
     }
@@ -164,32 +165,33 @@ export class GameService {
 
     // 
     async getAllGames() {
-        const games = await this.dataSource.getRepository(Game).find({
-            select: {
-                id: true,
-                spawn_script_id: true,
-                map_id: true,
-                owner_player_id: true,
-                map: {
-                    title: true,
-                },
-                players: true,
-                spawnScript: {
+        const games = await this.dataSource.getRepository(Game)
+            .find({
+                select: {
                     id: true,
-                    enemies: {
-                        script_id: true,
-                        count: true
+                    spawn_script_id: true,
+                    map_id: true,
+                    owner_player_id: true,
+                    map: {
+                        title: true,
+                    },
+                    players: true,
+                    spawnScript: {
+                        id: true,
+                        enemies: {
+                            script_id: true,
+                            count: true
+                        }
                     }
-                }
-            },
-            relations: {
-                map: true,
-                players: true,
-                spawnScript: {
-                    enemies: true
-                }
-            },
-        });
+                },
+                relations: {
+                    map: true,
+                    players: true,
+                    spawnScript: {
+                        enemies: true
+                    }
+                },
+            });
 
         return {
             games: (!games) ? [] : games.map(g => ({

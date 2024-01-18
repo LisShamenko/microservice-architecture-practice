@@ -95,7 +95,7 @@ export class SkillHelper {
         idtoSkills.forEach(idto_s => {
             const ind = tmpSkills.findIndex(s => s.skill_id === idto_s);
             if (ind >= 0) {
-                tmpSkills.splice(ind, ind + 1);
+                tmpSkills.splice(ind, 1);
             }
         });
     }

@@ -94,8 +94,6 @@ export class ProductHelper {
         let addShell: ProductShell;
         let addWeapon: ProductWeapon;
 
-        product.product_type = udto_type;
-
         if (udto_type === ProductTypes.none) {
             if (product.product_type === ProductTypes.cloth)
                 removeCloth = product.productCloth;

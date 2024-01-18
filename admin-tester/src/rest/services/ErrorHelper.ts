@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { BadRequestException, HttpException, HttpStatus, Injectable, NotFoundException } from "@nestjs/common";
 
 // 
 @Injectable()
@@ -10,8 +10,7 @@ export class ErrorHelper {
      */
     foundError(obj: Object, name: string) {
         if (obj) return;
-        throw new HttpException({ error: `${name} not found` },
-            HttpStatus.NOT_FOUND);
+        throw new NotFoundException({ error: `${name} not found` });
     }
 
     /**
@@ -20,8 +19,7 @@ export class ErrorHelper {
      */
     foundArrayError(obj: Object[], name: string) {
         if (obj && obj.length > 0) return;
-        throw new HttpException({ error: `${name} not found` },
-            HttpStatus.NOT_FOUND);
+        throw new NotFoundException({ error: `${name} not found` });
     }
 
     /**
@@ -29,8 +27,7 @@ export class ErrorHelper {
      * this.errorHelper.transactionError(err.message);
      */
     transactionError(message: string) {
-        throw new HttpException({ error: `transaction: ${message}` },
-            HttpStatus.BAD_REQUEST);
+        throw new BadRequestException({ error: `transaction: ${message}` });
     }
 
     /**
@@ -38,8 +35,7 @@ export class ErrorHelper {
      * this.errorHelper.deleteError(err.message);
      */
     deleteError(message: string) {
-        throw new HttpException({ error: `delete: ${message}` },
-            HttpStatus.BAD_REQUEST);
+        throw new BadRequestException({ error: `delete: ${message}` });
     }
 
     /**
@@ -49,7 +45,6 @@ export class ErrorHelper {
      * }
      */
     logicalError(message: string) {
-        throw new HttpException({ error: `logical: ${message}` },
-            HttpStatus.BAD_REQUEST);
+        throw new BadRequestException({ error: `logical: ${message}` });
     }
 }

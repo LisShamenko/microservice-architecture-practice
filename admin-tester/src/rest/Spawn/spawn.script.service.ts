@@ -21,10 +21,11 @@ export class SpawnScriptService {
     async insertSpawnScript(idto: InsertSpawnDto) {
 
         const enemy_ids = idto.waves.map(w => w.enemy_id);
-        const enemies = await this.dataSource.getRepository(Enemy).find({
-            select: { id: true },
-            where: { id: In(enemy_ids) }
-        });
+        const enemies = await this.dataSource.getRepository(Enemy)
+            .find({
+                select: { id: true },
+                where: { id: In(enemy_ids) }
+            });
         this.errorHelper.foundArrayError(enemies, 'enemy_ids');
 
         // 
@@ -71,10 +72,11 @@ export class SpawnScriptService {
     async updateSpawnScript(spawn_id: number, udto: UpdateSpawnDto) {
 
         const enemy_ids = udto.waves.map(w => w.enemy_id);
-        const enemies = await this.dataSource.getRepository(Enemy).find({
-            select: { id: true },
-            where: { id: In(enemy_ids) }
-        });
+        const enemies = await this.dataSource.getRepository(Enemy)
+            .find({
+                select: { id: true },
+                where: { id: In(enemy_ids) }
+            });
         this.errorHelper.foundArrayError(enemies, 'enemy_ids');
 
         // 
@@ -179,7 +181,9 @@ export class SpawnScriptService {
 
     // 
     async getAllSpawnScripts() {
-        const spawns = await this.dataSource.getRepository(SpawnScript).find();
+        const spawns = await this.dataSource.getRepository(SpawnScript)
+            .find();
+
         return {
             spawn_scripts: (!spawns) ? [] : spawns.map(s => ({
                 id: s.id,

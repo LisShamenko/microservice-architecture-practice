@@ -93,20 +93,21 @@ export class EnemyService {
     // 
     async updateEnemy(enemy_id: number, udto: UpdateEnemyDto) {
 
-        const enemy = await this.dataSource.getRepository(Enemy).findOne({
-            where: {
-                id: enemy_id,
-            },
-            relations: {
-                playerProperty: true,
-                inventory: {
-                    products: {
-                        product: true,
-                    }
+        const enemy = await this.dataSource.getRepository(Enemy)
+            .findOne({
+                where: {
+                    id: enemy_id,
                 },
-                skills: true,
-            },
-        });
+                relations: {
+                    playerProperty: true,
+                    inventory: {
+                        products: {
+                            product: true,
+                        }
+                    },
+                    skills: true,
+                },
+            });
         this.errorHelper.foundError(enemy, 'enemy_id');
 
         // 
@@ -124,6 +125,7 @@ export class EnemyService {
 
             const tmp = await this.templateHelper.getEnemyTemplate(
                 udto.reset_template_id);
+            this.errorHelper.foundError(tmp, 'reset_template_id');
 
             this.propertyHelper.setProperties(tmp.properties, udto.delta_properties);
             assign(enemy.playerProperty, tmp.properties);
@@ -151,7 +153,7 @@ export class EnemyService {
             //
             addProducts = tmpProducts.filter(p => p.count_in_all_slots > 0);
             removeProducts = tmpProducts.filter(p => (
-                p.id && p.count_in_all_slots <= 0
+                (p.id >= 0) && p.count_in_all_slots <= 0
             ));
             addSkills = tmpSkills;
         }
@@ -219,21 +221,22 @@ export class EnemyService {
 
     // 
     async getOneEnemy(enemy_id: number) {
-        const enemy = await this.dataSource.getRepository(Enemy).findOne({
-            where: {
-                id: enemy_id,
-            },
-            relations: {
-                inventory: {
-                    products: {
-                        product: true,
-                    },
+        const enemy = await this.dataSource.getRepository(Enemy)
+            .findOne({
+                where: {
+                    id: enemy_id,
                 },
-                playerProperty: true,
-                levelTemplate: true,
-                skills: true,
-            },
-        });
+                relations: {
+                    inventory: {
+                        products: {
+                            product: true,
+                        },
+                    },
+                    playerProperty: true,
+                    levelTemplate: true,
+                    skills: true,
+                },
+            });
         this.errorHelper.foundError(enemy, 'enemy_id');
 
         return {
@@ -260,7 +263,9 @@ export class EnemyService {
 
     // 
     async getAllEnemies() {
-        const enemies = await this.dataSource.getRepository(Enemy).find();
+        const enemies = await this.dataSource.getRepository(Enemy)
+            .find();
+
         return {
             enemies: (!enemies) ? [] : enemies.map(enemy => ({
                 id: enemy.id,

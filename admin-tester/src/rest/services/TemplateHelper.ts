@@ -10,7 +10,6 @@ import { PlayerSkill } from "../../modules/Postgres/entity/PlayerSkill";
 import { EnemySkill } from "../../modules/Postgres/entity/EnemySkill";
 import { ErrorHelper } from "./ErrorHelper";
 
-
 // 
 interface ISkillId {
     skill_id: number;
