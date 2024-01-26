@@ -3,7 +3,7 @@ import { createDatabase, dropDatabase } from 'typeorm-extension';
 import { DataSource } from 'typeorm';
 import * as dotenv from 'dotenv';
 // 
-import entities from '../../src/modules/Postgres/entity/entities';
+import { dbEntities } from '../../src/modules/Postgres/entity/entities';
 
 // 
 const processEnv: any = {};
@@ -24,7 +24,7 @@ export class DBTestMigration {
             username: processEnv.PG_USERNAME,
             password: processEnv.PG_PASSWORD,
             database: processEnv.PG_DATABASE,
-            entities: entities,
+            entities: dbEntities,
             // migrations: migrations,
         } as PostgresConnectionOptions;
     }

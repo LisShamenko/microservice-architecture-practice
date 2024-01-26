@@ -6,7 +6,7 @@ import { AppModule } from '../../src/modules/App/app.module';
 import { PostgresModule } from '../../src/modules/Postgres/postgres.module';
 import { LoggerModule } from '../../src/modules/Logger/logger.module';
 import { PostgresService } from '../../src/modules/Postgres/postgres.service';
-import entities from '../../src/modules/Postgres/entity/entities';
+import { dbEntities } from '../../src/modules/Postgres/entity/entities';
 
 /**
  *      "globalSetup": "./db/setup.app.ts",
@@ -14,7 +14,7 @@ import entities from '../../src/modules/Postgres/entity/entities';
 export default async () => {
 
     const importPostgresModule = await PostgresModule.forRootAsync({
-        entities: entities,
+        entities: dbEntities,
     });
     const importLogger = LoggerModule.forRoot();
 

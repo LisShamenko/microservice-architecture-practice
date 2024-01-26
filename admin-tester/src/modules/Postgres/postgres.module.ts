@@ -5,7 +5,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 //
-import entities from './entity/entities';
 import { PostgresService } from './postgres.service';
 
 //
@@ -28,7 +27,7 @@ export class PostgresModule {
     ): Promise<DynamicModule> {
 
         //
-        const importModels = TypeOrmModule.forFeature(entities, 'postgres_db');
+        const importModels = TypeOrmModule.forFeature(options.entities, 'postgres_db');
 
         //
         const importRoot = await TypeOrmModule.forRootAsync({

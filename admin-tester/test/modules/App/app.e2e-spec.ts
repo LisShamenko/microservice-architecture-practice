@@ -8,7 +8,7 @@ import { AppModule } from '../../../src/modules/App/app.module';
 import { PostgresModule } from '../../../src/modules/Postgres/postgres.module';
 import { MongoModule } from '../../../src/modules/Mongo/mongo.module';
 import { RestModule } from '../../../src/rest/rest.module';
-import entities from '../../../src/modules/Postgres/entity/entities';
+import { dbEntities } from '../../../src/modules/Postgres/entity/entities';
 
 // 
 describe('AppController (e2e)', () => {
@@ -17,7 +17,7 @@ describe('AppController (e2e)', () => {
     beforeEach(async () => {
 
         const importPostgresModule = await PostgresModule.forRootAsync({
-            entities: entities,
+            entities: dbEntities,
         });
         const importMongoModule = await MongoModule.forRootAsync({});
         const importRestModule = await RestModule.forRootAsync();

@@ -11,7 +11,7 @@ import { PostgresModule } from '../../src/modules/Postgres/postgres.module';
 import { RestModule } from '../../src/rest/rest.module';
 import { DBTestNative } from '../db/DBTestNative';
 import '../extends/ExtendedExpects';
-import entities from '../../src/modules/Postgres/entity/entities';
+import { dbEntities } from '../../src/modules/Postgres/entity/entities';
 import { InventoryProduct } from '../../src/modules/Postgres/entity/InventoryProduct';
 import { LevelEffect } from '../../src/modules/Postgres/entity/LevelEffect';
 import { PlayerProperty } from '../../src/modules/Postgres/entity/PlayerProperty';
@@ -28,11 +28,11 @@ export class TestsPipeline {
     async beforeAll() {
         this.dbTest = new DBTestNative();
         this.dataSource = await this.dbTest.createDataSource({
-            entities: entities,
+            entities: dbEntities,
         });
 
         const importPostgresModule = await PostgresModule.forRootAsync({
-            entities: entities,
+            entities: dbEntities,
         });
         const importRestModule = await RestModule.forRootAsync();
 

@@ -1,7 +1,7 @@
 import { DataSource } from 'typeorm';
 import * as dotenv from 'dotenv';
 // 
-import entities from '../../src/modules/Postgres/entity/entities';
+import { dbEntities } from '../../src/modules/Postgres/entity/entities';
 import { M11704800021885 } from '../../migrations/1704800021885-m1';
 
 // 
@@ -24,7 +24,7 @@ export default new DataSource({
     username: processEnv.PG_USERNAME,
     password: processEnv.PG_PASSWORD,
     database: processEnv.PG_DATABASE,
-    entities: entities,
+    entities: dbEntities,
     migrations: [M11704800021885],
     subscribers: [],
 });

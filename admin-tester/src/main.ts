@@ -11,7 +11,8 @@ import { MongoModule } from './modules/Mongo/mongo.module';
 import { PostgresModule } from './modules/Postgres/postgres.module';
 import { LoggerModule } from './modules/Logger/logger.module';
 import { RestModule } from './rest/rest.module';
-import entities from './modules/Postgres/entity/entities';
+import { allEntities } from './modules/Postgres/entity/entities';
+import { UploadModule } from './modules/Upload/upload.module';
 
 //
 dotenv.config({ path: 'configs/keycloak.env' });
@@ -20,7 +21,7 @@ dotenv.config({ path: 'configs/keycloak.env' });
 async function bootstrap() {
 
     const importPostgresModule = await PostgresModule.forRootAsync({
-        entities: entities,
+        entities: allEntities,
     });
     const importMongoModule = await MongoModule.forRootAsync({});
     const importAdminJSModule = await AdminJSModule.forRootAsync({});
@@ -32,6 +33,7 @@ async function bootstrap() {
     });
     const importRestModule = await RestModule.forRootAsync();
     const importLogger = LoggerModule.forRoot();
+    const importUpload = UploadModule.forRoot();
 
     const appModule = await AppModule.forRootAsync({
         imports: [
@@ -41,6 +43,7 @@ async function bootstrap() {
             importKeycloakModule,
             importRestModule,
             importLogger,
+            importUpload,
         ]
     });
 

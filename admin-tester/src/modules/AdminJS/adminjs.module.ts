@@ -7,7 +7,8 @@ import AdminJS, { AdminJSOptions } from 'adminjs';
 import * as AdminJSTypeorm from '@adminjs/typeorm';
 import * as AdminJSMongoose from '@adminjs/mongoose';
 // 
-import entities from '../Postgres/entity/entities';
+import { getAdminJSOptions } from './getAdminJSOptions';
+import { getAuth } from './getAuth';
 
 //
 export interface AdminOptions { }
@@ -23,6 +24,7 @@ export class AdminJSModule {
 
     //
     static async forRootAsync(options: AdminOptions): Promise<DynamicModule> {
+
         AdminJS.registerAdapter({
             Resource: AdminJSTypeorm.Resource,
             Database: AdminJSTypeorm.Database,
@@ -33,25 +35,6 @@ export class AdminJSModule {
             Database: AdminJSMongoose.Database,
         });
 
-        //
-        const getAuth = (configService: ConfigService) => ({
-            authenticate: async (email: string, password: string) => {
-                const aEmail = configService.get('AJS_EMAIL');
-                const aPassword = configService.get('AJS_PASSWORD');
-                if (email === aEmail && password === aPassword) {
-                    return Promise.resolve({
-                        email: aEmail,
-                        password: aPassword,
-                        title: 'ADMIN',
-                    });
-                }
-                return null;
-            },
-            cookieName: 'adminjs', // process.env.AJS_COOKIE_NAME
-            cookiePassword: 'secret', // process.env.AJS_COOKIE_PASSWORD
-        });
-
-        //
         const adminModule = AdminModule.createAdminAsync({
             imports: [
                 ConfigModule.forRoot({
@@ -60,10 +43,7 @@ export class AdminJSModule {
                 }),
             ],
             useFactory: (configService: ConfigService): AdminModuleOptions => ({
-                adminJsOptions: {
-                    rootPath: '/admin',
-                    resources: [...entities],
-                },
+                adminJsOptions: getAdminJSOptions(),
                 auth: getAuth(configService),
                 // sessionOptions: {
                 //     resave: true,

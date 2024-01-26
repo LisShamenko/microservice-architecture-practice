@@ -91,6 +91,14 @@
     npm i @types/lodash
     npm i typeorm-extension
     npm install ts-node --save-dev
+    npm i react-router
+    npm i styled-components
+    npm install --save @types/styled-components
+    npm i react-dom
+    npm i react-router-dom
+    npm install --save @nestjs/serve-static
+    npm install multer @types/multer
+    npm install mime-types @types/mime-types
     ```
 
 - Запуск.
@@ -277,3 +285,17 @@
 - `Admin / Tester`
 
     - Модульные тесты.
+
+### Task 13
+
+- `Admin / Tester`
+
+    - Компоненты редактирования ресурсов. 
+    - Ресурсы для тестирования.
+        ```
+        public
+            photos
+                logo-small.jpg
+            videos
+                tom.mp4
+        ```

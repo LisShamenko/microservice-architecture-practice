@@ -24,6 +24,7 @@
       "DOM",
       "DOM.Iterable"
     ],
+    "esModuleInterop": true,
   },
   "include": [
     "src/**/*"

@@ -24,14 +24,32 @@ import { Requirement } from './Requirement';
 import { Skill } from './Skill';
 import { SpawnScript } from './SpawnScript';
 import { SpawnScriptEnemy } from './SpawnScriptEnemy';
+import { TestModel } from './TestModel';
+import { User } from './User';
+import { UserFile } from './UserFile';
 import { WeaponShell } from './WeaponShell';
 
-// 
-export default [
+/**
+ * Models without additional settings in AdminJS.
+ */
+export const dbEntities = [
     PlayerProperty, Requirement, Skill, Inventory, LevelTemplate,
     LevelTemplateSkill, Player, Enemy, LevelEffect, PlayerSkill,
     Product, ProductSkill, ProductWeapon, ProductCloth, ProductShell,
     WeaponShell, InventoryProduct, Map, ActivityPoint, MapPoint,
     SpawnScript, SpawnScriptEnemy, Game, GamePlayer, ActivitySpawn,
-    ActivityTeleport, EnemySkill,
+    ActivityTeleport, EnemySkill, User, UserFile,
 ];
+
+/**
+ * Models with additional settings in adminJS.
+ */
+export const admin = {
+    TestModel,
+    entities: [TestModel],
+};
+
+/**
+ * All models.
+ */
+export const allEntities = [...dbEntities, ...admin.entities];
