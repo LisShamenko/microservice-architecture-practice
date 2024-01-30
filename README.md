@@ -99,6 +99,7 @@
     npm install --save @nestjs/serve-static
     npm install multer @types/multer
     npm install mime-types @types/mime-types
+    npm i axios
     ```
 
 - Запуск.
@@ -141,6 +142,23 @@
         KEY_CLIENT_ID=nest-app
         KEY_SECRET=4rf4Xn0ZWAdr4vyIlmcv4W1b17Ew5n88
         ```
+
+## `client-redux`
+
+- Установка.
+
+    ```
+    npx create-react-app client-redux --template cra-template-redux-typescript
+    npm i @redux-devtools/extension
+    npm i axios
+    npm i @tanstack/react-query
+    npm i notistack
+    npm i @mui/material
+    npm i react-router-dom
+    npm i @emotion/react
+    npm i @emotion/styled
+    npm i node-sass
+    ```
 
 ## Run
 
@@ -299,3 +317,8 @@
             videos
                 tom.mp4
         ```
+
+### Task 14 
+
+- Добавить проект клиента `client-redux`.
+    
