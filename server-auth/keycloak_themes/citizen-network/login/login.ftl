@@ -1,0 +1,3 @@
+{
+    "loginAction": "${url.loginAction}"
+}

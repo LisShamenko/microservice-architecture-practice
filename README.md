@@ -160,6 +160,21 @@
     npm i node-sass
     ```
 
+## `server-auth`
+
+- Установка.
+
+    ```
+    nest new server-auth
+    npm i --save @nestjs/config
+    npm install nest-keycloak-connect keycloak-connect --save
+    npm install --save nest-winston winston
+    npm i @nestjs/axios
+    npm install --save @nestjs/serve-static
+    npm i moment
+    npm i winston-daily-rotate-file
+    ```
+
 ## Run
 
 - Запуск проектов `NestJS`.
@@ -321,4 +336,7 @@
 ### Task 14 
 
 - Добавить проект клиента `client-redux`.
-    
+
+### Task 15
+
+- Добавить проект сервера аутентификации `server-auth`.
