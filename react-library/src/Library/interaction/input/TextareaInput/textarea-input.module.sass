@@ -1,0 +1,79 @@
+@import './../../../_colors'
+
+/* textarea-input */
+
+.textarea-input
+    display: block
+    position: relative
+    min-width: 0
+
+.text-label
+    display: inline-block
+    padding-right: 0.5rem
+    padding-top: 0.25rem
+    margin-bottom: 0.125rem
+
+    overflow-wrap: break-word
+    word-wrap: break-word
+    hyphens: auto
+
+    color: $ext-gray-11
+    font-size: .75rem
+
+    &.no-flex
+        flex: none
+
+.text-container
+    clear: left
+    position: relative
+
+    &.grow
+        flex-grow: 1
+
+/* textarea */
+
+.text-input
+    width: 100%
+    margin: 0
+    padding: .5rem .75rem .5rem .75rem
+
+    border: 1px solid $ext-gray-5
+    border-radius: .25rem
+    background-color: $ext-gray-1
+    box-shadow: none
+    transition: border .1s linear, background-color .1s linear
+
+    overflow: auto
+    resize: vertical
+
+    &:active, &:focus
+        outline: 0
+        border-color: $blue-vibrant-60
+        box-shadow: 0 0 3px $blue-vibrant-50
+
+    &:disabled
+        background-color: $ext-gray-4
+        border-color: $ext-gray-6
+        cursor: not-allowed
+        user-select: none
+        box-shadow: none
+
+/* flags */
+
+.text-input[disabled]
+    border-color: $ext-gray-6
+    background-color: $ext-gray-4
+    color: $ext-gray-11
+    cursor: not-allowed
+    user-select: none
+
+    &:active,&:focus
+        box-shadow: none
+
+.text-input[readonly]
+    padding-left: 0.25rem
+    border-color: transparent
+    background-color: transparent
+    font-size: .875rem
+    font-weight: 400
+    cursor: not-allowed

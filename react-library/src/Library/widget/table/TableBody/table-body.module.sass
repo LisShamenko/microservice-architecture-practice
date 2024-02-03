@@ -1,0 +1,46 @@
+@import './../../../_colors'
+
+/* table-body */
+
+.body-row
+    line-height: 1
+
+    &:hover
+        outline: 0
+    &:hover, &:focus
+        box-shadow: $ext-gray-5 0 -1px 0 inset, $ext-gray-5 0 1px 0 inset
+        background-color: $ext-gray-3
+
+/* cells */
+
+.cell
+    padding: 0.15rem 0.3rem
+    border-top: 1px solid $ext-gray-5
+
+    color: $ext-gray-10
+    font-size: 0.8125rem
+    font-weight: 400
+    line-height: normal
+    text-align: left
+    white-space: nowrap
+
+.tbody-td
+    position: relative
+
+    &:hover, &:focus
+        box-shadow: $blue-vibrant-50 0 0 0 1px inset
+
+    &:after
+        content: ''
+        position: absolute
+        top: 0.2rem
+        bottom: 0.2rem
+        right: -1px
+        border-right: 1px solid $ext-gray-5
+
+.content-cell
+    display: flex
+    justify-content: center
+    align-items: center
+    min-height: 1.5rem
+    padding: 0 3px 0 3px

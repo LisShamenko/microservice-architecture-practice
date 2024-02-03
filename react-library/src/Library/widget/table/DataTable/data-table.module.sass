@@ -1,0 +1,45 @@
+@import './../../../_colors'
+
+/* data-table */
+
+.data-table
+    position: relative
+    display: flex
+    justify-content: center
+    flex-direction: column
+    min-width: 0
+
+/* fixed-row */
+
+.fixed-row
+    --fixed-height: 2rem
+    position: relative
+    width: min-content
+    padding-top: var(--fixed-height)
+    background-color: $ext-gray-2
+
+    &:before
+        content: ""
+        display: block
+        position: relative
+        width: 100%
+        border-bottom: 1px solid $ext-gray-5
+
+.row
+    max-height: 100%
+    overflow: hidden
+    overflow-y: auto
+
+/* table */
+
+.table
+    width: 100%
+    height: auto
+
+    table-layout: fixed
+    border-collapse: separate
+    border-spacing: 1px 0
+    border-top: 0 // border-top: 1px solid $ext-gray-5
+    border-bottom: 1px solid $ext-gray-5
+
+    background-color: $ext-gray-1

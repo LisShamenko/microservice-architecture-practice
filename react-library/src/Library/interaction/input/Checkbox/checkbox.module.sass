@@ -1,0 +1,142 @@
+@import './../../../_colors'
+
+/* checkbox */
+
+.checkbox
+    display: block
+    position: relative
+    min-width: 0
+
+.form-element
+    clear: left
+    position: relative
+
+.input-container
+    display: block
+    position: relative
+    cursor: pointer
+    &.container-disabled
+        cursor: default
+
+/* label-item */
+
+.label-item
+    display: inline
+    padding-right: 0.5rem
+    padding-top: 0.25rem
+    margin-bottom: 0.125rem
+
+    color: $ext-gray-11
+    font-size: .8125rem
+
+    vertical-align: middle
+    overflow-wrap: break-word
+    word-wrap: break-word
+    hyphens: auto
+
+/* input-item */
+
+.input-item
+    position: absolute
+    width: 1px
+    height: 1px
+    margin: -1px
+    padding: 0
+    border: 0
+    clip: rect(0 0 0 0)
+    overflow: hidden
+    line-height: normal
+    box-sizing: border-box
+    color: inherit
+    font: inherit
+
+    pointer-events: auto
+
+/* ckeck-group */
+
+.ckeck-group
+    // margin-left: 0.75rem
+
+    .flag-icon
+        --icon-color-foreground: #{$blue-vibrant-50}
+        &.flag-icon-disabled
+            --icon-color-foreground: #{$ext-gray-8}
+        &.flag-icon-hide
+            --icon-color-foreground: transparent
+
+    .radio-flag-icon
+        margin-top: -0.95em
+        margin-left: -0.05rem
+        width: 1.3rem
+        height: 1.3rem
+
+/* ckeck-flag */
+
+.ckeck-flag
+    display: inline-block
+    position: relative
+    width: 1rem
+    height: 1rem
+    // margin-right: 0.5rem
+
+    border: 1px solid $ext-gray-5
+    border-radius: .125rem
+    background-color: $ext-gray-1
+    box-shadow: none
+    transition: border .1s linear, background-color .1s linear
+
+    vertical-align: middle
+
+    &.flag-checked
+        border-color: $ext-gray-5
+        background-color: $ext-gray-1
+
+    &.flag-disabled
+        background-color: $ext-gray-4
+        border-color: $ext-gray-6
+        pointer-events: none
+
+/* radio-flag */
+
+.radio-flag
+    display: inline-block
+    position: relative
+    width: 1rem
+    height: 1rem
+    // margin-right: 0.5rem
+
+    border: 1px solid #dddbda
+    border-radius: 50%
+    background: 0 0
+    background-color: #fff
+    transition: border .1s linear, background-color .1s linear
+
+    box-shadow: none
+    vertical-align: middle
+
+    &.flag-checked
+        border-color: $ext-gray-5
+        background-color: $ext-gray-1
+
+    &.flag-disabled
+        background-color: $ext-gray-4
+        border-color: $ext-gray-6
+        pointer-events: none
+
+/* margin  */
+
+.margin-right-cancel
+    margin-right: 0.5rem
+
+.margin-left-cancel
+    margin-left: 0.75rem
+
+/* validation */
+
+.abbr-required
+    margin: 0 0.125rem
+    border: 0
+    //      border-bottom: 1px dotted
+    color: $red-vibrant-50
+    text-decoration: none
+    cursor: help

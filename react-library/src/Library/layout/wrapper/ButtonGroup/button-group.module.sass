@@ -1,0 +1,36 @@
+@import './../../../_colors'
+
+/* button-group */
+
+.button-group
+    display: inline-flex
+
+.group-item-first
+    z-index: 1
+    border-width: 1px
+    border-radius: 0.25rem 0 0 0.25rem
+    border-color: $ext-gray-5
+
+.group-item-between
+    z-index: 1
+    border-width: 1px
+    border-radius: 0
+    border-color: $ext-gray-5
+    margin-left: -1px
+
+.group-item-last
+    z-index: 1
+    border-width: 1px
+    border-radius: 0 0.25rem 0.25rem 0
+    border-color: $ext-gray-5
+    margin-left: -1px
+
+.group-item-first:active, .group-item-first:focus,
+.group-item-between:active, .group-item-between:focus,
+.group-item-last:active, .group-item-last:focus,
+    z-index: 2
+
+.group-item-first:disabled,
+.group-item-between:disabled,
+.group-item-last:disabled,
+    z-index: 0

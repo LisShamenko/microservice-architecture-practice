@@ -1,0 +1,50 @@
+@import './../../../_colors'
+
+/* clock-face */
+
+.clock-face
+    display: block
+    position: relative
+    min-width: 0
+    width: 12rem
+    margin: 0.25rem
+
+.button-item
+    cursor: pointer
+    stroke-width: 1
+
+    &.button-active
+        fill: $blue-vibrant-50
+        stroke: $blue-vibrant-50
+        &:hover
+            stroke: $orange-vibrant-70
+            stroke-width: 3
+    &.button-inactive
+        fill: transparent
+        stroke: transparent
+        // &:hover
+        //     stroke: $blue-vibrant-50
+        //     stroke-width: 3
+
+.text-item
+    cursor: pointer
+    font-weight: normal
+    font-size: 1.75rem
+    user-select: none
+
+    &.text-active
+        fill: $ext-gray-1
+        &:hover
+            fill: $orange-vibrant-70
+            font-size: 1.75rem
+    &.text-inactive
+        fill: $ext-gray-11
+        &:hover
+            fill: $blue-vibrant-50
+            font-weight: bold
+            font-size: 2.5rem
+
+.arrow-active
+    stroke: $blue-vibrant-50
+.arrow-inactive
+    stroke: $ext-gray-5

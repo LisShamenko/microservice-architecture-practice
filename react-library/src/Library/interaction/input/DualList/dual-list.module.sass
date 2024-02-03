@@ -1,0 +1,118 @@
+@import './../../../_colors'
+
+/* dual-list */
+
+.dual-list
+    display: block
+    position: relative
+    min-width: 0
+
+.main-label
+    display: flex
+    justify-content: center
+    align-items: center
+    width: 100%
+    padding: 0
+    margin: 0.5rem 0
+    font-size: 1rem
+
+.dual-list-container
+    clear: left
+    position: relative
+    display: flex
+    justify-content: center
+
+/* list-buttons */
+
+.list-buttons
+    display: inline-flex
+    flex-direction: column
+    justify-content: space-around
+    margin-top: 1.25rem
+    padding: 1rem 0 1rem 0
+
+.button-item
+    margin: 0 0.25rem
+    &:nth-child(4)
+        margin-top: 2rem
+
+/* list-box */
+
+.list-options
+    display: inline-flex
+    flex-direction: column
+    flex: 0 1 15rem
+    flex-wrap: wrap
+    overflow: hidden
+    min-width: 6rem
+
+.label
+    display: flex
+    justify-content: center
+    height: 1rem
+    margin: 0.25rem 0 0 0
+
+    color: $ext-gray-11
+    font-size: .75rem
+
+    word-wrap: break-word
+    hyphens: auto
+
+.list-container
+    max-width: 100%
+    width: auto
+    height: 15rem
+    padding: 0.25rem 0
+
+    border: 1px solid $ext-gray-5
+    border-radius: 0.25rem
+
+    background-color: $ext-gray-1
+    overflow: auto
+
+/* list */
+
+.list
+    list-style: none
+    margin: 0
+    padding: 0
+
+.item
+    display: flex
+    align-items: flex-start
+    justify-content: center
+    padding: 0.5rem 0.75rem
+
+    &:hover, &:focus
+        cursor: pointer
+        background-color: $ext-gray-3
+        text-decoration: none
+
+    // &.from-left
+    //     justify-content: flex-end
+    //     padding-right: 2.5rem
+    // &.from-right
+    //     justify-content: flex-start
+    //     padding-left: 2.5rem
+
+.is-selected
+    background-color: $blue-vibrant-50
+    color: $ext-gray-1
+
+    &:hover, &:focus
+        background: $blue-vibrant-40
+        color: $ext-gray-1
+
+.item-text
+    flex: 0 1 auto
+    margin-bottom: 0
+    min-width: 0
+
+    span
+        display: inline-block
+        margin-bottom: 0
+        max-width: 100%
+        vertical-align: middle
+        overflow: hidden
+        text-overflow: ellipsis
+        white-space: nowrap

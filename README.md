@@ -175,6 +175,16 @@
     npm i winston-daily-rotate-file
     ```
 
+## `react-library`
+
+- Установка.
+
+    ```
+    npx create-react-app react-library --template typescript
+    npm i node-sass
+    npm i react-router-dom
+    ```
+
 ## Run
 
 - Запуск проектов `NestJS`.
@@ -340,3 +350,7 @@
 ### Task 15
 
 - Добавить проект сервера аутентификации `server-auth`.
+
+### Task 16
+
+- Добавить проект библиотеки компонентов.

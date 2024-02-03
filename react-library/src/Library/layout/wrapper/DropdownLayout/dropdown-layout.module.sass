@@ -1,0 +1,83 @@
+@import './../../../_colors'
+
+/* dropdown-layout */
+
+.dropdown-layout
+    position: relative
+    display: inline-block
+
+    .dropdown
+        display: none
+        visibility: hidden
+        opacity: 0
+        transition: opacity .1s linear, visibility .1s linear
+    &.is-open .dropdown
+        display: block
+        visibility: visible
+        opacity: 1
+
+    &.is-block
+        position: relative
+        display: block
+
+/* dropdown */
+
+.dropdown
+    .padding-list
+        padding: 0.25rem 0
+    .padding-panel
+        padding: 0.25rem
+
+.dropdown
+    position: absolute
+    left: 50%
+    z-index: 7000
+    float: left
+
+    width: auto
+    height: auto
+    margin: 0
+
+    border: 1px solid $ext-gray-5
+    border-radius: 0.25rem
+
+    color: $ext-gray-13
+    font-size: .75rem
+    background: $ext-gray-1
+    box-shadow: 0 2px 3px 0 $ext-gray-alpha-1
+    transform: translateX(-50%)
+    --offset-menu: calc(100% + 3px)
+
+    &.top-left
+        bottom: var(--offset-menu)
+        left: auto
+        right: 0
+        transform: translateX(0)
+    &.top-center
+        bottom: var(--offset-menu)
+    &.top-right
+        bottom: var(--offset-menu)
+        left: 0
+        right: auto
+        transform: translateX(0)
+    &.bottom-left
+        top: var(--offset-menu)
+        left: auto
+        right: 0
+        transform: translateX(0)
+    &.bottom-center
+        top: var(--offset-menu)
+    &.bottom-right
+        top: var(--offset-menu)
+        left: 0
+        right: auto
+        transform: translateX(0)
+
+    &.is-stretch
+        width: 100%
+
+.dropdown-list
+    margin: 0
+    overflow-y: auto
+    display: flex
+    flex-direction: column

@@ -1,0 +1,64 @@
+@import './../../../_colors'
+
+/* accordion-layout */
+
+.accordion-layout
+    position: relative
+    margin: 0
+    padding: 0
+
+/* accordion-item */
+
+.accordion-item
+    border-top: 1px solid $ext-gray-5
+
+    &:first-child
+        border-top: 0
+
+    section
+        padding: .75rem
+
+.header-row
+    display: flex
+    margin: calc(.75rem * -1)
+    padding: .75rem
+    background-color: transparent
+
+    &.slds-is-open
+        margin-bottom: 0
+
+    .left-side
+        display: flex
+        flex-grow: 1
+        min-width: 0
+        margin: 0
+        padding: 0
+
+        color: $ext-gray-13
+        font-size: 1rem
+        line-height: 1.25
+
+    .right-side
+        position: relative
+        display: inline-block
+
+        overflow: hidden
+        visibility: hidden
+        opacity: 0
+
+        &.is-show-menu
+            overflow: visible
+            visibility: visible
+            opacity: 1
+
+.item-content
+    overflow: hidden
+    visibility: hidden
+    opacity: 0
+    height: 0
+
+    &.is-open
+        overflow: visible
+        visibility: visible
+        opacity: 1
+        height: auto

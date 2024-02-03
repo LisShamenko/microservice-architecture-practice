@@ -1,0 +1,148 @@
+
+//                        | repeat(3, 1fr)
+//      ┌────────┬────────┼────────┬────────┐
+//      │01 02 03|04 05 06|07 08 09|10 11 12|
+//      ↓        ↓        ↓        ↓        ↓
+//      start  first    second   third    end
+//      ┆        ┆        ┆        ┆        ┆
+//      1        4        7       10       13
+//      ┆        ┆        ┆        ┆        ┆
+//      ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼┄ 1 ─ header ──┐
+//      │ header ░░░░░░░░░░░░░░░░░░░░░░░░░░░|            01 ├─ auto
+//      ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼┄ 2 ─ content ─┤
+//      │ side ░░│ content ░░░░░░░░░░░░░░░░░|            02 ├─ repeat(4, 1fr)
+//      ├ ┄ ┄ ┄ ┄┼ ┄ ┄ ┄ ┄ ┄ ┄ ┄ ┄ ┄ ┄ ┄ ┄ ┄┼┄ 3            |
+//      │░░░░░░░░│░░░░░░░░░░░░░░░░░░░░░░░░░░|            03 |
+//      ├ ┄ ┄ ┄ ┄┼ ┄ ┄ ┄ ┄ ┄ ┄ ┄ ┄ ┄ ┄ ┄ ┄ ┄┼┄ 4            |
+//      │░░░░░░░░│░░░░░░░░░░░░░░░░░░░░░░░░░░|            04 |
+//      ├ ┄ ┄ ┄ ┄┼ ┄ ┄ ┄ ┄ ┄ ┄ ┄ ┄ ┄ ┄ ┄ ┄ ┄┼┄ 5            |
+//      │░░░░░░░░│░░░░░░░░░░░░░░░░░░░░░░░░░░|            05 |
+//      ├──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼──┼┄ 6 ─ footer ──┤
+//      │ footer ░░░░░░░░░░░░░░░░░░░░░░░░░░░|            06 ├─ auto
+//      └──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴──┴┄ 7 ─ end ─────┘
+
+/* grid-layout */
+
+.grid-layout
+    display: grid
+    grid-template-columns: [start] repeat(3, 1fr) [first] repeat(3, 1fr) [second] repeat(3, 1fr) [third] repeat(3, 1fr) [end]
+    grid-template-rows: [header] auto [content] repeat(4, 1fr) [footer] auto [end]
+
+/* column-range */
+
+@for $i from 1 through 12
+    @for $j from $i+1 through 13
+        .column-range-#{$i}-#{$j}
+            grid-column: #{$i} / #{$j}
+
+/* row-range */
+
+@for $i from 1 through 6
+    @for $j from $i+1 through 7
+        .row-range-#{$i}-#{$j}
+            grid-row: #{$i} / #{$j}
+
+/* grid height */
+
+.grid-height-page
+    height: 100vh
+
+/* cells gap */
+
+.grid-space
+    &-none
+        gap: 0rem 0rem
+    &-xxx-small
+        gap: 0.125rem 0.125rem
+    &-xx-small
+        gap: 0.25rem 0.25rem
+    &-x-small
+        gap: 0.5rem 0.5rem
+    &-small
+        gap: 0.75rem 0.75rem
+    &-medium
+        gap: 1rem 1rem
+    &-large
+        gap: 1.5rem 1.5rem
+    &-x-large
+        gap: 2rem 2rem
+    &-xx-large
+        gap: 3rem 3rem
+
+/* grid align */
+
+.grid-hor
+    &-start
+        justify-content: start
+    &-end
+        justify-content: end
+    &-center
+        justify-content: center
+    &-stretch
+        justify-content: stretch
+    &-space-around
+        justify-content: space-around
+    &-space-between
+        justify-content: space-between
+    &-space-evenly
+        justify-content: space-evenly
+
+.grid-ver
+    &-start
+        align-content: start
+    &-end
+        align-content: end
+    &-center
+        align-content: center
+    &-stretch
+        align-content: stretch
+    &-space-around
+        align-content: space-around
+    &-space-between
+        align-content: space-between
+    &-space-evenly
+        align-content: space-evenly
+
+/* all cell align */
+
+.all-cells-hor
+    &-start
+        justify-items: start
+    &-end
+        justify-items: end
+    &-center
+        justify-items: center
+    &-stretch
+        justify-items: stretch
+
+.all-cells-ver
+    &-start
+        align-items: start
+    &-end
+        align-items: end
+    &-center
+        align-items: center
+    &-stretch
+        align-items: stretch
+
+/* cell align */
+
+.cell-hor
+    &-start
+        justify-self: start
+    &-end
+        justify-self: end
+    &-center
+        justify-self: center
+    &-stretch
+        justify-self: stretch
+
+.cell-ver
+    &-start
+        align-self: start
+    &-end
+        align-self: end
+    &-center
+        align-self: center
+    &-stretch
+        align-self: stretch

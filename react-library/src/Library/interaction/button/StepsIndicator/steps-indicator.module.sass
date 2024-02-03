@@ -1,0 +1,25 @@
+@import './../../../_colors'
+
+/* steps-indicator */
+
+.steps-indicator
+    display: block
+    position: relative
+    min-width: 0
+
+.buttons-container
+    display: flex
+    justify-content: space-between
+    align-items: center
+
+.button-step
+    vertical-align: middle
+    border: none
+    border-radius: 2rem
+    cursor: pointer
+
+    &.gray
+        --n-background-color: #{$ext-gray-1}
+        --fh-background-color: #{$ext-gray-2}
+        --a-background-color: #{$ext-gray-3}
+        --d-background-color: #{$ext-gray-1}

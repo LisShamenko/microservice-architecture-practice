@@ -1,0 +1,227 @@
+@import './../../../_colors'
+
+/* slider */
+
+.slider
+    display: block
+    position: relative
+    min-width: 0
+
+.slider-container
+    clear: left
+    position: relative
+    display: flex
+
+.range
+    position: relative
+    display: block
+    width: 100%
+    //margin-right: 0.375rem
+
+    --range-hand-color: #{$blue-vibrant-50}
+    &:hover
+        --range-hand-color: #{$red-vibrant-60}
+
+.range-input
+    display: block
+    width: 100%
+    height: 0.5rem
+
+    margin: 0.5rem 0
+    padding: 0
+    border-radius: 0.25rem
+
+    background-color: $ext-gray-1
+    appearance: none
+
+.range-fill
+    display: block
+    position: absolute
+    left: 0
+    top: calc(50% - 0.25rem)
+    height: 0.5rem
+
+    border-radius: 0.25rem
+    background-color: $blue-vibrant-50
+    pointer-events: none
+
+.range-hand
+    position: absolute
+    top: -50%
+    width: 1rem
+    height: 1rem
+
+    border-radius: 50%
+    background-color: var(--range-hand-color)
+    color: transparent
+
+    &.hand-start
+        left: 0
+    &.hand-end
+        right: 0
+
+.value
+    display: flex
+    align-items: center
+    width: 2.5rem
+    padding: 0 0.5rem
+
+    &.left-value
+        padding: 0 //padding: 0 0.5rem 0 0
+        justify-content: flex-start
+    &.right-value
+        padding: 0 //padding: 0 0 0 0.5rem
+        justify-content: flex-end
+
+/* range */
+
+.is-value-scale
+
+    //  range
+    //      range-input
+    //      range-ticks
+    //          range-tick
+    //      range-fill
+    //          range-hand
+
+    .range
+        height: 2.5rem
+        border-radius: 1.5rem
+        overflow: hidden
+        //--range-hand-color: #008a3578
+
+    .range-input
+        //      display: block
+        //      width: 100%
+        height: 2.5rem
+        width: calc(100% - 1.5rem)
+        margin: 0 0.75rem
+
+        // border-radius: 1.5rem
+        // background-color: transparent
+        // box-shadow: 0.3rem 0.3rem 0.4rem #c1c2c5 inset, -0.3rem -0.3rem 0.4rem #ffffff inset
+
+        background: none
+        appearance: none
+        overflow: hidden
+
+        // color: #17181c
+        // font: 2rem/1.5 Muli, sans-serif
+
+    .range-background
+        position: absolute
+        top: 0
+        width: 100%
+        height: 100%
+
+        border-radius: 1.5rem
+        background-color: transparent
+        box-shadow: 0.3rem 0.3rem 0.4rem #c1c2c5 inset, -0.3rem -0.3rem 0.4rem #ffffff inset
+
+        pointer-events: none
+
+    .range-ticks
+        display: flex
+        justify-content: space-between
+        align-items: center
+
+        position: absolute
+        top: 0
+        left: 0 // 0.75rem
+        width: calc(100% - 1.5rem) // calc(100% - 2.4rem)
+        height: 100%
+        margin: 0 0.75rem
+
+        pointer-events: none
+
+    .range-tick
+        display: flex
+        width: auto // 0
+        color: black
+        //font-size: 0.5em
+        text-align: center
+        user-select: none
+    //.range-tick:nth-child(1n+1)
+    //    position: relative
+    //    left: 3px
+    //.range-tick:last-child
+    //    position: relative
+    //    left: 0px
+
+    .tick-text-xx-small
+        font-size: 0.55rem
+    .tick-text-x-small
+        font-size: 0.7rem
+    .tick-text-small
+        font-size: 0.85rem
+    .tick-text-medium
+        font-size: 1rem
+    .tick-text-large
+        font-size: 1.2rem
+    .tick-text-x-large
+        font-size: 1.4rem
+    .tick-text-xx-large
+        font-size: 1.6rem
+
+    .range-fill
+        background-color: transparent
+        left: 0.75rem
+
+    .range-hand
+        width: 2rem
+        height: 2rem
+        top: -0.75rem
+
+        display: flex
+        align-items: center
+        justify-content: center
+        color: $ext-gray-1
+
+        &.hand-start
+            left: -0.5rem
+        &.hand-end
+            right: -0.5rem
+
+    .value
+        width: 2.5rem
+        padding: 0 0.25rem
+
+/* tooltip-hand */
+
+.range
+    --tooltip-visible: 0
+    &:hover
+        --tooltip-visible: 1
+
+.tooltip-hand
+    opacity: var(--tooltip-visible)
+    transition: opacity 0.1s linear
+
+    position: absolute
+    // left: calc(50% - 1.25rem)
+
+    display: flex
+    justify-content: center
+    align-items: center
+    width: 2.5rem
+    height: 1.5rem
+    z-index: 1
+
+    border: 2px solid $blue-vibrant-30
+    border-radius: 2rem
+    background-color: $ext-gray-1
+    color: $blue-vibrant-50
+
+    &.hand-top
+        bottom: 20px
+    &.hand-bottom
+        top: 20px
+
+    &.hand-left
+        right: 0.3rem
+        left: auto
+    &.hand-center
+        left: calc(50% - 1.25rem)
+    &.hand-right
+        right: auto
+        left: 0.3rem

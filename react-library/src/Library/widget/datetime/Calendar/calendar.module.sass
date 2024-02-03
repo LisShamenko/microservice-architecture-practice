@@ -1,0 +1,96 @@
+@import './../../../_colors'
+
+/* calendar */
+
+.calendar
+    display: block
+    position: relative
+    min-width: 0
+    // width: 12rem
+
+.date-container
+    display: flex
+    flex-direction: column
+    align-items: center
+    background-color: $ext-gray-1
+
+    .month-title
+        font-size: 1.5em
+        color: $ext-gray-11
+    .day-title
+        font-size: 3em
+        color: $ext-gray-11
+        line-height: 0.9
+    .year-title
+        font-size: 1.5em
+        color: $ext-gray-11
+
+.divider
+    height: 3px
+    width: 100%
+    background-color: $blue-natural-60
+    margin-top: 0px
+    margin-bottom: 25px
+
+.date-grid
+    display: grid
+    width: max-content
+    height: auto
+
+    padding: 0 0.5rem
+    margin-bottom: 25px
+
+    grid-template-columns: repeat(7, 1fr)
+    grid-template-rows: repeat(6, auto)
+    grid-auto-flow: row
+    gap: 0.25rem
+
+    &.is-header
+        border-bottom: 1px dashed $ext-gray-7
+        margin-bottom: 0.25rem
+        grid-template-rows: auto
+
+    .grid-cell
+        display: flex
+        align-items: center
+        justify-content: center
+
+        width: 1.75rem
+        height: 1.75rem
+        border: none
+        border-radius: 0.2rem
+
+        //      font-weight: 700
+        //      font-size: 0.75rem
+        //      line-height: 1.5
+        text-wrap: nowrap
+        //      vertical-align: top
+        //      text-align: center
+        text-decoration: none
+        user-select: none
+
+        //
+        color: $ext-gray-11
+        background: transparent
+        cursor: default
+
+        &.is-select
+            color: $ext-gray-1
+            background: $blue-vibrant-50
+        &.is-primary
+            border: 1px solid $blue-vibrant-65
+            color: $blue-vibrant-20
+            background: transparent
+            font-size: 0.9rem
+            cursor: pointer
+        &.is-secondary
+            color: $ext-gray-7
+            background: transparent
+            font-size: 0.75rem
+
+        &.is-header-weekday
+            color: $ext-gray-12
+            font-size: 1rem
+        &.is-header-weekend
+            color: $red-vibrant-50
+            font-size: 1rem

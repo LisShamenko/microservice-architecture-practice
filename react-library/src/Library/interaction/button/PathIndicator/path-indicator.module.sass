@@ -1,0 +1,162 @@
+@import './../../../_colors'
+
+/* path-indicator */
+
+.path-indicator
+    display: block
+    position: relative
+    min-width: 0
+
+.buttons-container
+    display: flex
+    justify-content: space-between
+    align-items: center
+    //      overflow: hidden
+
+/* path-item */
+
+.path-item
+    position: relative
+    flex: 1
+    min-width: 5rem
+    margin-left: 0.375rem
+    margin-right: 0.4375rem
+    text-align: center
+
+    &:before
+        position: absolute
+        top: 0
+        right: -0.3125rem
+        left: -0.25rem
+        height: calc((2rem / 2) + 0.0625rem)
+
+        content: ""
+        cursor: pointer
+        transform: skew(28deg) translate3d(0,0,0)
+
+    &:after
+        position: absolute
+        right: -0.3125rem
+        bottom: 0
+        left: -0.25rem
+        height: 1rem
+
+        content: ""
+        cursor: pointer
+        transform: skew(-30deg) translate3d(0,0,0)
+
+/* background */
+
+.state-active,
+    background: $blue-vibrant-30
+    &:before, &:after
+        background: $blue-vibrant-30
+    &:hover, &:hover:before, &:hover:after
+        background: #032d60
+
+.state-complete
+    background: $green-vibrant-70
+    &:before, &:after
+        background: $green-vibrant-70
+    &:hover, &:hover:before, &:hover:after
+        background: $green-vibrant-50
+
+.state-current
+    background-color: $ext-gray-1
+    &:before, &:after
+        border: 2px solid $blue-vibrant-30
+        background-color: $ext-gray-1
+    &:before
+        border-bottom: none
+    &:after
+        border-top: none
+
+.state-incomplete
+    background: $ext-gray-4
+    &:before, &:after
+        background: $ext-gray-4
+    &:hover, &:hover:before, &:hover:after
+        background: $ext-gray-5
+
+/* first & last */
+
+.path-item:first-child
+    margin-left: 0
+    padding-left: 0.625rem
+    border-top-left-radius: 2rem
+    border-bottom-left-radius: 2rem
+    &:before, &:after
+        left: 1.125rem
+
+.path-item:last-child
+    margin-right: 0
+    padding-right: 0.625rem
+    border-top-right-radius: 2rem
+    border-bottom-right-radius: 2rem
+    &:before, &:after
+        right: 1.125rem
+
+/* path-link */
+
+.path-link
+    position: relative
+    display: flex
+    justify-content: center
+    align-items: center
+
+    z-index: 5
+    height: 2rem
+    padding: 0.5rem 0.25rem 0.5rem 0.5rem
+
+    color: $ext-gray-1
+    transition: color .1s linear
+    background-color: transparent
+    text-decoration: none
+    cursor: pointer
+
+/* text color */
+
+.state-active .path-link
+    color: $ext-gray-1
+.state-complete .path-link
+    color: $ext-gray-1
+.state-current .path-link
+    color: $blue-vibrant-30
+.state-incomplete .path-link
+    color: $blue-vibrant-30
+
+/* icon vs title */
+
+.path-stage
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%,-50%) rotateX(-180deg)
+    --icon-color-foreground: #{$ext-gray-1}
+
+.path-title
+    max-width: 100%
+    overflow: hidden
+    text-overflow: ellipsis
+    white-space: nowrap
+
+.path-stage, .path-title
+    display: block
+    transition: transform .2s linear
+    backface-visibility: hidden
+
+/* show/hide rotations */
+
+.state-active .path-stage
+    transform: translateY(-50%) rotateX(-180deg)
+.state-complete .path-stage
+    transform: translate(-50%,-50%) rotateX(0)
+.state-complete:hover .path-stage
+    transform: translate(-50%,-50%) rotateX(-180deg)
+
+.state-active .path-title
+    transform: rotateX(0)
+.state-complete .path-title
+    transform: rotateX(180deg)
+.state-complete:hover .path-title
+    transform: rotateX(0)

@@ -1,0 +1,63 @@
+@import './../_colors'
+
+/* errors */
+
+.abbr-required
+    margin: 0 0.125rem
+    border: 0
+    color: $red-vibrant-50
+    text-decoration: none
+    cursor: help
+
+.text-input-error
+    border-color: $red-vibrant-50
+    background-color: $ext-gray-1
+    background-clip: padding-box
+    box-shadow: $red-vibrant-50 0 0 0 1px inset
+
+    &:active, &:focus
+        border-color: $red-vibrant-50
+        background-color: $ext-gray-1
+        box-shadow: $red-vibrant-50 0 0 0 1px inset
+        outline: 0
+
+/* icons */
+
+.right-group
+    position: absolute
+    top: 50%
+    margin-top: -0.5rem
+    right: 0
+    height: 1rem
+
+.text-input
+    &.text-icon-before
+        padding-left: 2.5rem
+    &.text-icon-after
+        padding-right: 2.5rem
+    &.text-spinner
+        padding-right: 5rem
+
+.text-container
+
+    .icon-before
+        pointer-events: none
+        z-index: 2
+        left: 0.75rem
+    .icon-after-1
+        z-index: 2
+        right: 0.75rem
+    .icon-after-2
+        z-index: 2
+        right: 3rem
+    .icon-after-3
+        z-index: 2
+        right: 5.25rem
+
+    .button-before
+        z-index: 2
+        //  (`padding-left смещение для input` - (`width иконки` + `--icon-h-margin` + `--icon-h-margin`)) / 2
+        left: 0.5rem
+        //  (`height иконки` / 2) + `--icon-v-margin` + `(0-1)px для border`
+        margin-top: calc(-0.75rem - 0.5px)
+        //margin-top: -0.8rem

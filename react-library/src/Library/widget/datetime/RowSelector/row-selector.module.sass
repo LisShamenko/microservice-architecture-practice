@@ -1,0 +1,28 @@
+@import './../../../_colors'
+
+/* row-selector */
+
+.row-selector
+    display: flex
+    justify-content: space-between
+    align-items: center
+    width: 100%
+
+    .action-button-left, .action-button-right
+        margin: 3px
+        box-shadow: none
+        border: none
+        background-color: transparent
+        --n-color: #{$blue-vibrant-50}
+        --fh-color: #{$blue-vibrant-30}
+        --a-color: #{$blue-vibrant-60}
+
+    .action-button-left
+        position: relative
+        &:active
+            left: -1px
+
+    .action-button-right
+        position: relative
+        &:active
+            left: 1px

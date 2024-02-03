@@ -1,0 +1,33 @@
+@import './../../../_colors'
+
+/* paginate-element */
+
+.paginate-element
+    display: flex
+    align-items: center
+    justify-content: flex-end
+    padding: 0.25rem 0.5rem
+
+    margin-top: 1px
+    border-top: 1px solid $ext-gray-5
+    background-color: $ext-gray-2
+
+.page-num-container
+    display: flex
+    flex-direction: row
+
+.page-num
+    cursor: pointer
+    color: $blue-vibrant-50
+    text-decoration: underline
+    transition: color .1s linear
+    background-color: transparent
+
+    &:hover
+        color: $blue-vibrant-30
+
+.page-button
+    margin: 0.15rem 0.3rem
+
+.page-div
+    margin: 0.15rem 0.5rem

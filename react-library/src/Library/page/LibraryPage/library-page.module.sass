@@ -1,0 +1,99 @@
+@import './../../_colors'
+@import './../../_vars'
+
+.library-page
+    --light-button-color: #{$teal-natural-70}
+    margin: 50px 50px
+    padding-top: calc(#{$header-height} - 50px)
+
+.example-box
+    position: relative
+    margin: 10px 0px
+    padding: 1rem
+    border: 1px solid #dddbda
+    border-radius: 0.25rem
+    background-color: #f4f6f9
+
+    .box-part
+        margin-bottom: 10px
+    .box-part>*
+        margin-right: 10px
+
+.img-svg
+    --icon-color-foreground: #{$ext-gray-6}
+
+/* grid */
+
+.test-box
+    padding: 1rem
+    border: 1px solid #ff0000
+    background-color: #f4f6f9
+
+.add-to-grid
+    border: 3px double black
+    padding: 4px
+    grid-gap: 4px
+
+.custom-box
+    padding: 1rem
+    border: 1px solid #d8dde6
+    background-color: #f4f6f9
+
+.bottom-long-box
+    height: 100vh
+
+/* tags */
+
+.example-box
+
+    .custom-1
+        padding: 0.25rem 0.5rem
+
+    .custom-2
+        position: relative
+        left: -2px
+        top: -2px
+        padding: 0.5rem 1.5rem
+        border-radius: 2rem
+        border-width: 3px
+        border-style: double
+        box-shadow: 2px 2px 1px #135036
+        --icon-color-foreground: #{$blue-vibrant-50}
+        &:hover
+            box-shadow: 3px 3px 1px #2c815d
+            left: -3px
+            top: -3px
+        &:active
+            box-shadow: none
+            left: 0px
+            top: 0px
+
+    .custom-3, .custom-4
+        width: 2.5rem
+        height: 2.5rem
+        border: 1px solid #2e0729
+        box-shadow: 0 0 5px #b219a0
+        border-radius: 2rem
+
+        &:hover
+            border: 1px solid #2e0729
+            box-shadow: 0 0 5px #b219a0
+        &:active
+            box-shadow: none
+            border: 2px solid #2e0729
+
+    .custom-3
+        --icon-color-foreground: #{$purple-vibrant-40}
+    .custom-4
+        --icon-color-foreground: #{$orange-vibrant-70}
+
+/* form */
+
+.example-box
+    .custom-form
+        display: flex
+        align-items: flex-start
+        justify-content: center
+        flex-direction: column
+        &>*
+            margin-left: 25px

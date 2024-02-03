@@ -1,0 +1,266 @@
+@import './../../../_colors'
+
+/* just-button */
+
+.just-button
+    position: relative
+    display: flex
+    align-items: center
+    justify-content: center
+
+    margin: 0
+    padding: 0 var(--icon-h-margin, 0.5rem)
+    border: 1px solid transparent
+    border-radius: .25rem
+    transition: border .15s linear
+
+    background: 0 0
+    background-clip: border-box
+    box-shadow: none
+
+    line-height: 1.875rem
+    text-decoration: none
+    text-align: center
+    white-space: normal
+    user-select: none
+
+    &:active, &:focus, &:hover, &:visited
+        text-decoration: none
+    &:focus
+        outline: 0
+        box-shadow: 0 0 3px #0176d3
+    &:disabled
+        cursor: default
+    &:disabled *
+        pointer-events: none
+
+    /* mode */
+
+    &.list-item
+        width: 100%
+        border: none
+        border-radius: 0
+        box-shadow: none
+
+    &.tab-item
+        max-width: 100%
+        height: 100%
+        z-index: 0
+
+        margin: 0 6px
+        border-bottom-left-radius: 0
+        border-bottom-right-radius: 0
+        box-shadow: none
+
+        font-size: 1rem
+        white-space: nowrap
+        text-decoration: none
+        text-overflow: ellipsis
+
+        overflow: hidden
+        cursor: pointer
+
+.icon-text
+    margin: 0 0.5rem
+    white-space: nowrap
+
+.position-absolute
+    position: absolute
+    top: 50%
+    margin-top: -0.6rem
+    line-height: 1
+
+/* icon-padding */
+
+.p-icon-xxx_small
+    --icon-h-margin: .125rem
+    --icon-v-margin: .125rem
+.p-icon-xx_small
+    --icon-h-margin: .25rem
+    --icon-v-margin: .25rem
+.p-icon-x_small
+    --icon-h-margin: .5rem
+    --icon-v-margin: .5rem
+.p-icon-small
+    --icon-h-margin: .75rem
+    --icon-v-margin: .75rem
+.p-icon-medium
+    --icon-h-margin: 1rem
+    --icon-v-margin: 1rem
+.p-icon-large
+    --icon-h-margin: 1.5rem
+    --icon-v-margin: 1.5rem
+.p-icon-x_large
+    --icon-h-margin: 2rem
+    --icon-v-margin: 2rem
+.p-icon-xx_large
+    --icon-h-margin: 3rem
+    --icon-v-margin: 3rem
+
+/* variants */
+
+.just-button
+    border-color: var(--n-border-color)
+    color: var(--n-color)
+    --icon-color-foreground: var(--n-color)
+    background-color: var(--n-background-color)
+
+    &:focus, &:hover
+        border-color: var(--fh-border-color)
+        color: var(--fh-color)
+        --icon-color-foreground: var(--fh-color)
+        background-color: var(--fh-background-color)
+    &:active
+        border-color: var(--a-border-color)
+        color: var(--a-color)
+        --icon-color-foreground: var(--a-color)
+        background-color: var(--a-background-color)
+    &:disabled
+        border-color: var(--d-border-color)
+        color: var(--d-color)
+        --icon-color-foreground: var(--d-color)
+        background-color: var(--d-background-color)
+
+.variant-base
+    // colors: 
+    --n-border-color: transparent
+    --n-color: #{$ext-gray-9}
+    --n-background-color: transparent
+    // colors: 
+    --fh-border-color: transparent
+    --fh-color: #{$blue-vibrant-30}
+    --fh-background-color: transparent
+    // colors: 
+    --a-border-color: transparent
+    --a-color: #{$blue-vibrant-30}
+    --a-background-color: transparent
+    // colors: 
+    --d-border-color: transparent
+    --d-color: #{$ext-gray-5}
+    --d-background-color: transparent
+
+.variant-neutral
+    // colors: #dddbda #0176d3 #fff
+    --n-border-color: #{$ext-gray-5}
+    --n-color: #{$blue-vibrant-50}
+    --n-background-color: #{$ext-gray-1}
+    // colors: #dddbda #014486 #fafaf9
+    --fh-border-color: #{$ext-gray-5}
+    --fh-color: #{$blue-vibrant-30}
+    --fh-background-color: #{$ext-gray-2}
+    // colors: #dddbda #014486 #f3f2f2
+    --a-border-color: #{$ext-gray-5}
+    --a-color: #{$blue-vibrant-30}
+    --a-background-color: #{$ext-gray-3}
+    // colors: #dddbda #dddbda #fff
+    --d-border-color: #{$ext-gray-5}
+    --d-color: #{$ext-gray-5}
+    --d-background-color: #{$ext-gray-1}
+
+.variant-blue
+    // colors: #0176d3 #fff #0176d3 
+    --n-border-color: #{$blue-vibrant-50}
+    --n-color: #{$ext-gray-1}
+    --n-background-color: #{$blue-vibrant-50}
+    // colors: #0b5cab #fff #0b5cab 
+    --fh-border-color: #{$blue-vibrant-40}
+    --fh-color: #{$ext-gray-1}
+    --fh-background-color: #{$blue-vibrant-40}
+    // colors: #014486 #fff #014486 
+    --a-border-color: #{$blue-vibrant-30}
+    --a-color: #{$ext-gray-1}
+    --a-background-color: #{$blue-vibrant-30}
+    // colors: #c9c7c5 #fff #c9c7c5 
+    --d-border-color: #{$ext-gray-6}
+    --d-color: #{$ext-gray-1}
+    --d-background-color: #{$ext-gray-6}
+
+.variant-outline-blue
+    // colors: #0176d3 #0176d3 #fff 
+    --n-border-color: #{$blue-vibrant-50}
+    --n-color: #{$blue-vibrant-50}
+    --n-background-color: #{$ext-gray-1}
+    // colors: #0176d3 #014486 #fafaf9 
+    --fh-border-color: #{$blue-vibrant-50}
+    --fh-color: #{$blue-vibrant-30}
+    --fh-background-color: #{$ext-gray-2}
+    // colors: #0176d3 #014486 #f3f2f2 
+    --a-border-color: #{$blue-vibrant-50}
+    --a-color: #{$blue-vibrant-30}
+    --a-background-color: #{$ext-gray-3}
+    // colors: #dddbda #dddbda #fff 
+    --d-border-color: #{$ext-gray-5}
+    --d-color: #{$ext-gray-5}
+    --d-background-color: #{$ext-gray-1}
+
+.variant-red
+    // colors: #ea001e #fff #ea001e
+    --n-border-color: #{$red-vibrant-50}
+    --n-color: #{$ext-gray-1}
+    --n-background-color: #{$red-vibrant-50}
+    // colors: #ba0517 #fff #ba0517
+    --fh-border-color: #{$red-vibrant-40}
+    --fh-color: #{$ext-gray-1}
+    --fh-background-color: #{$red-vibrant-40}
+    // colors: #8e030f #fff #8e030f
+    --a-border-color: #{$red-vibrant-30}
+    --a-color: #{$ext-gray-1}
+    --a-background-color: #{$red-vibrant-30}
+    // colors: #c9c7c5 #fff #c9c7c5
+    --d-border-color: #{$ext-gray-6}
+    --d-color: #{$ext-gray-1}
+    --d-background-color: #{$ext-gray-6}
+
+.variant-outline-red
+    // colors: #dddbda #ea001e #fff
+    --n-border-color: #{$ext-gray-5}
+    --n-color: #{$red-vibrant-50}
+    --n-background-color: #{$ext-gray-1}
+    // colors: #dddbda #ba0517 #fafaf9
+    --fh-border-color: #{$ext-gray-5}
+    --fh-color: #{$red-vibrant-40}
+    --fh-background-color: #{$ext-gray-2}
+    // colors: #dddbda #ba0517 #f3f2f2
+    --a-border-color: #{$ext-gray-5}
+    --a-color: #{$red-vibrant-40}
+    --a-background-color: #{$ext-gray-3}
+    // colors: #dddbda #dddbda #fff
+    --d-border-color: #{$ext-gray-5}
+    --d-color: #{$ext-gray-5}
+    --d-background-color: #{$ext-gray-1}
+
+.variant-green
+    // colors: #45c65a #080707 #45c65a
+    --n-border-color: #{$green-vibrant-70}
+    --n-color: #{$ext-gray-13}
+    --n-background-color: #{$green-vibrant-70}
+    // colors: #2e844a #fff #2e844a
+    --fh-border-color: #{$green-vibrant-50}
+    --fh-color: #{$ext-gray-1}
+    --fh-background-color: #{$green-vibrant-50}
+    // colors: #194e31 #fff #194e31
+    --a-border-color: #{$green-vibrant-30}
+    --a-color: #{$ext-gray-1}
+    --a-background-color: #{$green-vibrant-30}
+    // colors: #c9c7c5 #fff #c9c7c5
+    --d-border-color: #{$ext-gray-6}
+    --d-color: #{$ext-gray-1}
+    --d-background-color: #{$ext-gray-6}
+
+.variant-outline-green
+    // colors: #dddbda #45c65a #fff
+    --n-border-color: #{$ext-gray-5}
+    --n-color: #{$green-vibrant-70}
+    --n-background-color: #{$ext-gray-1}
+    // colors: #dddbda #2e844a #fafaf9 
+    --fh-border-color: #{$ext-gray-5}
+    --fh-color: #{$green-vibrant-50}
+    --fh-background-color: #{$ext-gray-2}
+    // colors: #dddbda #194e31 #f3f2f2 
+    --a-border-color: #{$ext-gray-5}
+    --a-color: #{$green-vibrant-30}
+    --a-background-color: #{$ext-gray-3}
+    // colors: #dddbda #dddbda #fff
+    --d-border-color: #{$ext-gray-5}
+    --d-color: #{$ext-gray-5}
+    --d-background-color: #{$ext-gray-1}

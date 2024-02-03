@@ -1,0 +1,325 @@
+@import './../../../_colors'
+
+/* spinner */
+
+.spinner
+    z-index: 9050
+    opacity: 1
+    visibility: visible
+    transition: opacity .2s ease, visibility 0s
+    transition-delay: 0s, .3s
+
+.spinner-container
+    position: relative
+    top: 50%
+    left: 50%
+    z-index: 9051
+
+    transform-origin: 50% 50%
+    will-change: transform
+    transform: translate(-50%, -50%) rotate(90deg)
+
+/* dots */
+
+.dot-a, .dot-b
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+
+    transform-origin: 50% 50%
+    will-change: transform
+
+.dot-a
+    transform: rotate(60deg)
+
+.dot-b
+    transform: rotate(120deg)
+
+/* visibility */
+
+.is-hidden
+    visibility: hidden
+    opacity: 0
+    transition: opacity .2s ease, visibility 0s
+    transition-delay: 0s, 0s
+
+.hide
+    display: none
+
+/* absolute position */
+
+.position-absolute
+    position: absolute
+    top: 50%
+    line-height: 1
+    border: 0
+
+    &.margin-top-xx-small
+        margin-top: -0.25rem
+    &.margin-top-x-small
+        margin-top: -0.5rem
+    &.margin-top-small
+        margin-top: -0.625rem
+    &.margin-top-medium
+        margin-top: -1rem
+    &.margin-top-large
+        margin-top: -1.375rem
+
+/* sizes */
+
+.dot-a:after, .dot-a:before, .dot-b:after, .dot-b:before,
+.spinner-container:after, .spinner-container:before
+    content: ""
+    position: absolute
+    background: $ext-gray-7
+    border-radius: 50%
+    animation-duration: 1s
+    animation-iteration-count: infinite
+    transform: translate3d(0, 0, 0)
+
+.size-xx-small
+    width: .5rem
+    height: .5rem
+
+    .dot-a:after, .dot-a:before, .dot-b:after, .dot-b:before,
+    .spinner-container:after, .spinner-container:before
+        width: .125rem
+        height: .125rem
+
+    .dot-a:before, .dot-b:before,
+    .spinner-container:before
+        top: -0.0625rem
+        left: -0.0625rem
+        animation-name: dotsBounceBefore-xx-small
+
+    .dot-a:after, .dot-b:after,
+    .spinner-container:after
+        top: -0.0625rem
+        right: -0.0625rem
+        animation-name: dotsBounceAfter-xx-small
+
+.size-x-small
+    width: 1rem
+    height: 1rem
+
+    .dot-a:after, .dot-a:before, .dot-b:after, .dot-b:before,
+    .spinner-container:after, .spinner-container:before
+        width: .25rem
+        height: .25rem
+
+    .dot-a:before, .dot-b:before,
+    .spinner-container:before
+        top: -0.125rem
+        left: -0.125rem
+        animation-name: dotsBounceBefore-x-small
+
+    .dot-a:after, .dot-b:after,
+    .spinner-container:after
+        top: -0.125rem
+        right: -0.125rem
+        animation-name: dotsBounceAfter-x-small
+
+.size-small
+    width: 1.25rem
+    height: 1.25rem
+
+    .dot-a:after, .dot-a:before, .dot-b:after, .dot-b:before,
+    .spinner-container:after, .spinner-container:before
+        width: .25rem
+        height: .25rem
+
+    .dot-a:before, .dot-b:before,
+    .spinner-container:before
+        top: -0.125rem
+        left: -0.125rem
+        animation-name: dotsBounceBefore-small
+
+    .dot-a:after, .dot-b:after,
+    .spinner-container:after
+        top: -0.125rem
+        right: -0.125rem
+        animation-name: dotsBounceAfter-small
+
+.size-medium
+    width: 2rem
+    height: 2rem
+
+    .dot-a:after, .dot-a:before, .dot-b:after, .dot-b:before,
+    .spinner-container:after, .spinner-container:before
+        width: .5rem
+        height: .5rem
+
+    .dot-a:before, .dot-b:before,
+    .spinner-container:before
+        top: -0.25rem
+        left: -0.25rem
+        animation-name: dotsBounceBefore-medium
+
+    .dot-a:after, .dot-b:after,
+    .spinner-container:after
+        top: -0.25rem
+        right: -0.25rem
+        animation-name: dotsBounceAfter-medium
+
+.size-large
+    width: 2.75rem
+    height: 2.75rem
+
+    .dot-a:after, .dot-a:before, .dot-b:after, .dot-b:before,
+    .spinner-container:after, .spinner-container:before
+        width: .625rem
+        height: .625rem
+
+    .dot-a:before, .dot-b:before,
+    .spinner-container:before
+        top: -0.3125rem
+        left: -0.3125rem
+        animation-name: dotsBounceBefore-large
+
+    .dot-a:after, .dot-b:after,
+    .spinner-container:after
+        top: -0.3125rem
+        right: -0.3125rem
+        animation-name: dotsBounceAfter-large
+
+/* animations */
+
+.spinner-container:before
+    animation-delay: -.083s
+.dot-a:before
+    animation-delay: .083s
+.dot-b:before
+    animation-delay: 250ms
+.spinner-container:after
+    animation-delay: .416s
+.dot-a:after
+    animation-delay: .583s
+.dot-b:after
+    animation-delay: 750ms
+
+@keyframes dotsBounceBefore-xx-small
+    0%
+        transform: translate3d(0,0,0)
+
+    60%
+        transform: translate3d(0,0,0)
+        animation-timing-function: cubic-bezier(.275,.0425,.34,.265)
+
+    80%
+        transform: translate3d(-.125rem,0,0)
+        animation-timing-function: cubic-bezier(0,.555,.35,.715)
+
+    100%
+        transform: translate3d(0,0,0)
+
+@keyframes dotsBounceAfter-xx-small
+    0%
+        transform: translate3d(0,0,0)
+
+    60%
+        animation-timing-function: cubic-bezier(.275,.0425,.34,.265)
+        transform: translate3d(0,0,0)
+
+    80%
+        animation-timing-function: cubic-bezier(0,.555,.35,.715)
+        transform: translate3d(.125rem,0,0)
+
+    100%
+        transform: translate3d(0,0,0)
+
+@keyframes dotsBounceBefore-x-small
+    0%
+        transform: translate3d(0, 0, 0)
+    60%
+        transform: translate3d(0, 0, 0)
+        animation-timing-function: cubic-bezier(.55, .085, .68, .53)
+    80%
+        transform: translate3d(-.25rem, 0, 0)
+        animation-timing-function: cubic-bezier(0, 1.11, .7, 1.43)
+    100%
+        transform: translate3d(0, 0, 0)
+
+@keyframes dotsBounceAfter-x-small
+    0%
+        transform: translate3d(0, 0, 0)
+    60%
+        transform: translate3d(0, 0, 0)
+        animation-timing-function: cubic-bezier(.55, .085, .68, .53)
+    80%
+        transform: translate3d(.25rem, 0, 0)
+        animation-timing-function: cubic-bezier(0, 1.11, .7, 1.43)
+    100%
+        transform: translate3d(0, 0, 0)
+
+@keyframes dotsBounceBefore-small
+    0%
+        transform: translate3d(0, 0, 0)
+    60%
+        transform: translate3d(0, 0, 0)
+        animation-timing-function: cubic-bezier(.55, .085, .68, .53)
+    80%
+        transform: translate3d(-.375rem, 0, 0)
+        animation-timing-function: cubic-bezier(0, 1.11, .7, 1.43)
+    100%
+        transform: translate3d(0, 0, 0)
+
+@keyframes dotsBounceAfter-small
+    0%
+        transform: translate3d(0, 0, 0)
+    60%
+        transform: translate3d(0, 0, 0)
+        animation-timing-function: cubic-bezier(.55, .085, .68, .53)
+    80%
+        transform: translate3d(.375rem, 0, 0)
+        animation-timing-function: cubic-bezier(0, 1.11, .7, 1.43)
+    100%
+        transform: translateX(0)
+
+@keyframes dotsBounceBefore-medium
+    0%
+        transform: translate3d(0, 0, 0)
+    60%
+        transform: translate3d(0, 0, 0)
+        animation-timing-function: cubic-bezier(.55, .085, .68, .53)
+    80%
+        transform: translate3d(-.5rem, 0, 0)
+        animation-timing-function: cubic-bezier(0, 1.11, .7, 1.43)
+    100%
+        transform: translate3d(0, 0, 0)
+
+@keyframes dotsBounceAfter-medium
+    0%
+        transform: translate3d(0, 0, 0)
+    60%
+        transform: translate3d(0, 0, 0)
+        animation-timing-function: cubic-bezier(.55, .085, .68, .53)
+    80%
+        transform: translate3d(.5rem, 0, 0)
+        animation-timing-function: cubic-bezier(0, 1.11, .7, 1.43)
+    100%
+        transform: translateX(0)
+
+@keyframes dotsBounceBefore-large
+    0%
+        transform: translate3d(0, 0, 0)
+    60%
+        transform: translate3d(0, 0, 0)
+        animation-timing-function: cubic-bezier(.55, .085, .68, .53)
+    80%
+        transform: translate3d(-.75rem, 0, 0)
+        animation-timing-function: cubic-bezier(0, 1.11, .7, 1.43)
+    100%
+        transform: translateX(0)
+
+@keyframes dotsBounceAfter-large
+    0%
+        transform: translate3d(0, 0, 0)
+    60%
+        transform: translate3d(0, 0, 0)
+        animation-timing-function: cubic-bezier(.55, .085, .68, .53)
+    80%
+        transform: translate3d(.75rem, 0, 0)
+        animation-timing-function: cubic-bezier(0, 1.11, .7, 1.43)
+    100%
+        transform: translateX(0)

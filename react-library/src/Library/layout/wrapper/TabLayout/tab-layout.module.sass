@@ -1,0 +1,83 @@
+@import './../../../_colors'
+
+/* tab-layout */
+
+.tab-layout
+    display: block
+    width: 100%
+
+.tab-bar
+    box-sizing: content-box
+    display: flex
+    margin: 0
+    padding: 0
+    border-bottom: 1px solid $ext-gray-5
+
+/* tabs-container */
+
+.menu-container
+    display: flex
+    width: 100%
+
+/* bar-item */
+
+.bar-item
+    display: flex
+    align-items: center
+    justify-content: center
+    position: relative
+
+    &:after
+        display: block
+        position: absolute
+        height: 0
+        bottom: 0
+        left: 0
+        right: 0
+        content: ""
+    &:hover:after, &:focus:after
+        height: 2px
+        background-color: $blue-vibrant-50
+    &:active:after, &.is-active:after
+        height: 3px
+        background-color: $blue-vibrant-60
+
+/* menu-item */
+
+.menu-hidden
+    visibility: hidden
+.menu-visible
+    visibility: visible
+
+.menu-item
+    position: relative
+    display: flex
+    align-items: center
+    justify-content: center
+
+    &:after
+        display: block
+        position: absolute
+        height: 0
+        bottom: 0
+        left: -6px
+        right: -6px
+        content: ""
+    &.is-active:after
+        height: 3px
+        background-color: $blue-vibrant-60
+
+.item-active
+    --n-border-color: #{$blue-vibrant-50}
+    --n-color: #{$ext-gray-1}
+    --n-background-color: #{$blue-vibrant-50}
+    --fh-border-color: #{$blue-vibrant-50}
+    --fh-color: #{$ext-gray-1}
+    --fh-background-color: #{$blue-vibrant-50}
+
+/* content-item */
+
+.content-item
+    display: block
+    position: relative
+    padding: .75rem 0 .75rem 0

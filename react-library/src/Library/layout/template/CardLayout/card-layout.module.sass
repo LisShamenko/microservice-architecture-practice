@@ -1,0 +1,74 @@
+@import './../../../_colors'
+
+/* card-layout */
+
+.card-layout
+    position: relative
+    padding: 1rem
+    border-radius: 0.25rem
+    border: 1px solid $ext-gray-5
+    background-color: $ext-gray-1
+
+    .card-layout
+        border: 0
+        box-shadow: none
+
+.card-box
+    position: relative
+    padding: 0
+    border: 0
+    background-color: $ext-gray-1
+    background-clip: padding-box
+    box-shadow: none
+    color: $ext-gray-13
+
+/* card-header */
+
+.card-header
+    display: flex
+
+    padding: 0
+    margin: 0 0 .75rem 0
+
+.header-box
+    display: flex
+    align-items: center
+    flex: 1 1 0%
+    min-width: 0
+
+.card-header-title
+    margin-bottom: 0
+    flex: 1
+    min-width: 0
+
+.text-header-truncate
+    display: flex
+    margin: 0
+    padding: 0
+    font-size: 1rem
+    font-weight: 700
+    line-height: 1.25
+
+    span
+        max-width: 100%
+        overflow: hidden
+        text-overflow: ellipsis
+        white-space: nowrap
+
+.card-header-actions
+    flex: none
+
+/* card-body */
+
+.card-body
+    padding: 0rem 0.75rem 0rem 0.75rem
+    margin: .75rem 0 .75rem 0
+
+/* card-footer */
+
+.card-footer
+    padding: .75rem 0 .75rem 0
+    margin: .75rem 0 0 0
+    border-top: 1px solid $ext-gray-5
+    text-align: center
+    font-size: .8125rem

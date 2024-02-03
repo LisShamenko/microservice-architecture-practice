@@ -1,0 +1,98 @@
+@import './../../../_colors'
+
+/* toggle-button */
+
+.toggle-button
+    display: block
+    position: relative
+    min-width: 0
+
+.form-element
+    clear: left
+    position: relative
+
+.checkbox-container
+    display: flex
+    width: 100%
+    cursor: pointer
+    &.container-disabled
+        cursor: default
+
+/* label-item */
+
+.label-item
+    display: inline-block
+    padding-right: 0.5rem
+    padding-top: 0.25rem
+    margin-bottom: 0.125rem
+
+    color: $ext-gray-11
+    font-size: .75rem
+
+    overflow-wrap: break-word
+    word-wrap: break-word
+    hyphens: auto
+
+/* input-item */
+
+.input-item
+    position: absolute
+    width: 1px
+    height: 1px
+    margin: -1px
+    padding: 0
+    border: 0
+    clip: rect(0 0 0 0)
+    overflow: hidden
+    line-height: normal
+    box-sizing: border-box
+    color: inherit
+    font: inherit
+
+/* ckeck-group */
+
+.ckeck-group
+    font-size: .625rem
+    color: $ext-gray-11
+
+    .flag-icon
+        margin-left: 8px
+        --icon-color-foreground: #{$ext-gray-1}
+
+        &.flag-icon-disabled
+            --icon-color-foreground: transparent
+        &.flag-icon-hide
+            --icon-color-foreground: transparent
+
+    .stick-icon-disabled
+        --icon-color-foreground: #{$ext-gray-5}
+    .stick-icon-left
+        margin-left: 0
+        --icon-color-foreground: #{$ext-gray-3}
+    .stick-icon-rigth
+        margin-left: 28px
+        --icon-color-foreground: #{$ext-gray-1}
+
+/* ckeck-flag */
+
+.ckeck-flag
+    display: block
+    position: relative
+    width: 3.25rem
+    height: 1.5rem
+    padding: 0.125rem
+
+    border: 1px solid $blue-vibrant-80
+    border-radius: 15rem
+    background-color: $blue-vibrant-80
+    box-shadow: none
+    transition: background-color .2s cubic-bezier(.75,0,.08,1)
+
+    &.flag-checked
+        border-color: $blue-vibrant-50
+        background-color: $blue-vibrant-50
+
+    &.flag-disabled
+        background-color: $ext-gray-7
+        border-color: $ext-gray-7
+        pointer-events: none

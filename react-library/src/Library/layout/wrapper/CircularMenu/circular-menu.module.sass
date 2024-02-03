@@ -1,0 +1,71 @@
+@import './../../../_colors'
+
+/* circular-menu */
+
+.circular-menu
+    position: relative
+    width: 25px
+    height: 25px
+    margin: 0 auto
+
+.hover-container
+    position: absolute
+    top: calc(50% - var(--container-size) / 2)
+    left: calc(50% - var(--container-size) / 2)
+    width: var(--container-size)
+    height: var(--container-size)
+    z-index: 1000
+
+    --container-size: 25px
+    --menu-opacity: 0
+    &:hover
+        --container-size: 100px
+        --menu-opacity: 1
+
+.circle
+    --circle-size: 30px
+    position: absolute
+    top: calc(50% - var(--circle-size) / 2)
+    left: calc(50% - var(--circle-size) / 2)
+    width: var(--circle-size)
+    height: var(--circle-size)
+
+    opacity: var(--menu-opacity)
+    transform: scale(var(--menu-opacity))
+    transition: all 0.15s ease-out
+    &.open
+        opacity: 1
+        transform: scale(1)
+
+/* buttons */
+
+.button
+    display: flex
+    align-items: center
+    justify-content: center
+    z-index: 1000
+
+    border-radius: 50%
+
+    font-size: 2em
+    font-style: normal
+    font-weight: normal
+    text-decoration: none
+    line-height: 1
+    text-align: center
+    cursor: pointer
+
+.menu-item
+    position: absolute
+    width: 30px
+    height: 30px
+    margin-top: -15px
+    margin-left: -15px
+
+.menu-button
+    --menu-button-size: 30px
+    position: absolute
+    top: calc(50% - var(--menu-button-size) / 2)
+    left: calc(50% - var(--menu-button-size) / 2)
+    width: var(--menu-button-size)
+    height: var(--menu-button-size)
