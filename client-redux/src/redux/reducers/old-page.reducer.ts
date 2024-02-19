@@ -1,5 +1,5 @@
 import { OldAppDispatch } from '../oldStore';
-import { dtoSection } from './dto/dtoSection';
+import { dtoSection } from './types/dtoSection';
 
 
 

@@ -1,6 +1,5 @@
-import { Body, ForbiddenException, Injectable } from '@nestjs/common';
-import { Observable, catchError, map, lastValueFrom } from 'rxjs';
-import { AxiosResponse } from 'axios';
+import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
+import { catchError, map, lastValueFrom } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 // 
@@ -45,30 +44,32 @@ export class LoginService {
 
     async postForm(username: string, password: string, auth: AuthResponseDto) {
 
-        console.log('---------- data for Postman');
-        console.log('session_code = ', auth.url.searchParams.get('session_code'));
-        console.log('execution = ', auth.url.searchParams.get('execution'));
-        console.log('tab_id = ', auth.url.searchParams.get('tab_id'));
-        console.log('auth.cookies[0] = ', auth.cookies[0]);
-        console.log('auth.cookies[1] = ', auth.cookies[1]);
-        console.log('auth.cookies[2] = ', auth.cookies[2]);
-        console.log('----------');
+        //      console.log('---------- data for Postman');
+        //      console.log('session_code = ', auth.url.searchParams.get('session_code'));
+        //      console.log('execution = ', auth.url.searchParams.get('execution'));
+        //      console.log('tab_id = ', auth.url.searchParams.get('tab_id'));
+        //      console.log('auth.cookies[0] = ', auth.cookies[0]);
+        //      console.log('auth.cookies[1] = ', auth.cookies[1]);
+        //      console.log('auth.cookies[2] = ', auth.cookies[2]);
+        //      console.log('----------');
 
         const request = this.httpService
             .post<AccessCodeResponseDto>(
                 'http://localhost:8080/realms/citizen-network/login-actions/authenticate',
-                `username=${username}&password=${password}&credentialId=`, {
-                params: {
-                    session_code: auth.url.searchParams.get('session_code'),
-                    execution: auth.url.searchParams.get('execution'),
-                    client_id: auth.url.searchParams.get('client_id'),
-                    tab_id: auth.url.searchParams.get('tab_id'),
-                },
-                headers: {
-                    'Cookie': auth.cookies,
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-            })
+                `username=${username}&password=${password}&credentialId=`,
+                {
+                    params: {
+                        session_code: auth.url.searchParams.get('session_code'),
+                        execution: auth.url.searchParams.get('execution'),
+                        client_id: auth.url.searchParams.get('client_id'),
+                        tab_id: auth.url.searchParams.get('tab_id'),
+                    },
+                    headers: {
+                        'Cookie': auth.cookies,
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                }
+            )
             .pipe(map((res) => {
                 console.log('--- postForm --- ', res.data);
                 return res.data;
@@ -140,6 +141,8 @@ export class LoginService {
                 return new AccessCodeResponseDto(res.data);
             }))
             .pipe(catchError((err) => {
+                if (err.response.data.error === 'invalid_grant')
+                    throw new BadRequestException(err.response.data);
                 throw new ForbiddenException('API not available');
             }));
 
@@ -147,4 +150,33 @@ export class LoginService {
 
         return fact;
     }
+
+    async logoutUser(access_token: string, refresh_token: string) {
+
+        const clientId = this.configService.get('CLIENT_ID');
+        const clientSecret = this.configService.get('CLIENT_SECRET');
+
+        const request = this.httpService
+            .post<AccessCodeResponseDto>(
+                'http://localhost:8080/realms/citizen-network/protocol/openid-connect/logout',
+                `client_id=${clientId}&refresh_token=${refresh_token}&client_secret=${clientSecret}`,
+                {
+                    headers: {
+                        'Authorization': 'Bearer ' + access_token,
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                }
+            )
+            .pipe(map((res) => {
+                return { status: res.status, statusText: res.statusText };
+            }))
+            .pipe(catchError((err) => {
+                throw new ForbiddenException('API not available');
+            }));
+
+        const fact = await lastValueFrom(request);
+
+        return fact;
+    }
+
 }

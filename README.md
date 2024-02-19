@@ -173,6 +173,17 @@
     npm install --save @nestjs/serve-static
     npm i moment
     npm i winston-daily-rotate-file
+    npm i @s3pweb/keycloak-admin-client-cjs
+    npm i dotenv
+    ```
+
+- Запуск `keyclock`.
+
+    ```
+    # start keycloak server
+    $ kc.bat start-dev
+    # start keycloak server with cache disabled
+    $ kc.bat start-dev --spi-theme-static-max-age=-1 --spi-theme-cache-themes=false --spi-theme-cache-templates=false
     ```
 
 ## `react-library`
@@ -354,3 +365,11 @@
 ### Task 16
 
 - Добавить проект библиотеки компонентов.
+
+### Task 17
+
+- Аутентификация пользователя.
+
+    - Формы входа и регистрации.
+    - Скрипты для переноса библиотеки компонентов.
+    - Настройка сервера `Keycloak 18`.

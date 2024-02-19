@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "client-to-library": "node client_to_library",
+    "library-to-client": "node library_to_client"
+  },
+  "dependencies": {
+    "del-cli": "^5.1.0"
+  }
+}

@@ -20,7 +20,7 @@ export interface IPropsJustButton extends IChildrenJustButton {
     tabIndex?: number,
     disabled?: boolean,
     // 
-    variant: IButtonVariant,
+    variant?: IButtonVariant,
     iconOffset?: IIconOffset,
     mode?: IButtonMode,
     isAbsolute?: boolean,
@@ -32,7 +32,7 @@ export const JustButton = (
         cs = '', style,
         icon, title,
         accessKey, tabIndex, disabled = false,
-        variant, iconOffset, mode, isAbsolute = false,
+        variant = IButtonVariant.blue, iconOffset, mode, isAbsolute = false,
         onClick,
     }: IPropsJustButton
 ): JSX.Element => {

@@ -1,6 +1,6 @@
 //
 import s from './page-component.module.sass';
-import { dtoSection } from '../../../redux/reducers/dto/dtoSection';
+import { dtoSection } from '../../../redux/reducers/types/dtoSection';
 
 
 

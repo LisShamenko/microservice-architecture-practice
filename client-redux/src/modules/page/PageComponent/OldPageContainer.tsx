@@ -4,7 +4,7 @@ import { compose } from 'redux';
 //
 import withRouter from '../../../hocs/withRouter';
 import { PageComponent } from './PageComponent';
-import { dtoSection } from '../../../redux/reducers/dto/dtoSection';
+import { dtoSection } from '../../../redux/reducers/types/dtoSection';
 import { getSectionAsync, selectSection } from '../../../redux/reducers/old-page.reducer';
 
 

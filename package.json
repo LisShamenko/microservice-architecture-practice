@@ -20,6 +20,10 @@
     "fp-4": "cd ./postgres-rest-sequelize   && npm run format && cd ..",
     "format": "npm run fp-1 && npm run fp-2 && npm run fp-3 && npm run fp-4",
     "three-react": "cd ./three-react && npm start",
+    "client": "cd ./client-redux && npm run start",
+    "client-copy": "cd ./RM && npm run client-copy",
+    "library": "cd ./react-library && npm run start",
+    "server": "cd ./server-auth && npm run start",
     "test": "echo \"Error: no test specified\" && exit 1"
   }
 }

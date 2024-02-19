@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from '../store';
-import { dtoSection } from './dto/dtoSection';
+import { dtoSection } from './types/dtoSection';
 
 
 

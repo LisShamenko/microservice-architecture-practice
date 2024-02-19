@@ -1,6 +1,7 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { newPageSlice } from './reducers/new-page.reducer';
+import { loginPageReducer } from './reducers/login-page.reducer';
 
 
 
@@ -8,6 +9,7 @@ import { newPageSlice } from './reducers/new-page.reducer';
 const store = configureStore({
     reducer: {
         newPage: newPageSlice.reducer,
+        loginPage: loginPageReducer,
     },
 });
 export default store;
