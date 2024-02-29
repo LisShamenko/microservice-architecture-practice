@@ -54,7 +54,7 @@
     npm install --save nest-winston winston
     ```
 
-## `Client ThreeJS`
+## `ThreeJS React`
 
 - Установка.
 
@@ -143,7 +143,7 @@
         KEY_SECRET=4rf4Xn0ZWAdr4vyIlmcv4W1b17Ew5n88
         ```
 
-## `client-redux`
+## `Client React/Redux`
 
 - Установка.
 
@@ -160,7 +160,7 @@
     npm i node-sass
     ```
 
-## `server-auth`
+## `Authorization Server`
 
 - Установка.
 
@@ -186,7 +186,7 @@
     $ kc.bat start-dev --spi-theme-static-max-age=-1 --spi-theme-cache-themes=false --spi-theme-cache-templates=false
     ```
 
-## `react-library`
+## `React Component Library`
 
 - Установка.
 
@@ -194,6 +194,17 @@
     npx create-react-app react-library --template typescript
     npm i node-sass
     npm i react-router-dom
+    ```
+
+## `Server REST API`
+
+- Установка.
+
+    ```
+    nest new server-rest
+    npm i @nestjs/mongoose mongoose mongoose-autopopulate
+    npm i @nestjs/config
+    npm i nest-winston winston
     ```
 
 ## Run
@@ -373,3 +384,7 @@
     - Формы входа и регистрации.
     - Скрипты для переноса библиотеки компонентов.
     - Настройка сервера `Keycloak 18`.
+
+### Task 18
+
+- Добавить проект `REST API`.
