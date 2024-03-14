@@ -1,0 +1,636 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+directive @upper on FIELD_DEFINITION
+
+type DeleteResult {
+  rows: Int!
+}
+
+type RequirementObject {
+  strength: Int
+  endurance: Int
+  intelligence: Int
+  agility: Int
+  fire_weapons: Int
+  melee_weapons: Int
+  throwing: Int
+  doctor: Int
+  sneak: Int
+  steal: Int
+  traps: Int
+  science: Int
+  repair: Int
+  barter: Int
+  id: Int!
+  title: String!
+  player_level: Int!
+}
+
+type PlayerPropertyObject {
+  strength: Int
+  endurance: Int
+  intelligence: Int
+  agility: Int
+  fire_weapons: Int
+  melee_weapons: Int
+  throwing: Int
+  doctor: Int
+  sneak: Int
+  steal: Int
+  traps: Int
+  science: Int
+  repair: Int
+  barter: Int
+  id: Int!
+}
+
+type MapObject {
+  id: Int!
+  title: String!
+  scene_id: Float
+  points(test_add_param: String, where: MapResolver_Points_FilterInputType): [MapPointObject!]!
+  points_test_polymorphic: [MapPointObject!]!
+}
+
+input MapResolver_Points_FilterInputType {
+  point_id: Int_PropertyFilterInputType
+  activity_id: Int_PropertyFilterInputType
+  map_id: Number_PropertyFilterInputType
+  position: Number_PropertyFilterInputType
+  pointType: ActivityPointTypes_PropertyFilterInputType
+  and: [MapResolver_PointsFilterInputType!]
+  or: [MapResolver_PointsFilterInputType!]
+}
+
+input Int_PropertyFilterInputType {
+  eq: Int
+  neq: Int
+  gt: Int
+  gte: Int
+  lt: Int
+  lte: Int
+  in: [Int!]
+  notin: [Int!]
+  like: String
+  notlike: String
+  between: [Int!]
+  notbetween: [Int!]
+  null: Boolean
+}
+
+input Number_PropertyFilterInputType {
+  eq: Float
+  neq: Float
+  gt: Float
+  gte: Float
+  lt: Float
+  lte: Float
+  in: [Float!]
+  notin: [Float!]
+  like: String
+  notlike: String
+  between: [Float!]
+  notbetween: [Float!]
+  null: Boolean
+}
+
+input ActivityPointTypes_PropertyFilterInputType {
+  eq: ActivityPointTypes
+  neq: ActivityPointTypes
+  in: [ActivityPointTypes!]
+  notin: [ActivityPointTypes!]
+  null: Boolean
+}
+
+enum ActivityPointTypes {
+  spawn
+  teleport
+  supply
+  none
+}
+
+input MapResolver_PointsFilterInputType {
+  point_id: Int_PropertyFilterInputType
+  activity_id: Int_PropertyFilterInputType
+  map_id: Number_PropertyFilterInputType
+  position: Number_PropertyFilterInputType
+  pointType: ActivityPointTypes_PropertyFilterInputType
+}
+
+type MapPointObject {
+  point_id: Int!
+  activity_id: Int
+  map_id: Float!
+  position: [Float!]!
+  pointType: ActivityPointTypes!
+  spawn: SpawnObject
+  teleport: TeleportObject
+  test_polymorphic: [ActivityPointUnion!]
+}
+
+union ActivityPointUnion = TeleportObject | SpawnObject
+
+type TeleportObject {
+  id: Int!
+  activity_id: Int!
+  next_id: Float!
+  prev_id: Float!
+}
+
+type SpawnObject {
+  id: Int!
+  activity_id: Int!
+  is_player: Boolean!
+  is_enemy: Boolean!
+}
+
+type EnemyObject {
+  id: Int!
+  enemy_type: EnemyTypes!
+  nickname: String!
+  inventory: [InventoryObject!]!
+  properties: [PlayerPropertyObject!]!
+  template: [LevelTemplateObject!]!
+  skills: [SkillObject!]!
+}
+
+enum EnemyTypes {
+  None
+  Test
+}
+
+type InventoryObject {
+  id: Int!
+  sorting: Sorting!
+  inventoryProducts: [InventoryProductObject!]!
+}
+
+enum Sorting {
+  none
+  weapons_asc
+  weapons_desc
+  shells_asc
+  shells_desc
+  clothes_asc
+  clothes_desc
+}
+
+type ProductObject {
+  id: Int!
+  title: String!
+  price: Float!
+  max_in_slot: Float!
+  product_type: ProductTypes!
+  requirement: [RequirementObject!]!
+  productCloth: [ProductClothObject!]!
+  productShell: [ProductShellObject!]!
+  productWeapon: [ProductWeaponObject!]!
+  skills: [SkillObject!]!
+}
+
+enum ProductTypes {
+  none
+  weapon
+  shell
+  cloth
+}
+
+type InventoryProductObject {
+  id: Int!
+  title: String!
+  price: Float!
+  max_in_slot: Float!
+  product_type: ProductTypes!
+  requirement: [RequirementObject!]!
+  productCloth: [ProductClothObject!]!
+  productShell: [ProductShellObject!]!
+  productWeapon: [ProductWeaponObject!]!
+  skills: [SkillObject!]!
+  count_in_all_slots: Int
+}
+
+type ProductClothObject {
+  id: Int!
+  product_id: Float!
+}
+
+type ProductShellObject {
+  id: Int!
+  product_id: Float!
+  weapons: [ProductWeaponObject!]!
+}
+
+type ProductWeaponObject {
+  id: Int!
+  product_id: Float!
+  shells: [ProductShellObject!]!
+}
+
+type LevelTemplateObject {
+  id: Int!
+  title: String!
+  coins: Float!
+  inventory: [InventoryObject!]!
+  properties: [PlayerPropertyObject!]!
+  skills: [SkillObject!]!
+}
+
+type SkillObject {
+  id: Int!
+  title: String!
+  childSkills: [SkillObject!]
+  parentSkills: [SkillObject!]
+  requirement: [RequirementObject!]!
+}
+
+type GameObject {
+  id: Int!
+  map: [MapObject!]!
+  spawnScript: [SpawnScriptObject!]!
+  ownerPlayer: [PlayerObject!]!
+  players: [PlayerObject!]!
+}
+
+type UpdateGameOutput {
+  result: UpdateGameResult!
+}
+
+enum UpdateGameResult {
+  inserted
+  alreadyInserted
+  deleted
+  alreadyDeleted
+}
+
+type SpawnScriptObject {
+  id: Int!
+  title: String!
+  waves: [SpawnScriptEnemyObject!]!
+}
+
+type SpawnScriptEnemyObject {
+  id: Int!
+  count: Int!
+  spawn_moment: Int!
+  enemy_id: Int!
+  enemies: [EnemyObject!]!
+}
+
+type PlayerObject {
+  id: Int!
+  login: String!
+  password: String!
+  firstname: String!
+  secondname: String!
+  thirdname: String!
+  email: String!
+  inventory: [InventoryObject!]!
+  properties: [PlayerPropertyObject!]!
+  template: [LevelTemplateObject!]!
+  skills: [SkillObject!]!
+  effects: [LevelEffectObject!]!
+}
+
+type LevelEffectObject {
+  id: Int!
+  count_matches: Int!
+  is_equipment: Boolean!
+  property_column: PropertyColumns!
+  delta_value: Int!
+}
+
+enum PropertyColumns {
+  none
+  strength
+  endurance
+  intelligence
+  agility
+  fire_weapons
+  melee_weapons
+  throwing
+  doctor
+  sneak
+  steal
+  traps
+  science
+  repair
+  barter
+}
+
+type Query {
+  getEnemy(id: Int!): EnemyObject!
+  getEnemies(paginate: PaginatorArgsDto): [EnemyObject!]!
+  getGame(id: Int!): GameObject!
+  getGames(paginate: PaginatorArgsDto): [GameObject!]!
+  getTemplate(id: Int!): LevelTemplateObject!
+  getTemplates(paginate: PaginatorArgsDto): [LevelTemplateObject!]!
+  test_filter_maps(where: MapResolver_TestFilterMaps_FilterInputType, order_by: [MapResolver_TestFilterMaps_SortingInputType!]): [MapObject!]!
+  getMap(id: Int!): MapObject!
+  getMaps(paginate: PaginatorArgsDto): [MapObject!]!
+  getPlayer(id: Int!): PlayerObject!
+  getPlayers(paginate: PaginatorArgsDto): [PlayerObject!]!
+  getProduct(id: Int!): ProductObject!
+  getProducts(paginate: PaginatorArgsDto): [ProductObject!]!
+  getSkill(id: Int!): SkillObject!
+  getSkills(paginate: PaginatorArgsDto): [SkillObject!]!
+  getSpawn(id: Int!): SpawnScriptObject!
+  getSpawns(paginate: PaginatorArgsDto): [SpawnScriptObject!]!
+}
+
+input PaginatorArgsDto {
+  per_page: Int! = 10
+  page: Int! = 0
+}
+
+input MapResolver_TestFilterMaps_FilterInputType {
+  id: Int_PropertyFilterInputType
+  title: String_PropertyFilterInputType
+  custom_scene_id: String_PropertyFilterInputType
+  full_name: String_PropertyFilterInputType
+  and: [MapResolver_TestFilterMapsFilterInputType!]
+  or: [MapResolver_TestFilterMapsFilterInputType!]
+}
+
+input String_PropertyFilterInputType {
+  eq: String
+  neq: String
+  gt: String
+  gte: String
+  lt: String
+  lte: String
+  in: [String!]
+  notin: [String!]
+  like: String
+  notlike: String
+  between: [String!]
+  notbetween: [String!]
+  null: Boolean
+}
+
+input MapResolver_TestFilterMapsFilterInputType {
+  id: Int_PropertyFilterInputType
+  title: String_PropertyFilterInputType
+  custom_scene_id: String_PropertyFilterInputType
+  full_name: String_PropertyFilterInputType
+}
+
+input MapResolver_TestFilterMaps_SortingInputType {
+  id: SortType
+  title: SortType
+  scene_id: SortType
+}
+
+enum SortType {
+  ASC
+  DESC
+  ASC_NULLS_LAST
+  ASC_NULLS_FIRST
+  DESC_NULLS_LAST
+  DESC_NULLS_FIRST
+}
+
+type Mutation {
+  addEnemy(data: NewEnemyInput!): EnemyObject!
+  updateEnemy(data: UpdateEnemyInput!): EnemyObject!
+  removeEnemy(id: Int!): DeleteResult!
+  addGame(data: NewGameInput!): GameObject!
+  updateGame(data: UpdateGameInput!): UpdateGameOutput!
+  removeGame(id: Int!): DeleteResult!
+  addTemplate(data: NewLevelTemplateInput!): LevelTemplateObject!
+  updateTemplate(data: UpdateLevelTemplateInput!): LevelTemplateObject!
+  removeTemplate(id: Int!): DeleteResult!
+  addMap(newMapData: NewMapInput!): MapObject!
+  updateMap(newMapData: UpdateMapInput!): MapObject!
+  removeMap(id: Int!): DeleteResult!
+  addPlayer(data: NewPlayerInput!): PlayerObject!
+  updatePlayer(data: UpdatePlayerInput!): PlayerObject!
+  removePlayer(id: Int!): DeleteResult!
+  addProduct(data: NewProductInput!): ProductObject!
+  updateProduct(data: UpdateProductInput!): ProductObject!
+  removeProduct(id: Int!): DeleteResult!
+  addSkill(data: NewSkillInput!): SkillObject!
+  updateSkill(data: UpdateSkillInput!): SkillObject!
+  removeSkill(id: Int!): DeleteResult!
+  addSpawn(data: NewSpawnScriptInput!): SpawnScriptObject!
+  updateSpawn(data: UpdateSpawnScriptInput!): SpawnScriptObject!
+  removeSpawn(id: Int!): DeleteResult!
+}
+
+input NewEnemyInput {
+  nickname: String!
+  level_template_id: Int!
+  enemy_type: EnemyTypes!
+  delta_properties: PropertiesInput
+  products: FillProductsInput
+  skills: FillSkillsInput
+}
+
+input PropertiesInput {
+  strength: Int
+  endurance: Int
+  intelligence: Int
+  agility: Int
+  fire_weapons: Int
+  melee_weapons: Int
+  throwing: Int
+  doctor: Int
+  sneak: Int
+  steal: Int
+  traps: Int
+  science: Int
+  repair: Int
+  barter: Int
+}
+
+input FillProductsInput {
+  add: [ProductItemInput!]
+  remove: [ProductItemInput!]
+}
+
+input ProductItemInput {
+  product_id: Int!
+  count_in_slots: Int!
+}
+
+input FillSkillsInput {
+  add: [Int!]
+  remove: [Int!]
+}
+
+input UpdateEnemyInput {
+  enemy_id: Int!
+  nickname: String
+  reset_template_id: Int
+  enemy_type: EnemyTypes
+  delta_properties: PropertiesInput
+  products: FillProductsInput
+  skills: FillSkillsInput
+}
+
+input NewGameInput {
+  map_id: Int!
+  spawn_script_id: Int!
+  owner_player_id: Int!
+}
+
+input UpdateGameInput {
+  game_id: Int!
+  player_id: Int!
+  to_connect: Boolean!
+}
+
+input NewLevelTemplateInput {
+  title: String!
+  properties: PropertiesInput!
+  products: [ProductItemInput!]!
+  skills: [Int!]!
+}
+
+input UpdateLevelTemplateInput {
+  template_id: Int!
+  title: String!
+  delta_properties: PropertiesInput!
+  products: FillProductsInput!
+  skills: FillSkillsInput!
+}
+
+input NewMapInput {
+  scene_id: Int!
+  title: String!
+  poins: [Vector3Input!]!
+}
+
+input Vector3Input {
+  x: Int!
+  y: Int!
+  z: Int!
+}
+
+input UpdateMapInput {
+  map_id: Int!
+  title: String!
+  points: [PointItemInput!]!
+}
+
+input PointItemInput {
+  point_id: Int!
+  position: Vector3Input
+  type: ActivityPointTypes
+  spawn: SpawnInput
+  teleport: TeleportInput
+}
+
+input SpawnInput {
+  is_player: Boolean!
+  is_enemy: Boolean!
+}
+
+input TeleportInput {
+  next_activity_id: Int!
+  prev_activity_id: Int!
+}
+
+input NewPlayerInput {
+  login: String!
+  password: String!
+  firstname: String!
+  secondname: String!
+  thirdname: String!
+  email: String!
+  level_template_id: Int!
+  delta_properties: PropertiesInput!
+  products: FillProductsInput!
+  skills: FillSkillsInput!
+  effects: [LevelEffectInput!]!
+}
+
+input LevelEffectInput {
+  count_matches: Int!
+  is_equipment: Boolean!
+  property_column: PropertyColumns!
+  delta_value: Int!
+}
+
+input UpdatePlayerInput {
+  player_id: Int!
+  firstname: String!
+  secondname: String!
+  thirdname: String!
+  email: String!
+  delta_properties: PropertiesInput!
+  products: FillProductsInput!
+  skills: FillSkillsInput!
+  add_effects: [LevelEffectInput!]!
+  remove_effects: [Int!]!
+}
+
+input NewProductInput {
+  title: String!
+  price: Float!
+  max_in_slot: Float!
+  requirement: RequirementInput!
+  skills: [Int!]!
+  type: ProductTypes!
+}
+
+input RequirementInput {
+  strength: Int
+  endurance: Int
+  intelligence: Int
+  agility: Int
+  fire_weapons: Int
+  melee_weapons: Int
+  throwing: Int
+  doctor: Int
+  sneak: Int
+  steal: Int
+  traps: Int
+  science: Int
+  repair: Int
+  barter: Int
+  title: String!
+  player_level: Int!
+}
+
+input UpdateProductInput {
+  product_id: Int!
+  title: String!
+  price: Float!
+  max_in_slot: Float!
+  requirement: RequirementInput!
+  skills: FillSkillsInput!
+  type: ProductTypes!
+}
+
+input NewSkillInput {
+  title: String!
+  parent_skill_id: Int!
+  requirement: RequirementInput!
+}
+
+input UpdateSkillInput {
+  skill_id: Int!
+  title: String!
+  parent_skill_id: Int!
+  requirement: RequirementInput!
+}
+
+input NewSpawnScriptInput {
+  title: String!
+  waves: [SpawnWaveInput!]!
+}
+
+input SpawnWaveInput {
+  id: Int
+  count: Float!
+  spawn_moment: Float!
+  enemy_id: Int!
+}
+
+input UpdateSpawnScriptInput {
+  script_id: Int!
+  title: String!
+  waves: [SpawnWaveInput!]!
+}

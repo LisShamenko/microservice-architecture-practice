@@ -196,6 +196,23 @@
     npm i react-router-dom
     ```
 
+## `Server GraphQL API`
+
+- Установка.
+
+    ```
+    npm install -g @nestjs/cli
+    nest new server-graphql
+    npm i @nestjs/graphql @nestjs/apollo graphql apollo-server-express
+    npm i graphql-ws graphql-subscriptions graphql-query-complexity
+    npm i @nestjs/sequelize sequelize sequelize-typescript pg
+    npm i --save-dev @types/sequelize
+    npm i @nestjs/config
+    npm i nest-winston winston
+    npm i class-validator
+    npm i nestjs-graphql-tools
+    ```
+
 ## `Server REST API`
 
 - Установка.
@@ -388,3 +405,7 @@
 ### Task 18
 
 - Добавить проект `REST API`.
+
+### Task 19
+
+- Добавить проект `GraphQL API`.
