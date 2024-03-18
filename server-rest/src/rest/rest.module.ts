@@ -27,6 +27,7 @@ import { PropertyHelper } from './services/PropertyHelper';
 import { SkillHelper } from './services/SkillHelper';
 import { TemplateHelper } from './services/TemplateHelper';
 import { MapHelper } from './services/MapHelper';
+import { RabbitMQMiddleware } from '../modules/middlewares/rabbit-mq.middleware';
 
 
 
@@ -43,7 +44,13 @@ export class RestModule implements NestModule {
         this.logger.debug('--- RestModule: LOADED ---');
     }
 
-    configure(consumer: MiddlewareConsumer) { }
+    configure(consumer: MiddlewareConsumer) {
+        consumer.apply(RabbitMQMiddleware).forRoutes(
+            EnemyController, GameController, TemplateController,
+            MapController, PlayerController, ProductController,
+            SpawnScriptController, SkillController,
+        );
+    }
 
     static async forRootAsync(
         options: RestModuleOptions,

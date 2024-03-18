@@ -13,6 +13,9 @@ import { LoggerModule } from './modules/Logger/logger.module';
 import { RestModule } from './rest/rest.module';
 import { allEntities } from './modules/Postgres/entity/entities';
 import { UploadModule } from './modules/Upload/upload.module';
+import { RabbitMQModule } from './modules/RabbitMQ/rabbit-mq.module';
+
+
 
 //
 dotenv.config({ path: 'configs/keycloak.env' });
@@ -20,6 +23,7 @@ dotenv.config({ path: 'configs/keycloak.env' });
 //
 async function bootstrap() {
 
+    const importRabbitMQModule = await RabbitMQModule.forRootAsync();
     const importPostgresModule = await PostgresModule.forRootAsync({
         entities: allEntities,
     });
@@ -37,6 +41,7 @@ async function bootstrap() {
 
     const appModule = await AppModule.forRootAsync({
         imports: [
+            importRabbitMQModule,
             importPostgresModule,
             importMongoModule,
             importAdminJSModule,
@@ -57,6 +62,8 @@ async function bootstrap() {
         console.log(`http://localhost:${port}`);
         console.log(`http://localhost:${port}/admin`);
         console.log(`http://localhost:${port}/keycloak`);
+        console.log(`http://localhost:${port}/api/send`);
+        console.log(`http://localhost:${port}/api/emit`);
     });
 }
 bootstrap();

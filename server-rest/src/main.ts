@@ -10,11 +10,14 @@ import { AppModule } from './modules/App/app.module';
 import { LoggerModule } from './modules/Logger/logger.module';
 import { MongoModule } from './modules/Mongo/mongo.module';
 import { RestModule } from './rest/rest.module';
+import { RabbitMQModule } from './modules/RabbitMQ/rabbit-mq.module';
 
 
 
 //
 async function bootstrap() {
+
+    const importRabbitMQModule = await RabbitMQModule.forRootAsync();
 
     const importLogger = LoggerModule.forRoot();
 
@@ -52,6 +55,7 @@ async function bootstrap() {
 
     const appModule = await AppModule.forRootAsync({
         imports: [
+            importRabbitMQModule,
             importLogger,
             importMongoModule,
             importRestModule,
@@ -68,6 +72,8 @@ async function bootstrap() {
         console.log(`http://localhost:${port}/api/hello`);
         console.log(`http://localhost:${port}/api/test_insert`);
         console.log(`http://localhost:${port}/api/test_find`);
+        console.log(`http://localhost:${port}/api/send`);
+        console.log(`http://localhost:${port}/api/emit`);
     });
 }
 bootstrap();

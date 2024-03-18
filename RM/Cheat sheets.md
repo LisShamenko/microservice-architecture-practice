@@ -103,3 +103,21 @@
                                 │ }                                  │
                                 ╰────────────────────────────────────╯
 ```
+
+## RabbitMQ
+
+```
+amqp://username:password@localhost:5672/virtualhost/exchange?routingKey=value
+ \_/   \_______________/ \_______/ \__/ \_________/ \_____________/ \_______/
+  |           |              |       |       |            |             |                
+  |           |      broker hostname |       |            |         Specifies routing key value (optional)
+  |           |                      |       |            |
+  |           |                      |  virtual host (optional)
+  |           |                      |                    | 
+  |           |                      |                    |
+  |           |       node port, if absent 5672 is used   |
+  |           |                                           |
+  |  rabbit mq user info, if absent guest:guest is used   |
+  |                                                       |   
+schema name                                         exchange name used for dispatching messages (optional)
+```

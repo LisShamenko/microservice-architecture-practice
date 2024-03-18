@@ -100,6 +100,8 @@
     npm install multer @types/multer
     npm install mime-types @types/mime-types
     npm i axios
+    npm i @nestjs/microservices@9.4.3
+    npm i amqplib amqp-connection-manager
     ```
 
 - Запуск.
@@ -211,6 +213,8 @@
     npm i nest-winston winston
     npm i class-validator
     npm i nestjs-graphql-tools
+    npm i @nestjs/microservices
+    npm i amqplib amqp-connection-manager
     ```
 
 ## `Server REST API`
@@ -222,6 +226,21 @@
     npm i @nestjs/mongoose mongoose mongoose-autopopulate
     npm i @nestjs/config
     npm i nest-winston winston
+    npm i @nestjs/microservices
+    npm i amqplib amqp-connection-manager
+    ```
+
+## `Server RabbitMQ Database Monitoring`
+
+- Установка.
+
+    ```
+    nest new monitor-rabbit
+    npm i @nestjs/config
+    npm i nest-winston winston
+    npm i @nestjs/microservices
+    npm i amqplib amqp-connection-manager
+    npm i @nestjs/typeorm typeorm pg
     ```
 
 ## Run
@@ -409,3 +428,12 @@
 ### Task 19
 
 - Добавить проект `GraphQL API`.
+
+### Task 20
+
+- Добавить проект `RabbitMQ Database Monitoring`.
+
+- Мониторинг запросов в следующих проектах:
+    - `Admin / Tester`
+    - `Server GraphQL API`
+    - `Server REST API`

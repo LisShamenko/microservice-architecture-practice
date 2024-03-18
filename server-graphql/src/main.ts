@@ -10,12 +10,14 @@ import { allEntities } from './modules/Postgres/entity/entities';
 // 
 import { GraphQLSchemaHost } from '@nestjs/graphql';
 import { GraphqlModule } from './graphql/graphql.module';
+import { RabbitMQModule } from './modules/RabbitMQ/rabbit-mq.module';
 
 
 
 //
 async function bootstrap() {
 
+    const importRabbitMQModule = await RabbitMQModule.forRootAsync();
     const importPostgresModule = await PostgresModule.forRootAsync({
         entities: allEntities,
     });
@@ -24,6 +26,7 @@ async function bootstrap() {
 
     const appModule = await AppModule.forRootAsync({
         imports: [
+            importRabbitMQModule,
             importPostgresModule,
             importLogger,
             importGraphqlModule,
@@ -42,6 +45,8 @@ async function bootstrap() {
     await app.listen(port, () => {
         console.log(`http://localhost:${port}/api/hello`);
         console.log(`http://localhost:${port}/api/test_find`);
+        console.log(`http://localhost:${port}/api/send`);
+        console.log(`http://localhost:${port}/api/emit`);
     });
 }
 bootstrap();

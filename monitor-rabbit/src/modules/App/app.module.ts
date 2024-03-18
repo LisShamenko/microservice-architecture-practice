@@ -1,10 +1,9 @@
 import { DynamicModule, MiddlewareConsumer } from '@nestjs/common';
 import { Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-//
+// 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { RabbitMQPlugin } from '../../graphql/plugins/rabbit-mq.plugin';
 
 
 
@@ -13,7 +12,6 @@ export interface AppModuleOptions {
     imports: DynamicModule[];
 }
 
-//
 @Module({})
 export class AppModule implements NestModule {
     constructor() { }
@@ -35,7 +33,7 @@ export class AppModule implements NestModule {
                 ...options.imports,
             ],
             controllers: [AppController],
-            providers: [AppService, RabbitMQPlugin],
+            providers: [AppService],
             exports: [],
         };
     }
