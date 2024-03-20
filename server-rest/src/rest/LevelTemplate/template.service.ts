@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { omit } from 'lodash';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
@@ -13,6 +13,8 @@ import { LevelTemplate, LevelTemplateDocument } from '../../modules/Mongo/Entity
 import { PlayerProperty } from '../../modules/Mongo/Entity/PlayerProperty';
 import { Inventory, InventoryProduct } from '../../modules/Mongo/Entity/Inventory';
 import { Sorting } from '../../modules/Mongo/enums/Sorting';
+import { RedisRepository } from 'src/modules/RedisClient/redis.repository';
+import { Prefix } from '../enums/prefix.enum';
 
 
 
@@ -26,9 +28,11 @@ export class TemplateService {
         private propertiesHelper: PropertyHelper,
         private skillHelper: SkillHelper,
         private errorHelper: ErrorHelper,
+        @Inject(RedisRepository)
+        private repository: RedisRepository,
     ) { }
 
-    // 
+    // admin
     async insertTemplate(idto: InsertTemplateDto) {
 
         const properties = new PlayerProperty();
@@ -59,7 +63,7 @@ export class TemplateService {
         return { id: result.id };
     }
 
-    // 
+    // admin
     async updateTemplate(template_id: string, udto: UpdateTemplateDto) {
 
         const levelTemplate = await this.levelTemplateModel
@@ -90,7 +94,7 @@ export class TemplateService {
         return { id: result.id };
     }
 
-    // 
+    // admin
     async deleteTemplate(template_id: string) {
         try {
             const result = await this.levelTemplateModel
@@ -102,38 +106,51 @@ export class TemplateService {
         }
     }
 
-    // 
+    // user, admin
     async getOneTemplate(template_id: string) {
 
-        const template = await this.levelTemplateModel
-            .where({ _id: new Types.ObjectId(template_id) })
-            .populate('inventory.products.products')
-            .findOne();
-        this.errorHelper.foundError(template, 'template_id');
+        let result = await this.repository.getObject(Prefix.template, template_id);
+        if (!result) {
 
-        return {
-            id: template.id,
-            title: template.title,
-            coins: template.coins,
-            properties: omit(template.properties, 'id'),
-            inventory: {
-                sorting: template.inventory.sorting,
-                products: template.inventory.products.map(productMapCallback),
-            },
-            skills: template.skills,
-        };
-    }
+            const template = await this.levelTemplateModel
+                .where({ _id: new Types.ObjectId(template_id) })
+                .populate('inventory.products.products')
+                .findOne();
+            this.errorHelper.foundError(template, 'template_id');
 
-    // 
-    async getAllTemplates() {
-        const templates = await this.levelTemplateModel
-            .find();
-
-        return {
-            templates: (!templates) ? [] : templates.map(template => ({
+            result = {
                 id: template.id,
                 title: template.title,
-            }))
+                coins: template.coins,
+                properties: omit(template.properties, 'id'),
+                inventory: {
+                    sorting: template.inventory.sorting,
+                    products: template.inventory.products.map(productMapCallback),
+                },
+                skills: template.skills,
+            };
+            await this.repository.saveObject(Prefix.template, template.id, result);
         }
+        return result;
+    }
+
+    // user, admin
+    async getAllTemplates() {
+
+        let result = await this.repository.getList(Prefix.template);
+        if (!result) {
+
+            const templates = await this.levelTemplateModel
+                .find();
+
+            result = {
+                templates: (!templates) ? [] : templates.map(template => ({
+                    id: template.id,
+                    title: template.title,
+                }))
+            }
+            await this.repository.saveList(Prefix.template, result);
+        }
+        return result;
     }
 }

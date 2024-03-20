@@ -228,6 +228,7 @@
     npm i nest-winston winston
     npm i @nestjs/microservices
     npm i amqplib amqp-connection-manager
+    npm i ioredis
     ```
 
 ## `Server RabbitMQ Database Monitoring`
@@ -437,3 +438,7 @@
     - `Admin / Tester`
     - `Server GraphQL API`
     - `Server REST API`
+
+### Task 21
+
+- Добавить кеширование `Redis` в проект `REST API`.

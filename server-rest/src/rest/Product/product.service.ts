@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 //
@@ -10,6 +10,8 @@ import { SkillHelper } from '../services/SkillHelper';
 import { ProductHelper } from '../services/ProductHelper';
 import { ErrorHelper } from '../services/ErrorHelper';
 import { PropertyHelper } from '../services/PropertyHelper';
+import { RedisRepository } from 'src/modules/RedisClient/redis.repository';
+import { Prefix } from '../enums/prefix.enum';
 
 
 
@@ -23,9 +25,11 @@ export class ProductService {
         private productHelper: ProductHelper,
         private errorHelper: ErrorHelper,
         private propertyHelper: PropertyHelper,
+        @Inject(RedisRepository)
+        private repository: RedisRepository,
     ) { }
 
-    // 
+    // admin
     async insertProduct(idto: InsertProductDto) {
 
         const tmpSkills: string[] = [];
@@ -57,7 +61,7 @@ export class ProductService {
         return { id: result.id };
     }
 
-    // 
+    // admin
     async updateProduct(product_id: string, udto: UpdateProductDto) {
 
         const product = await this.productModel
@@ -85,7 +89,7 @@ export class ProductService {
         return { id: result.id };
     }
 
-    // 
+    // admin
     async deleteProduct(product_id: string) {
         try {
             const result = await this.productModel
@@ -97,38 +101,51 @@ export class ProductService {
         }
     }
 
-    // 
+    // user, admin
     async getOneProduct(product_id: string) {
 
-        const product = await this.productModel
-            .where({ _id: new Types.ObjectId(product_id) })
-            .findOne();
-        this.errorHelper.foundError(product, 'product_id');
+        let result = await this.repository.getObject(Prefix.product, product_id);
+        if (!result) {
 
-        return {
-            id: product.id,
-            title: product.title,
-            price: product.price,
-            max_in_slot: product.max_in_slot,
-            requirement: product.requirements,
-            skills: product.skills,
-            type: product.product_type,
-            cloth: product.cloth,
-            shell: product.shell,
-            weapon: product.weapon,
-        };
-    }
+            const product = await this.productModel
+                .where({ _id: new Types.ObjectId(product_id) })
+                .findOne();
+            this.errorHelper.foundError(product, 'product_id');
 
-    // 
-    async getAllProducts() {
-        const products = await this.productModel
-            .find();
-
-        return {
-            products: (!products) ? [] : products.map(product => ({
+            result = {
                 id: product.id,
                 title: product.title,
-            }))
+                price: product.price,
+                max_in_slot: product.max_in_slot,
+                requirement: product.requirements,
+                skills: product.skills,
+                type: product.product_type,
+                cloth: product.cloth,
+                shell: product.shell,
+                weapon: product.weapon,
+            };
+            await this.repository.saveObject(Prefix.product, product.id, result);
         }
+        return result;
+    }
+
+    // user, admin
+    async getAllProducts() {
+
+        let result = await this.repository.getList(Prefix.product);
+        if (!result) {
+
+            const products = await this.productModel
+                .find();
+
+            result = {
+                products: (!products) ? [] : products.map(product => ({
+                    id: product.id,
+                    title: product.title,
+                }))
+            }
+            await this.repository.saveList(Prefix.product, result);
+        }
+        return result;
     }
 }

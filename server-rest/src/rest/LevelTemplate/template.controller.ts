@@ -3,23 +3,30 @@ import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common'
 import { TemplateService } from './template.service';
 import { InsertTemplateDto } from './dto/InsertTemplateDto';
 import { UpdateTemplateDto } from './dto/UpdateTemplateDto';
+import { DeleteRedis } from '../interceptors/delete-redis-object.interceptor';
+import { Prefix } from '../enums/prefix.enum';
+
+
 
 //
-@Controller('templates')
+@Controller(Prefix.template)
 export class TemplateController {
     constructor(private readonly templateService: TemplateService) { }
 
     @Post()
+    @DeleteRedis()
     async insert(@Body() idto: InsertTemplateDto) {
         return await this.templateService.insertTemplate(idto);
     }
 
     @Put('/:id')
+    @DeleteRedis()
     async update(@Param('id') id: string, @Body() udto: UpdateTemplateDto) {
         return await this.templateService.updateTemplate(id, udto);
     }
 
     @Delete('/:id')
+    @DeleteRedis()
     async delete(@Param('id') id: string) {
         return await this.templateService.deleteTemplate(id);
     }

@@ -11,11 +11,14 @@ import { LoggerModule } from './modules/Logger/logger.module';
 import { MongoModule } from './modules/Mongo/mongo.module';
 import { RestModule } from './rest/rest.module';
 import { RabbitMQModule } from './modules/RabbitMQ/rabbit-mq.module';
+import { RedisClientModule } from './modules/RedisClient/redis-client.module';
 
 
 
 //
 async function bootstrap() {
+
+    const importRedisClientModule = await RedisClientModule.forRootAsync();
 
     const importRabbitMQModule = await RabbitMQModule.forRootAsync();
 
@@ -55,6 +58,7 @@ async function bootstrap() {
 
     const appModule = await AppModule.forRootAsync({
         imports: [
+            importRedisClientModule,
             importRabbitMQModule,
             importLogger,
             importMongoModule,

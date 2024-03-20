@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 // 
@@ -14,6 +14,8 @@ import { LevelEffectsHelper } from '../services/LevelEffectsHelper';
 import { ErrorHelper } from '../services/ErrorHelper';
 import { Sorting } from 'src/modules/Mongo/enums/Sorting';
 import { LevelTemplateModel } from 'src/modules/Mongo/Entity/LevelTemplate';
+import { RedisRepository } from 'src/modules/RedisClient/redis.repository';
+import { Prefix } from '../enums/prefix.enum';
 
 
 
@@ -29,9 +31,11 @@ export class PlayerService {
         private skillHelper: SkillHelper,
         private effectsHelper: LevelEffectsHelper,
         private errorHelper: ErrorHelper,
+        @Inject(RedisRepository)
+        private repository: RedisRepository,
     ) { }
 
-    // 
+    // admin
     async insertPlayer(idto: InsertPlayerDto) {
 
         const { tmpProperties, tmpProducts, tmpSkills } =
@@ -68,7 +72,7 @@ export class PlayerService {
         return { id: result.id };
     }
 
-    // 
+    // admin
     async updatePlayer(player_id: string, udto: UpdatePlayerDto) {
 
         const player = await this.playerModel
@@ -103,7 +107,7 @@ export class PlayerService {
         return { id: result.id };
     }
 
-    // 
+    // admin
     async deletePlayer(player_id: string) {
         try {
             const result = await this.playerModel
@@ -115,48 +119,62 @@ export class PlayerService {
         }
     }
 
-    // 
+    // user, admin
     async getOnePlayer(player_id: string) {
-        const player = await this.playerModel
-            .where({ _id: new Types.ObjectId(player_id) })
-            .populate('inventory.products.products')
-            .populate({ path: 'player_level', model: LevelTemplateModel })
-            .findOne();
-        this.errorHelper.foundError(player, 'player_id');
 
-        return {
-            id: player.id,
-            login: player.login,
-            inventory: {
-                sorting: player.inventory.sorting,
-                products: player.inventory.products.map(productMapCallback),
-            },
-            properties: player.properties,
-            template: {
-                id: player.level_template_id,
-                title: player.player_level[0].title,
-            },
-            skills: player.skills,
-            effects: player.level_effects.map(e => ({
-                id: e._id.toString(),
-                count_matches: e.count_matches,
-                is_equipment: e.is_equipment,
-                property_column: e.property_column,
-                delta_value: e.delta_value,
-            }))
-        };
-    }
+        let result = await this.repository.getObject(Prefix.player, player_id);
+        if (!result) {
 
-    // 
-    async getAllPlayers() {
-        const players = await this.playerModel
-            .find();
+            const player = await this.playerModel
+                .where({ _id: new Types.ObjectId(player_id) })
+                .populate('inventory.products.products')
+                .populate({ path: 'player_level', model: LevelTemplateModel })
+                .findOne();
+            this.errorHelper.foundError(player, 'player_id');
 
-        return {
-            players: (!players) ? [] : players.map(player => ({
+            result = {
                 id: player.id,
                 login: player.login,
-            }))
+                inventory: {
+                    sorting: player.inventory.sorting,
+                    products: player.inventory.products.map(productMapCallback),
+                },
+                properties: player.properties,
+                template: {
+                    id: player.level_template_id,
+                    title: player.player_level[0].title,
+                },
+                skills: player.skills,
+                effects: player.level_effects.map(e => ({
+                    id: e._id.toString(),
+                    count_matches: e.count_matches,
+                    is_equipment: e.is_equipment,
+                    property_column: e.property_column,
+                    delta_value: e.delta_value,
+                }))
+            };
+            await this.repository.saveObject(Prefix.player, player.id, result);
         }
+        return result;
+    }
+
+    // user, admin
+    async getAllPlayers() {
+
+        let result = await this.repository.getList(Prefix.player);
+        if (!result) {
+
+            const players = await this.playerModel
+                .find();
+
+            result = {
+                players: (!players) ? [] : players.map(player => ({
+                    id: player.id,
+                    login: player.login,
+                }))
+            }
+            await this.repository.saveList(Prefix.player, result);
+        }
+        return result;
     }
 }

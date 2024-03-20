@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 //
@@ -8,6 +8,8 @@ import { ErrorHelper } from '../services/ErrorHelper';
 import { Skill, SkillDocument } from '../../modules/Mongo/Entity/Skill';
 import { Requirement } from '../../modules/Mongo/Entity/Requirement';
 import { PropertyHelper } from '../services/PropertyHelper';
+import { RedisRepository } from 'src/modules/RedisClient/redis.repository';
+import { Prefix } from '../enums/prefix.enum';
 
 
 
@@ -19,9 +21,11 @@ export class SkillService {
         private skillModel: Model<SkillDocument>,
         private errorHelper: ErrorHelper,
         private propertyHelper: PropertyHelper,
+        @Inject(RedisRepository)
+        private repository: RedisRepository,
     ) { }
 
-    // 
+    // admin
     async insertSkill(idto: InsertSkillDto) {
 
         let parentSkillId = null;
@@ -45,7 +49,7 @@ export class SkillService {
         return { id: result.id };
     }
 
-    // 
+    // admin
     async updateSkill(skill_id: string, udto: UpdateSkillDto) {
 
         const skill = await this.skillModel
@@ -72,7 +76,7 @@ export class SkillService {
         return { id: result.id };
     }
 
-    // 
+    // admin
     async deleteSkill(skill_id: string) {
         try {
             const result = await this.skillModel
@@ -84,36 +88,50 @@ export class SkillService {
         }
     }
 
-    // 
+    // user, admin
     async getOneSkill(skill_id: string) {
-        const skill = await this.skillModel
-            .where({ _id: skill_id })
-            .populate('parent_skill')
-            .findOne();
-        this.errorHelper.foundError(skill, 'skill_id');
 
-        return {
-            id: skill.id,
-            title: skill.title,
-            parent_id: skill.parent_skill_id,
-            requirement: skill.requirements,
-            parent: {
-                title: skill.parent_skill[0].title,
-            }
-        };
-    }
+        let result = await this.repository.getObject(Prefix.skill, skill_id);
+        if (!result) {
 
-    // 
-    async getAllSkills() {
-        const skills = await this.skillModel
-            .find();
+            const skill = await this.skillModel
+                .where({ _id: skill_id })
+                .populate('parent_skill')
+                .findOne();
+            this.errorHelper.foundError(skill, 'skill_id');
 
-        return {
-            skills: (!skills) ? [] : skills.map(skill => ({
+            result = {
                 id: skill.id,
                 title: skill.title,
                 parent_id: skill.parent_skill_id,
-            }))
+                requirement: skill.requirements,
+                parent: {
+                    title: skill.parent_skill[0].title,
+                }
+            };
+            await this.repository.saveObject(Prefix.skill, skill.id, result);
         }
+        return result;
+    }
+
+    // user, admin
+    async getAllSkills() {
+
+        let result = await this.repository.getList(Prefix.skill);
+        if (!result) {
+
+            const skills = await this.skillModel
+                .find();
+
+            result = {
+                skills: (!skills) ? [] : skills.map(skill => ({
+                    id: skill.id,
+                    title: skill.title,
+                    parent_id: skill.parent_skill_id,
+                }))
+            }
+            await this.repository.saveList(Prefix.skill, result);
+        }
+        return result;
     }
 }

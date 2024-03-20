@@ -27,7 +27,7 @@ import { PropertyHelper } from './services/PropertyHelper';
 import { SkillHelper } from './services/SkillHelper';
 import { TemplateHelper } from './services/TemplateHelper';
 import { MapHelper } from './services/MapHelper';
-import { RabbitMQMiddleware } from '../modules/middlewares/rabbit-mq.middleware';
+import { RabbitMQMiddleware } from '../middlewares/rabbit-mq.middleware';
 
 
 

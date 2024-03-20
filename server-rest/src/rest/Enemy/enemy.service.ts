@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 //
@@ -12,6 +12,8 @@ import { SkillHelper } from '../services/SkillHelper';
 import { TemplateHelper } from '../services/TemplateHelper';
 import { ErrorHelper } from '../services/ErrorHelper';
 import { Sorting } from 'src/modules/Mongo/enums/Sorting';
+import { RedisRepository } from 'src/modules/RedisClient/redis.repository';
+import { Prefix } from '../enums/prefix.enum';
 
 
 
@@ -26,9 +28,11 @@ export class EnemyService {
         private productHelper: ProductHelper,
         private propertyHelper: PropertyHelper,
         private skillHelper: SkillHelper,
+        @Inject(RedisRepository)
+        private repository: RedisRepository,
     ) { }
 
-    // 
+    // admin
     async insertEnemy(idto: InsertEnemyDto) {
 
         const { tmpProperties, tmpProducts, tmpSkills } =
@@ -57,7 +61,7 @@ export class EnemyService {
         return { id: result.id };
     }
 
-    // 
+    // admin
     async updateEnemy(enemy_id: string, udto: UpdateEnemyDto) {
 
         const enemy = await this.enemyModel
@@ -114,7 +118,7 @@ export class EnemyService {
         return { id: result.id };
     }
 
-    // 
+    // admin
     async deleteEnemy(enemy_id: string) {
         try {
             const result = await this.enemyModel
@@ -126,48 +130,62 @@ export class EnemyService {
         }
     }
 
-    // 
+    // user, admin
     async getOneEnemy(enemy_id: string) {
-        const enemy = await this.enemyModel
-            .where({ _id: enemy_id })
-            //      .populate({
-            //          path: 'level_template',
-            //          localField: 'level_template_id',
-            //          model: LevelTemplateModel,
-            //          foreignField: '_id',
-            //      })
-            .populate('level_template')
-            .populate('inventory.products.products')
-            .findOne();
-        this.errorHelper.foundError(enemy, 'enemy_id');
 
-        return {
-            id: enemy.id,
-            nickname: enemy.nickname,
-            enemy_type: enemy.enemy_type,
-            inventory: {
-                sorting: enemy.inventory.sorting,
-                products: enemy.inventory.products.map(productMapCallback),
-            },
-            properties: enemy.properties,
-            template: {
-                id: enemy.level_template_id,
-                title: enemy.level_template[0].title,
-            },
-            skills: enemy.skills,
-        };
-    }
+        let result = await this.repository.getObject(Prefix.enemy, enemy_id);
+        if (!result) {
 
-    // 
-    async getAllEnemies() {
-        const enemies = await this.enemyModel
-            .find();
+            const enemy = await this.enemyModel
+                .where({ _id: enemy_id })
+                //      .populate({
+                //          path: 'level_template',
+                //          localField: 'level_template_id',
+                //          model: LevelTemplateModel,
+                //          foreignField: '_id',
+                //      })
+                .populate('level_template')
+                .populate('inventory.products.products')
+                .findOne();
+            this.errorHelper.foundError(enemy, 'enemy_id');
 
-        return {
-            enemies: (!enemies) ? [] : enemies.map(enemy => ({
+            result = {
                 id: enemy.id,
                 nickname: enemy.nickname,
-            }))
+                enemy_type: enemy.enemy_type,
+                inventory: {
+                    sorting: enemy.inventory.sorting,
+                    products: enemy.inventory.products.map(productMapCallback),
+                },
+                properties: enemy.properties,
+                template: {
+                    id: enemy.level_template_id,
+                    title: enemy.level_template[0].title,
+                },
+                skills: enemy.skills,
+            };
+            await this.repository.saveObject(Prefix.enemy, enemy.id, result);
         }
+        return result;
+    }
+
+    // user, admin
+    async getAllEnemies() {
+
+        let result = await this.repository.getList(Prefix.enemy);
+        if (!result) {
+
+            const enemies = await this.enemyModel
+                .find();
+
+            result = {
+                enemies: (!enemies) ? [] : enemies.map(enemy => ({
+                    id: enemy.id,
+                    nickname: enemy.nickname,
+                }))
+            }
+            await this.repository.saveList(Prefix.enemy, result);
+        }
+        return result;
     }
 }
