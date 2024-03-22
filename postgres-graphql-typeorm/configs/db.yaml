@@ -1,6 +1,6 @@
 http:
   host: "localhost"
-  port: 3000
+  port: 6003
 postgres:
   host: 'localhost'
   port: 5432

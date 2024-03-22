@@ -7,11 +7,16 @@ import { AppController } from './app.controller';
 
 
 //
+export const getEnvPath = () => {
+    return (process.env.NODE_ENV === 'production')
+        ? 'configs/.env.production'
+        : 'configs/.env.development';
+}
+
 export interface AppModuleOptions {
     imports: DynamicModule[];
 }
 
-// 
 @Module({})
 export class AppModule implements NestModule {
     constructor() { }
@@ -27,7 +32,7 @@ export class AppModule implements NestModule {
             module: AppModule,
             imports: [
                 ConfigModule.forRoot({
-                    envFilePath: 'configs/.env',
+                    envFilePath: getEnvPath(),
                     isGlobal: true,
                 }),
                 ...options.imports,

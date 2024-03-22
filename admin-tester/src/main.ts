@@ -4,7 +4,7 @@ import { INestApplication } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import * as dotenv from 'dotenv';
 //
-import { AppModule } from './modules/App/app.module';
+import { AppModule, getEnvPath } from './modules/App/app.module';
 import { AdminJSModule } from './modules/AdminJS/adminjs.module';
 import { KeycloakModule } from './modules/Keycloak/keycloak.module';
 import { MongoModule } from './modules/Mongo/mongo.module';
@@ -18,7 +18,7 @@ import { RabbitMQModule } from './modules/RabbitMQ/rabbit-mq.module';
 
 
 //
-dotenv.config({ path: 'configs/keycloak.env' });
+dotenv.config({ path: getEnvPath() });
 
 //
 async function bootstrap() {
@@ -30,10 +30,10 @@ async function bootstrap() {
     const importMongoModule = await MongoModule.forRootAsync({});
     const importAdminJSModule = await AdminJSModule.forRootAsync({});
     const importKeycloakModule = await KeycloakModule.forRootAsync({
-        authServerUrl: process.env.KEY_URL,
-        realm: process.env.KEY_REALM,
-        clientId: process.env.KEY_CLIENT_ID,
-        secret: process.env.KEY_SECRET,
+        authServerUrl: process.env.KEYCLOAK_URL,
+        realm: process.env.KEYCLOAK_REALM,
+        clientId: process.env.KEYCLOAK_CLIENT_ID,
+        secret: process.env.KEYCLOAK_CLIENT_SECRET,
     });
     const importRestModule = await RestModule.forRootAsync();
     const importLogger = LoggerModule.forRoot();

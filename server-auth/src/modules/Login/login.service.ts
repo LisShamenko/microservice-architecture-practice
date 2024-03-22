@@ -23,10 +23,10 @@ export class LoginService {
                 'http://localhost:8080/realms/citizen-network/protocol/openid-connect/auth', {
                 params: {
                     response_type: 'code',
-                    client_id: this.configService.get('CLIENT_ID'),
-                    state: this.configService.get('STATE'),
-                    scope: this.configService.get('SCOPE'),
-                    redirect_uri: this.configService.get('REDIRECT_URI'),
+                    client_id: this.configService.get('KEYCLOAK_CLIENT_ID'),
+                    state: this.configService.get('KEYCLOAK_STATE'),
+                    scope: this.configService.get('KEYCLOAK_SCOPE'),
+                    redirect_uri: this.configService.get('KEYCLOAK_REDIRECT_URI'),
                 },
             })
             .pipe(map((res) => {
@@ -91,8 +91,8 @@ export class LoginService {
                 'http://localhost:8080/realms/citizen-network/protocol/openid-connect/token',
                 {
                     grant_type: 'authorization_code',
-                    client_id: this.configService.get('CLIENT_ID'),
-                    client_secret: this.configService.get('CLIENT_SECRET'),
+                    client_id: this.configService.get('KEYCLOAK_CLIENT_ID'),
+                    client_secret: this.configService.get('KEYCLOAK_CLIENT_SECRET'),
                     code: code,
                     redirect_uri: 'http://localhost:3030/login/redirect_uri',
                 },
@@ -127,8 +127,8 @@ export class LoginService {
                 'http://localhost:8080/realms/citizen-network/protocol/openid-connect/token',
                 {
                     grant_type: 'refresh_token',
-                    client_id: this.configService.get('CLIENT_ID'),
-                    client_secret: this.configService.get('CLIENT_SECRET'),
+                    client_id: this.configService.get('KEYCLOAK_CLIENT_ID'),
+                    client_secret: this.configService.get('KEYCLOAK_CLIENT_SECRET'),
                     refresh_token: refreshToken,
                 },
                 {
@@ -153,8 +153,8 @@ export class LoginService {
 
     async logoutUser(access_token: string, refresh_token: string) {
 
-        const clientId = this.configService.get('CLIENT_ID');
-        const clientSecret = this.configService.get('CLIENT_SECRET');
+        const clientId = this.configService.get('KEYCLOAK_CLIENT_ID');
+        const clientSecret = this.configService.get('KEYCLOAK_CLIENT_SECRET');
 
         const request = this.httpService
             .post<AccessCodeResponseDto>(

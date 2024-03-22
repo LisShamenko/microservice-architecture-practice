@@ -9,12 +9,19 @@ import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
+
+
 //
+export const getEnvPath = () => {
+    return (process.env.NODE_ENV === 'production')
+        ? 'configs/.env.production'
+        : 'configs/.env.development';
+}
+
 export interface AppModuleOptions {
     imports: DynamicModule[];
 }
 
-//
 @Module({})
 export class AppModule implements NestModule {
     constructor(
@@ -35,7 +42,7 @@ export class AppModule implements NestModule {
             imports: [
                 // config
                 ConfigModule.forRoot({
-                    envFilePath: 'configs/.env',
+                    envFilePath: getEnvPath(),
                     expandVariables: true,
                 }),
                 // public

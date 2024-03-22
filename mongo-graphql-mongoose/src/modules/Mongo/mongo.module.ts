@@ -67,10 +67,6 @@ export class MongoModule {
             global: true,
             module: MongoModule,
             imports: [
-                ConfigModule.forRoot({
-                    envFilePath: '.env',
-                    isGlobal: true,
-                }),
                 importModels,
                 importRoot,
             ],

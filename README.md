@@ -113,36 +113,9 @@
         ```
     - `adminjs`
         ```
-        http://localhost:${port}/admin
-        AJS_EMAIL
-        AJS_PASSWORD
-        ```
-
-- Тестовая конфигурация.
-
-    - `configs/.env`
-        ```
-        PORT=3001
-        MONGO_URI=mongodb://localhost:27017/test
-        PG_HOST=localhost
-        PG_PORT=5432
-        PG_USERNAME=postgres
-        PG_PASSWORD=postgres
-        PG_DATABASE=test_1
-        AJS_EMAIL=a
-        AJS_PASSWORD=a
-        ADMIN_USERNAME=admin
-        ADMIN_PASSWORD=admin
-        ADMIN_GRANT_TYPE=password
-        ADMIN_CLIENT_ID=admin-cli
-        ADMIN_TOTP=123456
-        ```
-    - `configs/keycloak.env`
-        ```
-        KEY_URL=http://localhost:8080
-        KEY_REALM=citizen-network
-        KEY_CLIENT_ID=nest-app
-        KEY_SECRET=4rf4Xn0ZWAdr4vyIlmcv4W1b17Ew5n88
+        http://localhost:${PORT}/admin
+        ADMINJS_EMAIL
+        ADMINJS_PASSWORD
         ```
 
 ## `Client React/Redux`
@@ -160,6 +133,42 @@
     npm i @emotion/react
     npm i @emotion/styled
     npm i node-sass
+    npm i env-cmd
+    ```
+
+## `Static Server` for `Client React/Redux`
+
+- Установка.
+
+    ```
+    nest new client-redux-server
+    npm i @nestjs/config
+    npm i nest-winston winston
+    npm i @nestjs/serve-static
+    ```
+
+## `Client ThreeJS`
+
+- Установка.
+
+    ```
+    npx create-react-app client-three --template typescript
+    npm i three @react-three/fiber
+    npm i @types/three --save-dev
+    npm i @react-three/drei --save-dev
+    npm i r3f-perf --save-dev
+    npm i leva --save-dev
+    ```
+
+## `Static Server` for `Client ThreeJS`
+
+- Установка.
+
+    ```
+    nest new client-three-server
+    npm i @nestjs/config
+    npm i nest-winston winston
+    npm i @nestjs/serve-static
     ```
 
 ## `Authorization Server`
@@ -442,3 +451,14 @@
 ### Task 21
 
 - Добавить кеширование `Redis` в проект `REST API`.
+
+### Task 22
+
+- Добавить проекты:
+    - `Static Server` for `Client React/Redux`
+    - `Client ThreeJS`
+    - `Static Server` for `Client ThreeJS`
+
+### Task 23
+
+- Файлы конфигурации `.env.development`.

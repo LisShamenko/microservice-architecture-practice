@@ -10,7 +10,15 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { logFormat } from './../../services/logFormat';
 
+
+
 //
+export const getEnvPath = () => {
+    return (process.env.NODE_ENV === 'production')
+        ? 'configs/.env.production'
+        : 'configs/.env.development';
+}
+
 @Module({})
 export class AppModule implements NestModule {
     constructor() {}
@@ -27,7 +35,7 @@ export class AppModule implements NestModule {
             imports: [
                 importMongoModule,
                 ConfigModule.forRoot({
-                    envFilePath: '.env',
+                    envFilePath: getEnvPath(),
                     isGlobal: true,
                 }),
                 WinstonModule.forRoot({

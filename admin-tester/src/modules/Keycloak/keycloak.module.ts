@@ -49,10 +49,7 @@ export class KeycloakModule {
             global: true,
             module: KeycloakModule,
             imports: [
-                ConfigModule.forRoot({
-                    envFilePath: 'configs/.env',
-                    isGlobal: true,
-                }),
+                ConfigModule,
                 // keycloak
                 KeycloakConnectModule.register({
                     authServerUrl: options.authServerUrl,

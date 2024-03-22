@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 
 // 
 const config: AxiosRequestConfig = {
-    baseURL: 'http://localhost:3030/',
+    baseURL: process.env.REACT_APP_BASE_URL,
     headers: {},
 };
 

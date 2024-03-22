@@ -4,7 +4,7 @@ import * as dotenv from 'dotenv';
 const processEnv: any = {};
 
 dotenv.config({
-    path: 'configs/test.env',
+    path: 'configs/.env.test',
     processEnv: processEnv,
 })
 

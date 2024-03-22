@@ -24,10 +24,7 @@ export class LoginModule implements NestModule {
             global: true,
             module: LoginModule,
             imports: [
-                ConfigModule.forRoot({
-                    envFilePath: 'configs/keycloak.env',
-                    isGlobal: true,
-                }),
+                ConfigModule,
                 HttpModule,
             ],
             controllers: [LoginController],

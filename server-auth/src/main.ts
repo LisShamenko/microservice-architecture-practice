@@ -4,13 +4,13 @@ import { INestApplication } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import * as dotenv from 'dotenv';
 //
-import { AppModule } from './modules/App/app.module';
+import { AppModule, getEnvPath } from './modules/App/app.module';
 import { LoggerModule } from './modules/Logger/logger.module';
 import { LoginModule } from './modules/Login/login.module';
 import { KeycloakModule } from './modules/Keycloak/keycloak.module';
 
 //
-dotenv.config({ path: 'configs/keycloak.env' });
+dotenv.config({ path: getEnvPath() });
 
 //
 async function bootstrap() {
@@ -18,10 +18,10 @@ async function bootstrap() {
     const importLogger = LoggerModule.forRoot();
     const importLogin = await LoginModule.forRootAsync();
     const importKeycloak = await KeycloakModule.forRootAsync({
-        authServerUrl: process.env.URL,
-        realm: process.env.REALM,
-        clientId: process.env.CLIENT_ID,
-        secret: process.env.CLIENT_SECRET,
+        authServerUrl: process.env.KEYCLOAK_URL,
+        realm: process.env.KEYCLOAK_REALM,
+        clientId: process.env.KEYCLOAK_CLIENT_ID,
+        secret: process.env.KEYCLOAK_CLIENT_SECRET,
     });
 
     const appModule = await AppModule.forRootAsync({
@@ -32,8 +32,9 @@ async function bootstrap() {
         ]
     });
 
+    const cors: string[] = JSON.parse(process.env.CORS);
     const app = await NestFactory.create<NestExpressApplication>(appModule);
-    app.enableCors({ origin: ['http://localhost:3000'] });
+    app.enableCors({ origin: cors });
 
     const nestApp: INestApplication = app;
     const configService = nestApp.get(ConfigService);
@@ -41,8 +42,6 @@ async function bootstrap() {
 
     await nestApp.listen(port, () => {
         console.log(`http://localhost:${port}`);
-        console.log(`http://localhost:${port}/admin`);
-        console.log(`http://localhost:${port}/keycloak`);
     });
 }
 bootstrap();

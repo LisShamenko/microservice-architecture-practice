@@ -9,7 +9,7 @@ import { dbEntities } from '../../src/modules/Postgres/entity/entities';
 const processEnv: any = {};
 
 dotenv.config({
-    path: 'configs/test.env',
+    path: 'configs/.env.test',
     processEnv: processEnv,
 })
 

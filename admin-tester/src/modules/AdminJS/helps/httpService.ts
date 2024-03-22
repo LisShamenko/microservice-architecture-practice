@@ -1,4 +1,8 @@
 import axios, { AxiosInstance } from 'axios';
+// 
+import { adminJSConfig } from '../../../../configs/adminJSConfig';
+
+
 
 // 
 export type UploadProgressFunction =
@@ -60,6 +64,10 @@ export class HttpService {
     }
 }
 
-const httpService = new HttpService('http://localhost:3001');
+
+
+// 
+const config = adminJSConfig();
+const httpService = new HttpService(config.url);
 
 export default httpService;

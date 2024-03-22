@@ -14,7 +14,7 @@ export class KeycloakService {
         @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
     ) {
         this.kcAdminClient = new KeycloakAdminClient({
-            baseUrl: 'http://127.0.0.1:8080',
+            baseUrl: this.configService.get('KEYCLOAK_URL'),
             realmName: 'master',
             requestOptions: {
                 headers: {
@@ -28,11 +28,11 @@ export class KeycloakService {
         if (!this.kcAdminClient.accessToken) {
             try {
                 await this.kcAdminClient.auth({
-                    username: this.configService.get('ADMIN_USERNAME'),
-                    password: this.configService.get('ADMIN_PASSWORD'),
-                    grantType: this.configService.get('ADMIN_GRANT_TYPE'),
-                    clientId: this.configService.get('ADMIN_CLIENT_ID'),
-                    totp: this.configService.get('ADMIN_TOTP'),
+                    username: this.configService.get('KEYCLOAK_ADMIN_USERNAME'),
+                    password: this.configService.get('KEYCLOAK_ADMIN_PASSWORD'),
+                    grantType: this.configService.get('KEYCLOAK_ADMIN_GRANT_TYPE'),
+                    clientId: this.configService.get('KEYCLOAK_ADMIN_CLIENT_ID'),
+                    totp: this.configService.get('KEYCLOAK_ADMIN_TOTP'),
                     // optional Time-based One-time Password if OTP
                     //      is required in authentication flow
                 });

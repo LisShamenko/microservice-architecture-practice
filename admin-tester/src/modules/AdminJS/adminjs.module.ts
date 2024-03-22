@@ -36,12 +36,7 @@ export class AdminJSModule {
         });
 
         const adminModule = AdminModule.createAdminAsync({
-            imports: [
-                ConfigModule.forRoot({
-                    envFilePath: 'configs/.env',
-                    isGlobal: true,
-                }),
-            ],
+            imports: [ConfigModule],
             useFactory: (configService: ConfigService): AdminModuleOptions => ({
                 adminJsOptions: getAdminJSOptions(),
                 auth: getAuth(configService),

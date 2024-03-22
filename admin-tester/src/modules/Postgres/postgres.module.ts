@@ -55,10 +55,6 @@ export class PostgresModule {
             global: true,
             module: PostgresModule,
             imports: [
-                //ConfigModule.forRoot({
-                //    envFilePath: 'configs/.env',
-                //    isGlobal: true,
-                //}),
                 importModels,
                 importRoot,
             ],

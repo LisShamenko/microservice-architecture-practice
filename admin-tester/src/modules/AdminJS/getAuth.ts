@@ -14,8 +14,8 @@ export const getAuth = (
 
     authenticate: async (email: string, password: string) => {
 
-        //      const aEmail = configService.get('AJS_EMAIL');
-        //      const aPassword = configService.get('AJS_PASSWORD');
+        //      const aEmail = configService.get('ADMINJS_EMAIL');
+        //      const aPassword = configService.get('ADMINJS_PASSWORD');
         //      if (email === aEmail && password === aPassword) {
         //          return Promise.resolve({
         //              email: aEmail,
@@ -26,7 +26,7 @@ export const getAuth = (
 
         try {
             const adminUsers: AuthUser[] = JSON.parse(
-                configService.get('AJS_USERS')
+                configService.get('ADMINJS_USERS')
             );
 
             const user = adminUsers.find((u) =>
@@ -46,6 +46,6 @@ export const getAuth = (
             return null;
         }
     },
-    cookieName: configService.get('AJS_COOKIE_NAME'),
-    cookiePassword: configService.get('AJS_COOKIE_PASSWORD'),
+    cookieName: configService.get('ADMINJS_COOKIE_NAME'),
+    cookiePassword: configService.get('ADMINJS_COOKIE_PASSWORD'),
 });

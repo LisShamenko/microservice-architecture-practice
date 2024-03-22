@@ -8,7 +8,7 @@ import { M11704800021885 } from '../../migrations/1704800021885-m1';
 const processEnv: any = {};
 
 dotenv.config({
-    path: 'configs/test.env',
+    path: 'configs/env.test',
     processEnv: processEnv,
 })
 
