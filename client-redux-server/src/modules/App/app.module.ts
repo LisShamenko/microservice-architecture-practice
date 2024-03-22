@@ -1,0 +1,50 @@
+import { DynamicModule, MiddlewareConsumer } from '@nestjs/common';
+import { Module, NestModule } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
+//
+import { AppController } from './app.controller';
+
+
+
+//
+export const getEnvPath = () => {
+    return (process.env.NODE_ENV === 'production')
+        ? 'configs/.env.production'
+        : 'configs/.env.development';
+}
+
+export interface AppModuleOptions {
+    imports: DynamicModule[];
+}
+
+@Module({})
+export class AppModule implements NestModule {
+    constructor() { }
+
+    configure(consumer: MiddlewareConsumer) { }
+
+    //
+    static async forRootAsync(
+        options: AppModuleOptions,
+    ): Promise<DynamicModule> {
+        return {
+            global: true,
+            module: AppModule,
+            imports: [
+                ConfigModule.forRoot({
+                    envFilePath: getEnvPath(),
+                    isGlobal: true,
+                }),
+                ServeStaticModule.forRoot(
+                    { rootPath: join(__dirname, '../../../public') },
+                ),
+                ...options.imports,
+            ],
+            controllers: [AppController],
+            providers: [],
+            exports: [],
+        };
+    }
+}
