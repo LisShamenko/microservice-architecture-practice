@@ -66,6 +66,14 @@
     npm install @react-three/drei --save-dev
     npm install r3f-perf --save-dev
     npm install leva --save-dev
+    gltfjsx@6.2.16
+    npm install three-stdlib
+    npm install @tweenjs/tween.js
+    npm install dat.gui --save-dev
+    npm install @types/dat.gui --save-dev
+    npm i zustand
+    npm i @react-three/postprocessing
+    npm i @react-three/cannon
     ```
 
 ## `Admin / Tester`
@@ -462,3 +470,7 @@
 ### Task 23
 
 - Файлы конфигурации `.env.development`.
+
+### Task 24
+
+- Примеры `ThreeJS`.

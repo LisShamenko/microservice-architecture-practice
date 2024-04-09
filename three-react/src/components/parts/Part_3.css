@@ -1,0 +1,28 @@
+#instructions {
+    background-color: rgba(0, 0, 0, 0.5);
+    top: 0;
+    right: 0;
+    height: 70px;
+    width: 200px;
+    position: absolute;
+    font-size: 24px;
+    font-family: monospace;
+    color: white;
+    text-align: center;
+    pointer-events: none;
+}
+
+#instructions button {
+    font-size: 24px;
+    pointer-events: auto;
+}
+
+.show {
+    transition: opacity 0.5s linear;
+    opacity: 1;
+}
+
+.hide {
+    transition: opacity 0.5s linear;
+    opacity: 0;
+}

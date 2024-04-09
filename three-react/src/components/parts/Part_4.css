@@ -1,0 +1,4 @@
+#leva__root>* {
+    width: calc(100% - 20px);
+    scale: 100%;
+}
