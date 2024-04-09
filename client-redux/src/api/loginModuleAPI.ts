@@ -1,24 +1,5 @@
 import { instanceAPI } from './instanceAPI';
-
-
-
-// 
-export type TokensDto = {
-    accessToken: string;
-    refreshToken: string;
-}
-
-export type GetUserDto = {
-    username: string,
-    accessToken: string,
-}
-
-export type UserDto = {
-    id: string;
-    username: string;
-}
-
-export type RejectFunc = (error: any) => any;
+import { RejectFunc, UserDto, TokensDto } from './types/LoginAPI';
 
 
 
@@ -34,51 +15,41 @@ const loginModuleAPI = {
         instanceAPI.interceptors.request.eject(interceptor);
     },
 
-    loginUser: (
-        username: string, password: string,
-    ): Promise<TokensDto> => {
+    // 
+    getUser: (username: string, accessToken: string) => {
         return instanceAPI
-            .get(`login/get_tokens`, {
-                params: { username, password }
-            })
-            .then(response => response.data as TokensDto);
-    },
-
-    getUser: (
-        { username, accessToken }: GetUserDto,
-    ): Promise<UserDto> => {
-        return instanceAPI
-            .get(`login/get_user`, {
-                params: { username },
-                headers: { 'Authorization': 'Bearer ' + accessToken }
+            .get<UserDto>(`auth/user`, {
+                params: {
+                    username: username,
+                    access_token: accessToken,
+                },
             })
             .then(response => response.data as UserDto);
     },
 
-    updateAccessToken: (
-        refresh_token: string,
-    ): Promise<TokensDto> => {
+    // 
+    loginUser: (username: string, password: string) => {
         return instanceAPI
-            .get(`login/update_tokens`, {
-                params: { refresh_token }
-            })
-            .then(response => response.data as TokensDto)
+            .post<TokensDto>(`auth/login`, { username, password })
+            .then(response => response.data as TokensDto);
     },
 
     registerUser: (username: string, password: string) => {
         return instanceAPI
-            .post(`login/register_user`, { username, password })
-            .then(response => response.data)
+            .post(`auth/register`, { username, password })
+            .then(response => response.data);
     },
 
-    logoutUser: (access_token: string, refresh_token: string) => {
+    logoutUser: (username: string, accessToken: string) => {
         return instanceAPI
-            .post(`login/logout_user`,
-                { access_token, refresh_token },
-                {
-                    headers: { 'Authorization': 'Bearer ' + access_token }
-                }
-            ).then(response => response.data)
+            .post(`auth/logout`, { username, accessToken })
+            .then(response => response.data);
+    },
+
+    updateToken: (update: string, username: string, accessToken: string) => {
+        return instanceAPI
+            .post<TokensDto>(`auth/update`, { update, username, accessToken })
+            .then(response => response.data as TokensDto);
     },
 
 }

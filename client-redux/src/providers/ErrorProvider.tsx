@@ -2,20 +2,26 @@ import { PropsWithChildren, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, connect } from 'react-redux';
 // 
-import { selectError, setError, updateAccessToken } from '../redux/reducers/login-page.reducer';
+import { selectError, setError, updateToken } from '../redux/reducers/login-page.reducer';
 import loginModuleAPI from '../api/loginModuleAPI';
 import { fromAxiosError } from '../api/types/ErrorAPI';
 
 
 
 // 
+export interface IUpdateToken {
+    update: string,
+    username: string,
+    accessToken: string,
+}
+
 interface IProps {
     error: any,
-    updateAccessToken: Function,
+    updateToken?: (values: IUpdateToken) => void,
 }
 
 const ErrorProviderContainer = (
-    { children, error, updateAccessToken }: PropsWithChildren<IProps>
+    { children, error, updateToken }: PropsWithChildren<IProps>
 ): JSX.Element => {
 
     const navigate = useNavigate();
@@ -27,9 +33,11 @@ const ErrorProviderContainer = (
         const isRemember = localStorage.getItem('is-remember');
         if (!isRemember) return;
 
-        const refreshToken = localStorage.getItem('refresh-token');
-        if (refreshToken) {
-            updateAccessToken(refreshToken);
+        const update = localStorage.getItem('update');
+        const username = localStorage.getItem('username');
+        const accessToken = localStorage.getItem('access-token');
+        if (updateToken && update && username && accessToken) {
+            updateToken({ update, username, accessToken });
         }
         else {
             navigate('login');
@@ -48,6 +56,7 @@ const ErrorProviderContainer = (
         );
 
         refresh();
+
         const isRemember = localStorage.getItem('is-remember');
         if (!isRemember) {
             navigate('login');
@@ -62,7 +71,8 @@ const ErrorProviderContainer = (
     useEffect(() => {
         if (error) {
             if (error?.status === 401 || error?.statusText === 'Unauthorized' ||
-                error?.data?.error === 'invalid_grant' // error_description: 'Stale token'
+                error?.data?.error === 'invalid_grant'
+                // { error: 'invalid_grant', error_description: 'Stale token' }
             ) {
                 navigate('login');
             }
@@ -80,7 +90,7 @@ const ErrorProviderContainer = (
 // 
 const ErrorProvider = connect(
     (state) => ({ error: selectError(state) }),
-    { updateAccessToken }
+    { updateToken }
 )(ErrorProviderContainer);
 
 export default ErrorProvider;

@@ -9,7 +9,7 @@ import { ISubmitRegisterForm, RegisterForm } from './RegisterForm';
 
 // 
 interface IProps {
-    registerUser: Function,
+    registerUser: (values: ISubmitRegisterForm) => void,
     registerStatus: RequestStatus,
 }
 

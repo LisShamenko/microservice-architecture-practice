@@ -11,7 +11,7 @@ import { ISubmitLoginForm, LoginForm } from './LoginForm';
 
 // 
 interface IProps {
-    loginUser: Function,
+    loginUser: (values: ISubmitLoginForm) => void,
     loginStatus: RequestStatus,
 }
 
@@ -19,7 +19,7 @@ const LoginFormContainerAPI = ({
     loginUser, loginStatus,
 }: IProps) => {
 
-    const initRemember = localStorage.getItem('is-remember');
+    const initRemember = true; // localStorage.getItem('is-remember');
     const navigate = useNavigate();
 
     useEffect(() => {

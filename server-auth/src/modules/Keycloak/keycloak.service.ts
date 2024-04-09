@@ -1,4 +1,4 @@
-import { Injectable, Inject, BadRequestException } from '@nestjs/common';
+import { Injectable, Inject, BadRequestException, ForbiddenException } from '@nestjs/common';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
 import { ConfigService } from '@nestjs/config';
@@ -27,26 +27,27 @@ export class KeycloakService {
     }
 
     public async getAdmin() {
-        if (!this.kcAdminClient.accessToken) {
-            await this.kcAdminClient.auth({
-                username: this.configService.get('KEYCLOAK_ADMIN_USERNAME'),
-                password: this.configService.get('KEYCLOAK_ADMIN_PASSWORD'),
-                grantType: this.configService.get('KEYCLOAK_ADMIN_GRANT_TYPE'),
-                clientId: this.configService.get('KEYCLOAK_ADMIN_CLIENT_ID'),
-                totp: this.configService.get('KEYCLOAK_ADMIN_TOTP'),
-                // optional Time-based One-time Password if OTP
-                //      is required in authentication flow
-            });
-        }
+
+        await this.kcAdminClient.auth({
+            username: this.configService.get('KEYCLOAK_ADMIN_USERNAME'),
+            password: this.configService.get('KEYCLOAK_ADMIN_PASSWORD'),
+            grantType: this.configService.get('KEYCLOAK_ADMIN_GRANT_TYPE'),
+            clientId: this.configService.get('KEYCLOAK_ADMIN_CLIENT_ID'),
+            totp: this.configService.get('KEYCLOAK_ADMIN_TOTP'),
+            // optional Time-based One-time Password if OTP
+            //      is required in authentication flow
+        });
+
         return this.kcAdminClient;
     }
 
     public async getUser(username: string) {
         const admin = await this.getAdmin();
-        return await admin.users.find({
+        const result = await admin.users.find({
             username: username,
             realm: 'citizen-network',
         });
+        return result;
     }
 
     public async createUser(username: string, password: string) {

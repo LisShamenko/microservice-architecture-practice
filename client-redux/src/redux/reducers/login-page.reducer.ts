@@ -1,13 +1,12 @@
-import { AsyncThunk, createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 // 
-import { RootState, AppThunk } from '../store';
-import { dtoSection } from './types/dtoSection';
-import loginModuleAPI, { GetUserDto } from '../../api/loginModuleAPI';
-import { instanceAPI } from '../../api/instanceAPI';
+import loginModuleAPI from '../../api/loginModuleAPI';
 import { ErrorAPI } from '../../api/types/ErrorAPI';
 import { ISubmitRegisterForm } from '../../modules/widget/form/RegisterForm';
 import { ISubmitDashboardPage } from '../../modules/page/DashboardPage/DashboardPage';
 import { ISubmitLoginForm } from '../../modules/widget/form/LoginForm';
+import { IUpdateToken } from '../../providers/ErrorProvider';
+import { IGetUser } from '../../modules/page/DashboardPage/DashboardPageContainer';
 
 
 
@@ -18,9 +17,9 @@ export type RequestStatus = 'none' | 'ready' | 'loading' | 'failed';
 export type dtoTokens = {
     error: ErrorAPI | Error | string | null,
     userId: string,
+    update: string | null,
     username: string | null,
     accessToken: string | null;
-    refreshToken: string | null;
     // 
     loginStatus: RequestStatus;
     registerStatus: RequestStatus;
@@ -30,9 +29,9 @@ export type dtoTokens = {
 export const initialState: dtoTokens = {
     error: null,
     userId: '',
+    update: localStorage.getItem('update'),
     username: localStorage.getItem('username'),
     accessToken: localStorage.getItem('access-token'),
-    refreshToken: localStorage.getItem('refresh-token'),
     loginStatus: 'none',
     registerStatus: 'none',
     logoutStatus: 'none',
@@ -60,16 +59,19 @@ function addBuilderCase(
 function setTokens(state: any, action: any) {
     if (action.payload.isRemember) {
         localStorage.setItem('is-remember', 'true');
+        localStorage.setItem('update', action.payload.update);
         localStorage.setItem('username', action.payload.username);
         localStorage.setItem('access-token', action.payload.accessToken);
-        localStorage.setItem('refresh-token', action.payload.refreshToken);
     }
     else {
         localStorage.removeItem('is-remember');
+        localStorage.removeItem('update');
+        localStorage.removeItem('username');
+        localStorage.removeItem('access-token');
     }
+    state.update = action.payload.update;
     state.username = action.payload.username;
     state.accessToken = action.payload.accessToken;
-    state.refreshToken = action.payload.refreshToken;
     state['logoutStatus'] = 'none';
 }
 
@@ -88,14 +90,16 @@ export const slice = createSlice({
             state.username = action.payload.username;
         });
 
-        builder.addCase(updateAccessToken.fulfilled, (state: any, action: any) => {
+        builder.addCase(updateToken.fulfilled, (state: any, action: any) => {
+            if (action.payload.update === null) return;
+
             const isRemember = localStorage.getItem('is-remember');
             if (isRemember) {
+                localStorage.setItem('update', action.payload.update);
                 localStorage.setItem('access-token', action.payload.accessToken);
-                localStorage.setItem('refresh-token', action.payload.refreshToken);
             }
+            state.update = action.payload.update;
             state.accessToken = action.payload.accessToken;
-            state.refreshToken = action.payload.refreshToken;
         });
 
         addBuilderCase(builder, loginUser, 'loginStatus', (state, action) => {
@@ -110,9 +114,9 @@ export const slice = createSlice({
 
         addBuilderCase(builder, logoutUser, 'logoutStatus', (state, action) => {
             localStorage.removeItem('is-remember');
+            localStorage.removeItem('update');
             localStorage.removeItem('username');
             localStorage.removeItem('access-token');
-            localStorage.removeItem('refresh-token');
             state['loginStatus'] = 'none';
             state['registerStatus'] = 'none';
         });
@@ -125,8 +129,8 @@ export const loginPageReducer = slice.reducer;
 
 export const getUser = createAsyncThunk(
     'login-page/getUser',
-    async (getUserDto: GetUserDto) => {
-        const user = await loginModuleAPI.getUser(getUserDto);
+    async ({ username, accessToken }: IGetUser) => {
+        const user = await loginModuleAPI.getUser(username, accessToken);
         return { ...user };
     }
 );
@@ -139,10 +143,11 @@ export const loginUser = createAsyncThunk(
     }
 );
 
-export const updateAccessToken = createAsyncThunk(
-    'login-page/updateAccessToken',
-    async (refreshToken: string) => {
-        return await loginModuleAPI.updateAccessToken(refreshToken);
+export const updateToken = createAsyncThunk(
+    'login-page/updateToken',
+    async ({ update, username, accessToken }: IUpdateToken) => {
+        const tokens = await loginModuleAPI.updateToken(update, username, accessToken);
+        return tokens;
     }
 );
 
@@ -157,8 +162,8 @@ export const registerUser = createAsyncThunk(
 
 export const logoutUser = createAsyncThunk(
     'login-page/logoutUser',
-    async ({ accessToken, refreshToken }: ISubmitDashboardPage) => {
-        const result = await loginModuleAPI.logoutUser(accessToken, refreshToken);
+    async ({ username, accessToken }: ISubmitDashboardPage) => {
+        const result = await loginModuleAPI.logoutUser(username, accessToken);
         return { result };
     }
 );
@@ -168,8 +173,8 @@ export const logoutUser = createAsyncThunk(
 export const selectError = (state: any) => state.loginPage.error;
 export const selectUserId = (state: any) => state.loginPage.userId as string;
 export const selectUsername = (state: any) => state.loginPage.username as string;
+export const selectUpdate = (state: any) => state.loginPage.update as string;
 export const selectAccessToken = (state: any) => state.loginPage.accessToken as string;
-export const selectRefreshToken = (state: any) => state.loginPage.refreshToken as string;
 export const selectLoginStatus = (state: any) => state.loginPage.loginStatus as RequestStatus;
 export const selectRegisterStatus = (state: any) => state.loginPage.registerStatus as RequestStatus;
 export const selectLogoutStatus = (state: any) => state.loginPage.logoutStatus as RequestStatus;

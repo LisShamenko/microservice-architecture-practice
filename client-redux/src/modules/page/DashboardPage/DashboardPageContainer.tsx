@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 // 
 import {
     RequestStatus, getUser, logoutUser, selectUserId, selectUsername,
-    selectAccessToken, selectRefreshToken, selectLogoutStatus,
+    selectAccessToken, selectLogoutStatus, selectUpdate,
 } from '../../../redux/reducers/login-page.reducer';
 import { DashboardPage, ISubmitDashboardPage } from './DashboardPage';
 import { useEffect } from 'react';
@@ -11,18 +11,23 @@ import { useNavigate } from 'react-router-dom';
 
 
 // 
+export interface IGetUser {
+    username: string,
+    accessToken: string,
+}
+
 interface IProps {
     id: string,
     username: string,
+    update: string,
     accessToken: string,
-    refreshToken: string,
     logoutStatus: RequestStatus,
-    getUser: Function,
-    logoutUser: Function,
+    getUser: (values: IGetUser) => void,
+    logoutUser: (values: ISubmitDashboardPage) => void,
 }
 
 const DashboardPageContainerAPI = ({
-    id, username, accessToken, refreshToken,
+    id, username, update, accessToken,
     logoutStatus, getUser, logoutUser,
 }: IProps) => {
 
@@ -41,8 +46,10 @@ const DashboardPageContainerAPI = ({
     }
 
     return (
-        <DashboardPage id={id} username={username}
-            accessToken={accessToken} refreshToken={refreshToken}
+        <DashboardPage id={id}
+            username={username}
+            update={update}
+            accessToken={accessToken}
             isBlocked={logoutStatus === 'loading'}
             onLogout={onClickLogoutUser}
         />
@@ -54,8 +61,8 @@ const DashboardPageContainer = connect(
     (state) => ({
         id: selectUserId(state),
         username: selectUsername(state),
+        update: selectUpdate(state),
         accessToken: selectAccessToken(state),
-        refreshToken: selectRefreshToken(state),
         logoutStatus: selectLogoutStatus(state),
     }),
     { getUser, logoutUser }

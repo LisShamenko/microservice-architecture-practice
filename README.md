@@ -153,6 +153,9 @@
     npm i @nestjs/config
     npm i nest-winston winston
     npm i @nestjs/serve-static
+    npm i @nestjs/axios axios
+    npm i ioredis
+    npm i bcrypt
     ```
 
 ## `Client ThreeJS`
@@ -166,6 +169,13 @@
     npm i @react-three/drei --save-dev
     npm i r3f-perf --save-dev
     npm i leva --save-dev
+    npm i axios
+    npm i mobx
+    npm i mobx-react-lite
+    npm i mobx-utils
+    npm i react-router-dom
+    npm i @tanstack/react-query
+    npm i node-sass@9.0.0
     ```
 
 ## `Static Server` for `Client ThreeJS`
@@ -177,6 +187,8 @@
     npm i @nestjs/config
     npm i nest-winston winston
     npm i @nestjs/serve-static
+    npm i ioredis
+    npm i @nestjs/axios axios
     ```
 
 ## `Authorization Server`
@@ -474,3 +486,7 @@
 ### Task 24
 
 - Примеры `ThreeJS`.
+
+### Task 25
+
+- Передача токенов аутентификации через `Redis`.

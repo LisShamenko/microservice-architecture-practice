@@ -34,7 +34,7 @@ export const RegisterForm = (
     const onSubmitForm = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (onSubmit) {
-            onSubmit({ username: username, password: password });
+            onSubmit({ username, password });
         }
         return false;
     }

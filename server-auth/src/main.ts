@@ -39,9 +39,11 @@ async function bootstrap() {
     const nestApp: INestApplication = app;
     const configService = nestApp.get(ConfigService);
     const port = configService.get('PORT');
+    const keycloak_url = configService.get('KEYCLOAK_URL');
 
     await nestApp.listen(port, () => {
         console.log(`http://localhost:${port}`);
+        console.log(keycloak_url);
     });
 }
 bootstrap();

@@ -15,12 +15,21 @@ export class LoginService {
         private readonly configService: ConfigService,
     ) { }
 
+    /** 
+     * @returns http://localhost:8080/realms/citizen-network
+     */
+    getUrlBase() {
+        const url = this.configService.get('KEYCLOAK_URL');
+        const realm = this.configService.get('KEYCLOAK_REALM');
+        return `${url}/realms/${realm}`;
+    }
+
     //  curl --location 'http://localhost:8080/realms/citizen-network/protocol/openid-connect/auth?response_type=code&client_id=nest-app&state=sidyuf8skf32nd&scope=openid%20profile&redirect_uri=http%3A%2F%2Flocalhost%3A3030%2Flogin%2Fredirect_uri'
     async getLoginForm() {
 
         const request = this.httpService
             .get<LoginFormDto>(
-                'http://localhost:8080/realms/citizen-network/protocol/openid-connect/auth', {
+                this.getUrlBase() + '/protocol/openid-connect/auth', {
                 params: {
                     response_type: 'code',
                     client_id: this.configService.get('KEYCLOAK_CLIENT_ID'),
@@ -55,7 +64,7 @@ export class LoginService {
 
         const request = this.httpService
             .post<AccessCodeResponseDto>(
-                'http://localhost:8080/realms/citizen-network/login-actions/authenticate',
+                this.getUrlBase() + '/login-actions/authenticate',
                 `username=${username}&password=${password}&credentialId=`,
                 {
                     params: {
@@ -88,13 +97,13 @@ export class LoginService {
 
         const request = this.httpService
             .post(
-                'http://localhost:8080/realms/citizen-network/protocol/openid-connect/token',
+                this.getUrlBase() + '/protocol/openid-connect/token',
                 {
                     grant_type: 'authorization_code',
                     client_id: this.configService.get('KEYCLOAK_CLIENT_ID'),
                     client_secret: this.configService.get('KEYCLOAK_CLIENT_SECRET'),
                     code: code,
-                    redirect_uri: 'http://localhost:3030/login/redirect_uri',
+                    redirect_uri: this.configService.get('KEYCLOAK_REDIRECT_URI'),
                 },
                 {
                     headers: {
@@ -124,7 +133,7 @@ export class LoginService {
 
         const request = this.httpService
             .post<AccessCodeResponseDto>(
-                'http://localhost:8080/realms/citizen-network/protocol/openid-connect/token',
+                this.getUrlBase() + '/protocol/openid-connect/token',
                 {
                     grant_type: 'refresh_token',
                     client_id: this.configService.get('KEYCLOAK_CLIENT_ID'),
@@ -158,7 +167,7 @@ export class LoginService {
 
         const request = this.httpService
             .post<AccessCodeResponseDto>(
-                'http://localhost:8080/realms/citizen-network/protocol/openid-connect/logout',
+                this.getUrlBase() + '/protocol/openid-connect/logout',
                 `client_id=${clientId}&refresh_token=${refresh_token}&client_secret=${clientSecret}`,
                 {
                     headers: {

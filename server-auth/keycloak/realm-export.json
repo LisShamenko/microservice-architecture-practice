@@ -719,7 +719,7 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
       "redirectUris": [
-        "http://localhost:3030/login/redirect_uri"
+        "http://localhost:5001/login/redirect_uri"
       ],
       "webOrigins": [],
       "notBefore": 0,

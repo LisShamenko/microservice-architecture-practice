@@ -10,22 +10,22 @@ import { IButtonMode } from '../../../library/interaction/button/JustButton/type
 
 // 
 export interface ISubmitDashboardPage {
+    username: string,
     accessToken: string,
-    refreshToken: string,
 }
 
 export interface IPropsDashboardPage {
     id: string,
     username: string,
+    update: string,
     accessToken: string,
-    refreshToken: string,
     isBlocked?: boolean,
     onLogout?: (values: ISubmitDashboardPage) => void,
 }
 
 export const DashboardPage = (
     {
-        id, username, accessToken, refreshToken,
+        id, username, update, accessToken,
         isBlocked = false, onLogout,
     }: IPropsDashboardPage
 ): JSX.Element => {
@@ -33,15 +33,22 @@ export const DashboardPage = (
     const onClick = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         if (onLogout) {
-            onLogout({ accessToken, refreshToken });
+            onLogout({ username, accessToken });
         }
         return false;
     }
+
+    const url = new URL('', process.env.REACT_APP_CLIENT_THREE_URL);
+    url.searchParams.append('username', username);
+    url.searchParams.append('update', update);
+    url.searchParams.append('access_token', accessToken);
 
     return (
         <main className={s['dashboard-page']}>
             <div className={s['panel-container']}>
                 <div className={s['panel']}>
+                    <a href={url.href}>To client 2.</a>
+                    <hr />
                     <TextInput inputType={InputType.text}>
                         {{
                             cs: { root: s['text-root'], input: s['text-input'] },
